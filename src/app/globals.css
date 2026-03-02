@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+@theme {
+  /* MOMENTUM MASTER OS - OBSIDIAN SYSTEM */
+
+  /* VOID SCALE (Deep Spectrum - Neutral/Carbon) */
+  --color-void-50: #FAFAFA;
+  /* Pure White */
+  --color-void-100: #F5F5F5;
+  /* Mist */
+  --color-void-200: #E5E5E5;
+  /* Platinum */
+  --color-void-300: #D4D4D4;
+  /* Silver */
+  --color-void-400: #A3A3A3;
+  /* Steel */
+  --color-void-500: #737373;
+  /* Iron */
+  --color-void-600: #525252;
+  /* Carbon */
+  --color-void-700: #404040;
+  /* Charcoal */
+  --color-void-800: #262626;
+  /* Obsidian Tint */
+  --color-void-900: #171717;
+  /* Surface */
+  --color-void-950: #050505;
+  /* Void Asphalt (Main BG) */
+
+  /* MOMENTUM DESIGN CORE (Electric Sabbath) */
+  --color-violet-300: #A388F5;
+  --color-violet-400: #8B5CF6;
+  --color-violet-500: #7C3AED;
+  /* Primary Brand */
+  --color-violet-600: #6D28D9;
+  --color-violet-700: #5B21B6;
+  --color-violet-900: #2E1065;
+
+  /* MOMENTUM BI CORE (Toxic Lime) */
+  --color-lime-100: #ECFCCB;
+  --color-lime-300: #BEF264;
+  --color-lime-400: #A3E635;
+  /* Data Core */
+  --color-lime-500: #84CC16;
+  --color-lime-600: #65A30D;
+
+  /* MOMENTUM VENTURES CORE (Amber/Terracotta) */
+  --color-amber-400: #FBBF24;
+  --color-amber-500: #F59E0B;
+  /* Ventures Core */
+  --color-amber-600: #D97706;
+  --color-amber-700: #B45309;
+
+  /* SEMANTICS */
+  --color-background: var(--color-void-950);
+  --color-foreground: var(--color-void-50);
+
+  --color-card: var(--color-void-900);
+  --color-card-foreground: var(--color-void-50);
+
+  --color-popover: var(--color-void-900);
+  --color-popover-foreground: var(--color-void-50);
+
+  --color-primary: var(--color-violet-500);
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: var(--color-lime-400);
+  --color-secondary-foreground: var(--color-void-950);
+
+  --color-muted: var(--color-void-800);
+  --color-muted-foreground: var(--color-void-400);
+
+  --color-accent: var(--color-void-800);
+  --color-accent-foreground: var(--color-void-50);
+
+  --color-destructive: #EF4444;
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: var(--color-void-800);
+  --color-input: var(--color-void-800);
+  --color-ring: var(--color-violet-500);
+
+  /* TYPOGRAPHY SCALE (Golden Ratio Φ ≈ 1.618) */
+  --text-phi-xs: 0.618rem;
+  --text-phi-sm: 0.786rem;
+  /* Adjusted for readability */
+  --text-phi-base: 1rem;
+  /* 16px */
+  --text-phi-lg: 1.618rem;
+  /* 25.88px */
+  --text-phi-xl: 2.618rem;
+  /* 41.88px */
+  --text-phi-2xl: 4.236rem;
+  /* 67.77px */
+  --text-phi-3xl: 6.854rem;
+  /* 109.66px */
+
+  /* FONTS */
+  --font-sans: var(--font-goia), system-ui, sans-serif;
+  --font-heading: var(--font-goia-display), var(--font-goia), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+
+  /* RADIUS - THE MOMENTUM CONTOUR */
+  --radius-xl: 32px;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 8px;
+
+  /* SHADOWS (Minimalist) */
+  --shadow-glow: 0 0 10px rgba(139, 92, 246, 0.2);
+  --shadow-apple-dark: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  --shadow-obsidian: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-neon: 0 0 10px rgba(163, 230, 53, 0.2);
+}
+
+@layer base {
+  :root {
+    --background: #000000;
+
+    /* Native Safe Areas (Apple/Samsung Insets) */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+
+    /* Global Component Heights */
+    /* Mobile Top Header (Currency + Date + Actions) is ~74px */
+    --header-height: calc(74px + var(--safe-top));
+    /* Mobile Nav Dock (68px tall) sits 24px from bottom: Total ~92px */
+    --nav-height: calc(92px + var(--safe-bottom));
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #000000;
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* Apple/macOS Style Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 4px;
+    /* Leaves padding on the top/bottom edges */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    /* Sleek, low-contrast translucid pill */
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-clip: padding-box;
+    /* Creates inner 'floating' effect if track has color */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+    /* Slightly more opaque on interaction */
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Global Fix for Input Focus Rings (Apple Style Cleanliness) */
+  input:focus,
+  textarea:focus,
+  select:focus,
+  [type='text']:focus,
+  [type='password']:focus,
+  [type='email']:focus,
+  [type='number']:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent;
+  }
+}
+
+@layer utilities {
+
+  /* Apple Dark Mode Cards */
+  .glass-panel {
+    @apply bg-white/[0.02] backdrop-blur-2xl border border-white/[0.08] rounded-3xl;
+  }
+
+  .glass-obsidian {
+    @apply bg-black/60 backdrop-blur-3xl border border-white/[0.08] rounded-3xl shadow-obsidian;
+  }
+
+  /* Auth Vault Card (Login/Register/ForgotPassword) */
+  .vault-card {
+    @apply bg-white/[0.01] backdrop-blur-[64px] border border-white/[0.03] rounded-[40px];
+    box-shadow: 0 24px 80px -20px rgba(0, 0, 0, 1);
+  }
+
+  /* Button Soft */
+  .btn-soft {
+    @apply bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.06] text-white transition-colors duration-200 font-medium rounded-xl;
+  }
+
+  /* Button Ghost */
+  .btn-neon {
+    @apply text-white/80 border border-white/[0.08] hover:bg-white/[0.06] transition-colors duration-200 rounded-xl font-medium;
+  }
+
+  /* Button Premium (Solid White on Black) */
+  .btn-premium {
+    @apply bg-white text-black hover:bg-white/90 font-semibold rounded-[20px] border border-white/5 transition-all duration-500;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+
+  .btn-premium:hover {
+    box-shadow: 0 0 30px -5px rgba(255, 255, 255, 0.3);
+  }
+
+  /* Text Gradients */
+  .text-gradient-obsidian {
+    @apply bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent;
+  }
+
+  /* Typography Hierarchy Standards */
+  .text-primary-emphasis {
+    @apply text-white/80;
+  }
+
+  .text-secondary-emphasis {
+    @apply text-white/40;
+  }
+
+  .text-tertiary-emphasis {
+    @apply text-white/20;
+  }
+
+  /* Page Foundation (Use on <main> wrappers) */
+  .page-obsidian {
+    @apply relative w-full min-h-screen overflow-hidden bg-[#000000] text-white font-sans;
+  }
+
+  /* Noise Texture Utility */
+  .bg-noise {
+    background-image: url("/assets/noise.svg");
+  }
+
+  /* Hardware Grain Overlay */
+  .grain-overlay {
+    @apply fixed inset-0 opacity-[0.015] pointer-events-none z-10 mix-blend-overlay;
+    background-image: url("/assets/noise.svg");
+  }
+
+  /* Watermark Footer */
+  .watermark {
+    @apply text-white/20 text-[10px] uppercase font-sans tracking-[0.4em];
+  }
+
+  /* No Scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
