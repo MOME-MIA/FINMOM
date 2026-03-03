@@ -39,9 +39,9 @@ export function FinmomLogo({ className = "w-12 h-12", showText = false, animate 
                 {/* Spiral Logo - Requiere public/logo.png */}
                 <div className="relative w-full h-full z-10 flex items-center justify-center">
                     <img
-                        src="/logo.png"
+                        src="/logo.svg"
                         alt="Finmom Vortex Logo"
-                        className="w-full h-full object-contain filter invert opacity-90 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] pointer-events-none select-none"
+                        className="w-full h-full object-contain pointer-events-none select-none drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
                     />
                 </div>
             </div>
