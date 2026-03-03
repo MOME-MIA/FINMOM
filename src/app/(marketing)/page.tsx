@@ -2,11 +2,11 @@ import EpicLandingPage from "@/components/landing/EpicLandingPage";
 
 export const metadata = {
     title: "Momentum Finance | M.I.A. — El ADN de tu patrimonio, evolucionado",
-    description: "La plataforma financiera definitiva con estética Pro Max. Gestiona bóvedas multi-divisa, visualiza tu ADN financiero y deja que M.I.A., tu consciencia inteligente, optimice tu patrimonio en tiempo real con seguridad bancaria AES-256.",
+    description: "La plataforma financiera definitiva de clase ejecutiva. Gestiona bóvedas multi-divisa, visualiza tu ADN financiero y deja que M.I.A., tu consciencia inteligente, optimice tu patrimonio en tiempo real con seguridad corporativa AES-256.",
     keywords: [
         "inteligencia artificial financiera",
-        "finanzas personales pro max",
-        "gestión patrimonial algorítmica",
+        "finanzas empresariales",
+        "gestión patrimonial top tier",
         "bóvedas multi-divisa",
         "Momentum OS",
         "M.I.A asistentente",

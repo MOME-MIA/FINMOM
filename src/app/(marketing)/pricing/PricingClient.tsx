@@ -48,7 +48,7 @@ const PRICING_PLANS = [
             "Asesoramiento financiero proactivo",
         ],
         notIncluded: [
-            "Modelos de IA empresariales (Gemini 1.5 Pro max)",
+            "Modelos de IA de última generación (Gemini 1.5 Pro)",
             "Sesiones 1-a-1 de armado de empresas",
         ],
         ctaText: "Convertirse en Pro",

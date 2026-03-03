@@ -4,126 +4,75 @@
   <br />
   <br />
 
-  <h1>💎 Momentum OS & M.I.A.</h1>
+  <h1>💎 Momentum OS & M.I.A. (Momentum Intelligence Architecture)</h1>
   
   <p>
-    <strong>Tu consciencia financiera inmersiva. El ADN de tu patrimonio, evolucionado.</strong>
+    <strong>Infraestructura Cognitiva para la Gestión Patrimonial de Próxima Generación.</strong>
   </p>
 
   <p>
-    Una plataforma de gestión patrimonial de próxima generación impulsada por IA autónoma, diseñada con estética <i>Pro Max</i>, privacidad de grado bancario y algoritmos predictivos hiper-pesonalizados.
+    Una plataforma de ecosistema cerrado impulsada por inteligencia artificial autónoma, diseñada para transformar el análisis financiero personal y corporativo mediante algoritmos predictivos hiper-personalizados y seguridad de grado bancario.
   </p>
 
   <br />
 
-  <!-- Badges -->
+  <!-- Badges Tecnológicos -->
   <p>
-    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-14.x-black?style=for-the-badge&logo=next.js" alt="Next.js" /></a>
-    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-5.x-blue?style=for-the-badge&logo=typescript" alt="TypeScript" /></a>
-    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/TailwindCSS-3.x-38B2AC?style=for-the-badge&logo=tailwind-css" alt="Tailwind CSS" /></a>
-    <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Supabase-DB-3ECF8E?style=for-the-badge&logo=supabase" alt="Supabase" /></a>
-    <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel" alt="Vercel" /></a>
+    <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Architecture-Next.js_14-black?style=for-the-badge&logo=next.js" alt="Next.js" /></a>
+    <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/Language-TypeScript_5-blue?style=for-the-badge&logo=typescript" alt="TypeScript" /></a>
+    <a href="https://supabase.com/"><img src="https://img.shields.io/badge/Database-PostgreSQL-3ECF8E?style=for-the-badge&logo=postgresql" alt="PostgreSQL" /></a>
+    <a href="https://vercel.com/"><img src="https://img.shields.io/badge/Infrastructure-Vercel_Edge-black?style=for-the-badge&logo=vercel" alt="Vercel Edge" /></a>
   </p>
 </div>
 
 <hr />
 
-## 🌌 Visión y Filosofía (La Diferencia M.I.A.)
+## 📑 Resumen Ejecutivo (Executive Summary)
 
-Momentum OS no es un simple gestor de gastos ni M.I.A. es un chatbot reactivo. Es una **arquitectura cognitiva autónoma** que mapea tu comportamiento financiero, aprende tus patrones (ADN Financiero) y ejecuta optimizaciones asimétricas. Todo encapsulado en una interfaz de cristal oscuro *(Total Black / Glassmorphism)* centrada en la mínima fricción y la máxima inmersión sensorial.
+El mercado global de gestión de patrimonio *(Wealth Management)* y finanzas personales (PFM) está saturado de soluciones reactivas que funcionan como simples "espejos retrovisores" del gasto. **Momentum OS** introduce a **M.I.A.**, una consciencia financiera inmersiva que no solo visualiza datos pasados, sino que anticipa escenarios, optimiza presupuestos dinámicamente y protege el capital contra fugas invisibles.
 
----
-
-## ⚡ Capacidades Principales (Features)
-
-- 🧬 **ADN Financiero Autónomo:** Mapeo de vectores de gasto, categorización algorítmica y detección de patrones de fuga de capital invisibles al ojo humano.
-- 🌍 **Bóvedas Multi-divisa:** Conversión y sincronización en tiempo real de ARS, USD, EUR, Cripto y más en un único ecosistema consolidado.
-- 🔮 **Proyecciones M.I.A.:** Machine learning predictivo para alertar sobre suscripciones fantasma o plantear presupuestos dinámicos basados en históricos.
-- 🛡️ **Paranoia Criptográfica:** Infraestructura *Zero-Knowledge*. Encriptación AES-256 en base de datos; tus transacciones jamás son perfiladas para anunciantes.
-- 📱 **Ergonomía Neumórfica:** Diseño UX centrado en "Pulgares". Zonas seguras (Notch Safe) para iOS y fluidez nativa a 60fps gracias al motor de Tailwind y Framer Motion.
+Nuestro enfoque es la **Ingeniería Financiera Pura:** eliminamos la fricción cognitiva del usuario, delegando el peso del análisis y la categorización a modelos de _Machine Learning_, y entregamos la información a través de una interfaz *Glassmorphism* ultrarrápida y sensorialmente premium.
 
 ---
 
-## 🛠️ Stack Tecnológico Pro Max
+## ⚡ Propuesta de Valor y Capacidades (Core Features)
 
-| Capa | Tecnologías | Propósito |
+- 🧬 **Mapeo de ADN Financiero:** Algoritmos que perfilan el comportamiento de gasto e inversión del usuario para adaptar alertas y consejos asimétricos, creando un motor hiper-personalizado que evoluciona con el tiempo.
+- 🌍 **Bóvedas Multi-divisa Consolidadas:** Sincronización en tiempo real de múltiples monedas fiduciarias (USD, EUR, ARS) y criptoactivos en una única interfaz unificada, eliminando la dispersión del patrimonio en diferentes entidades.
+- 🔮 **Proyecciones M.I.A.:** Analítica predictiva capaz de detectar "suscripciones zombi", proyectar flujos de caja futuros y generar presupuestos defensivos antes de que ocurran déficits.
+- 🛡️ **Paranoia Criptográfica:** Infraestructura transaccional bajo el principio fundamental de *Zero-Knowledge Privacy*. Encriptación AES-256 en bases de datos relacionales aseguradas con *Row Level Security (RLS)*. La privacidad de los clientes no es negociable.
+- 📱 **Ergonomía UI/UX Premium:** Interfaz oscura (*Total Black*) diseñada para la retención y la reducción de carga cognitiva. Navegación libre de distracciones, animaciones impulsadas por físicas y tiempos de carga inferiores a 50 milisegundos.
+
+---
+
+## 🛠️ Arquitectura Tecnológica Escalar
+
+Momentum OS está cimentado sobre tecnologías de alto rendimiento preparadas para escalar a millones de usuarios transaccionales y cumplir con rigorosos estándares *Fintech*.
+
+| Capa Tecnológica | Stack Seleccionado | Ventaja Estratégica (Business Value) |
 | :--- | :--- | :--- |
-| **Frontend Core** | Next.js 14, React 18, TypeScript | Renderizado híbrido (SSR/SSG), Server Actions y tipado absoluto. |
-| **Estética y UI** | Tailwind CSS, Framer Motion, Lucide | Sistema *Total Black*, micro-animaciones fluidas (Physics-based) y vectorografía minimalista. |
-| **BaaS / Backend** | Supabase, PostgreSQL, InsForge | Base de datos relacional ultrarrápida, Row Level Security (RLS) y autenticación isomórfica. |
-| **Despliegue** | Vercel (Edge Network) | CDN distribuida y pipeline CI/CD automático. |
+| **Frontend & SSR** | Next.js 14, React 18, TypeScript | Renderizado Híbrido ultrarrápido (SEO Técnico y Velocidad Perceptual), protegiendo rutas y optimizando el *Core Web Vitals*. |
+| **Capa de Inteligencia (IA)** | Modelos Generativos Embebidos | Interacciones conversacionales ricas y categorización automática sin intervención humana. |
+| **Backend & Base de Datos** | Supabase (PostgreSQL), InsForge | Robustez relacional pura, escalabilidad sin servidor (*Serverless*) y autenticación isomórfica instantánea. |
+| **Infraestructura Cloud** | Vercel Edge Network | Distribución global del contenido computacional, garantizando que Momentum OS esté disponible de forma resiliente y redundante a nivel mundial. |
 
 ---
 
-## 🚀 Inicio Rápido (Instalación Local)
+## 📈 Tracción y Mercado (Tam & Roadmap)
 
-Para clonar la bóveda en tu máquina y experimentar Momentum OS:
-
-**1. Clonar el repositorio y acceder a la carpeta:**
-```bash
-git clone https://github.com/MOME-MIA/FINMOM.git
-cd FINMOM
-```
-
-**2. Instalar dependencias puras:**
-Se recomienda usar Node.js 20.x o superior.
-```bash
-npm install
-```
-
-**3. Configurar tu ADN de Entorno:**
-Duplica el archivo `.env.example` o configura las claves de Supabase/InsForge en la raíz del proyecto creando un archivo `.env.local`:
-```env
-NEXT_PUBLIC_INSFORGE_URL=tu_url_de_api
-NEXT_PUBLIC_INSFORGE_ANON_KEY=tu_anon_key_publico
-```
-
-**4. Arrancar el Reactor (Modo Desarrollo):**
-```bash
-npm run dev
-```
-> La interfaz estará viva en `http://localhost:3000`
+1. **Fase Inicial:** Desarrollo MVP Cerrado (Closed Beta). Verificación de la Arquitectura de Datos, Interfaz de Usuario e Integración de Motores de Seguridad (*Estado Actual - Fase 10 Completada*).
+2. **Despliegue de M.I.A Autónoma:** Conexión interactiva del copiloto de Inteligencia Artificial para recomendaciones en vivo y predictivas sobre el saldo del usuario *(Q2 2026)*.
+3. **Validación Comercial y Apertura a Usuarios VIP:** Lanzamiento por invitación escalonada al mercado Latinoamericano, apuntando a perfiles AB1/C1 en búsqueda de gestión patrimonial corporativa.
 
 ---
 
-## 🧠 Estructura de Arquitectura (*El Núcleo*)
+## 🔐 Confidencialidad y Propiedad Intelectual
 
-La arquitectura está diseñada para la escalabilidad absoluta (DDD - Domain Driven Design inspirado):
+Este repositorio aloja el código fuente y patentes intelectuales de **Momentum OS**. Todo el material gráfico, el concepto de producto, los algoritmos de "ADN Financiero" y la entidad *M.I.A.* están protegidos de manera estricta bajo los Acuerdos Primitivos de Confidencialidad *(NDA)* y Derechos Reales de Propiedad del equipo desarrollador inicial.
 
-```text
-FINMOM/
-├── .github/                 # Workflows de CI/CD Automáticos y Templates (Bug/Feature)
-├── public/                  # Assets, isometría y tipografías puras
-├── src/
-│   ├── app/                 # Routers de Next.js. Capas de Dashboard, Marketing y Admin
-│   ├── components/          # Componentes altamente modulares (UI, Login, Waitlist)
-│   ├── lib/                 # Utilidades arquitectónicas y helpers (cn, utils)
-│   └── middleware.ts        # Barrera de seguridad (Guardián de Rutas No Autorizadas)
-└── db_schema.sql            # ADN estructural de la Base de Datos Relacional
-```
+Para consultas de inversión estratégica, asociaciones o solicitudes *Due Diligence* en la arquitectura de código, contactar directamente con el equipo ejecutivo de **Momentum Technologies**.
 
----
-
-## 🤝 Contribuir a Momentum
-
-Buscamos a la élite del código. Si deseas forjar nuevas características para M.I.A.:
-
-1. Lee nuestras estrictas **[Normas de Contribución](CONTRIBUTING.md)** y el **[Código de Conducta](CODE_OF_CONDUCT.md)**.
-2. Crea un **Fork** de este repositorio.
-3. Haz tus modificaciones en una rama independiente (`feature/MIA-Tu-Mejora`).
-4. Abre un Pull Request utilizando nuestro **[Template de PR](.github/PULL_REQUEST_TEMPLATE.md)** oficial.
-5. Pasa las Pruebas de Calidad (GitHub Actions CI/CD).
-
-> *Aviso: No aceptamos código "sucio", adiciones innecesarias de librerías ni colores fuera de la paleta corporativa "Obsidian Black/Apple Blue".*
-
----
-
-## 🔐 Licencia y Seguridad
-
-Todo el código está bajo auditoría y monitorización de red *(Red Team Testing)*. El proyecto se rige temporalmente bajo acuerdos de confidencialidad y licencias propietarias del ecosistema M.I.A. / Momentum Technologies.
-
-<p align="center">
+<div align="center">
   <br>
-  <i>"El control financiero no se hereda. Se codifica."</i>
-  <br>
-</p>
+  <i>"El control financiero no se hereda ni se improvisa. Se codifica."</i>
+</div>
