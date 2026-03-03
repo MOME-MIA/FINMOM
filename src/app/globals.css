@@ -122,8 +122,8 @@
     --safe-bottom: env(safe-area-inset-bottom, 0px);
 
     /* Global Component Heights */
-    /* Mobile Top Header (Currency + Date + Actions) is ~74px */
-    --header-height: calc(74px + var(--safe-top));
+    /* Mobile Top Header (Currency + Date + Actions) is ~74px + 40px MarketTicker */
+    --header-height: calc(114px + var(--safe-top));
     /* Mobile Nav Dock (68px tall) sits 24px from bottom: Total ~92px */
     --nav-height: calc(92px + var(--safe-bottom));
   }

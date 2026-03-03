@@ -16,7 +16,7 @@ export function MobileTopHeader() {
     const router = useRouter();
     return (
         <div
-            className="md:hidden fixed top-0 left-0 right-0 z-40 bg-gradient-to-b from-black via-black/80 to-transparent pb-6 px-3 flex justify-between items-center pointer-events-none gap-2 h-[var(--header-height)] pt-[calc(var(--safe-top)+16px)]"
+            className="md:hidden fixed top-[40px] left-0 right-0 z-40 bg-gradient-to-b from-black via-black/80 to-transparent pb-6 px-3 flex justify-between items-center pointer-events-none gap-2 h-[calc(var(--header-height)-40px)] pt-[calc(var(--safe-top)+8px)]"
         >
             {/* Left: Global Currency Selector */}
             <div className="pointer-events-auto shrink-0 z-10">
