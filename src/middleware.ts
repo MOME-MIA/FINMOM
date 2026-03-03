@@ -6,6 +6,7 @@ export default InsforgeMiddleware({
         "/",
         "/login",
         "/mom-capital",
+        "/pricing",
         "/api/auth",
         "/api/auth/(.*)"
     ],

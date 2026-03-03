@@ -190,10 +190,10 @@ export default function EpicLandingPage() {
                             </span>
                         </div>
 
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-[1.05]">
+                        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-[1.1] sm:leading-[1.05]">
                             Conoce a M.I.A.
                             <br />
-                            <span className="text-4xl md:text-5xl">El ADN de tu patrimonio, evolucionado.</span>
+                            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white/90 font-extrabold tracking-tight">El ADN de tu patrimonio, evolucionado.</span>
                         </h1>
 
                         <p className="text-[16px] md:text-[19px] text-white/50 max-w-xl mb-10 font-medium leading-relaxed">
@@ -294,7 +294,7 @@ export default function EpicLandingPage() {
             </section>
 
             {/* ═══ HOW IT WORKS ═══════════════════════ */}
-            <section className="py-28 px-6 max-w-4xl mx-auto">
+            <section className="py-16 md:py-28 px-6 max-w-4xl mx-auto">
                 <FadeInSection>
                     <SectionLabel text="Cómo funciona" />
                     <div className="text-center mb-16">
@@ -333,7 +333,7 @@ export default function EpicLandingPage() {
             </section>
 
             {/* ═══ FEATURES BENTO GRID ═══════════════ */}
-            <section className="py-28 px-6 max-w-7xl mx-auto">
+            <section className="py-16 md:py-28 px-6 max-w-7xl mx-auto">
                 <FadeInSection>
                     <SectionLabel text="Capacidades" />
                     <div className="text-center mb-16">
@@ -419,9 +419,9 @@ export default function EpicLandingPage() {
             </section>
 
             {/* ═══ M.I.A. DIFFERENTIATOR ═══════════════ */}
-            <section className="py-28 px-6 max-w-5xl mx-auto">
+            <section className="py-16 md:py-28 px-6 max-w-5xl mx-auto">
                 <FadeInSection>
-                    <SectionLabel text="La diferencia M.I.A." />
+                    <SectionLabel text="Una IA que realmente entiende" />
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                             No es un chatbot.{" "}
@@ -485,7 +485,7 @@ export default function EpicLandingPage() {
             </section>
 
             {/* ═══ SECURITY ═══════════════════════════ */}
-            <section className="py-28 px-6 max-w-5xl mx-auto">
+            <section className="py-16 md:py-28 px-6 max-w-5xl mx-auto">
                 <FadeInSection>
                     <SectionLabel text="Seguridad" />
                     <div className="text-center mb-16">
@@ -524,7 +524,7 @@ export default function EpicLandingPage() {
             </section>
 
             {/* ═══ FINAL CTA ═════════════════════════ */}
-            <section className="py-32 px-6 text-center relative">
+            <section className="py-20 md:py-32 px-6 text-center relative">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A84FF]/[0.02] to-transparent pointer-events-none" />
                 <FadeInSection className="relative z-10">
                     <div className="flex justify-center mb-8">
