@@ -8,7 +8,7 @@ export function Navbar() {
         <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-6 py-4 bg-black/60 backdrop-blur-2xl border-b border-white/[0.04]">
             <Link href="/" className="flex items-center gap-2.5">
                 <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                    <img src="/logo.svg" alt="Finmom Logo" className="w-full h-full object-contain pointer-events-none select-none drop-shadow-[0_0_10px_rgba(255,255,255,0.2)]" />
+                    <img src="/logos/logo-white.webp" alt="Finmom Logo" className="w-full h-full object-contain pointer-events-none select-none" />
                 </div>
                 <span className="font-bold text-[16px] sm:text-[18px] tracking-tight">Finmom</span>
             </Link>
