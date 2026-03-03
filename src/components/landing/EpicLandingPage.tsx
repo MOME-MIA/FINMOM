@@ -172,7 +172,7 @@ export default function EpicLandingPage() {
             <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto z-10">
                 <motion.div
                     style={{ y: bgY }}
-                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-violet-900/10 rounded-full blur-[150px] pointer-events-none"
+                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-violet-900/[0.04] sm:bg-violet-900/10 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none"
                 />
 
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -224,7 +224,7 @@ export default function EpicLandingPage() {
                     >
                         <div className="relative">
                             {/* Ambient glow behind orb */}
-                            <div className="absolute inset-0 scale-150 bg-[#0A84FF]/[0.04] rounded-full blur-[80px] pointer-events-none" />
+                            <div className="absolute inset-0 scale-150 bg-[#0A84FF]/[0.01] sm:bg-[#0A84FF]/[0.04] rounded-full blur-[80px] pointer-events-none" />
                             <div className="hidden md:flex relative z-10">
                                 <MiaOrb size={220} />
                             </div>
@@ -350,7 +350,7 @@ export default function EpicLandingPage() {
                     <FadeInSection className="md:col-span-4">
                         <motion.div
                             whileHover={{ y: -4 }}
-                            className="p-8 md:p-10 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group relative overflow-hidden"
+                            className="p-8 md:p-10 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group relative overflow-hidden transition-all hover:bg-white/[0.04] hover:shadow-[0_0_30px_rgba(255,255,255,0.03)]"
                         >
                             <div className="absolute top-0 right-0 w-64 h-64 bg-[#0A84FF]/[0.03] rounded-full blur-[80px] pointer-events-none" />
                             <div className="relative z-10">
@@ -369,7 +369,7 @@ export default function EpicLandingPage() {
                     <FadeInSection className="md:col-span-2" delay={0.1}>
                         <motion.div
                             whileHover={{ y: -4 }}
-                            className="p-8 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group"
+                            className="p-8 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group transition-all hover:bg-white/[0.04] hover:shadow-[0_0_30px_rgba(255,159,10,0.05)]"
                         >
                             <div className="w-12 h-12 rounded-2xl bg-[#FF9F0A]/10 border border-[#FF9F0A]/15 flex items-center justify-center mb-6 group-hover:border-[#FF9F0A]/30 transition-colors">
                                 <Globe className="w-6 h-6 text-[#FF9F0A]" />
@@ -385,7 +385,7 @@ export default function EpicLandingPage() {
                     <FadeInSection className="md:col-span-2" delay={0.15}>
                         <motion.div
                             whileHover={{ y: -4 }}
-                            className="p-8 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group"
+                            className="p-8 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group transition-all hover:bg-white/[0.04] hover:shadow-[0_0_30px_rgba(48,209,88,0.05)]"
                         >
                             <div className="w-12 h-12 rounded-2xl bg-[#30D158]/10 border border-[#30D158]/15 flex items-center justify-center mb-6 group-hover:border-[#30D158]/30 transition-colors">
                                 <Target className="w-6 h-6 text-[#30D158]" />
@@ -401,7 +401,7 @@ export default function EpicLandingPage() {
                     <FadeInSection className="md:col-span-4" delay={0.2}>
                         <motion.div
                             whileHover={{ y: -4 }}
-                            className="p-8 md:p-10 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group relative overflow-hidden"
+                            className="p-8 md:p-10 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group relative overflow-hidden transition-all hover:bg-white/[0.04] hover:shadow-[0_0_30px_rgba(191,90,242,0.03)]"
                         >
                             <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#BF5AF2]/[0.03] rounded-full blur-[80px] pointer-events-none" />
                             <div className="relative z-10">

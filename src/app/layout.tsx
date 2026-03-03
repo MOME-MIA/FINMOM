@@ -41,10 +41,8 @@ export const metadata: Metadata = {
   applicationName: 'MOMENTUM OS',
   description: 'Financial Health Command Center & AI Intelligence por M.I.A. Optimización asimétrica de tu patrimonio.',
   keywords: ["Momentum Finance", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
-  manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',
-    apple: '/icon-192x192.png',
   },
   appleWebApp: {
     capable: true,

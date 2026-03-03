@@ -13,8 +13,8 @@ export function Navbar() {
                 <span className="font-bold text-[16px] sm:text-[18px] tracking-tight">Momentum</span>
             </Link>
             <div className="flex items-center gap-3 sm:gap-4">
-                <Link href="/login" className="hidden sm:block text-[13px] sm:text-[14px] font-medium text-white/50 hover:text-white transition-colors">
-                    Login (Miembros)
+                <Link href="/login" className="text-[13px] sm:text-[14px] font-medium text-white/50 hover:text-white transition-colors">
+                    Login <span className="hidden sm:inline">(Miembros)</span>
                 </Link>
                 <Link href="/register">
                     <button className="bg-white text-black hover:bg-white/90 font-semibold px-4 sm:px-5 h-8 sm:h-9 rounded-full text-[12px] sm:text-[13px] transition-all active:scale-95 whitespace-nowrap">
