@@ -5,6 +5,27 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Wallet, Shield, Lock, Zap } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { toast } from "sonner";
+
+function WaitlistSuccessToast() {
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        if (searchParams.get("waitlist") === "success") {
+            setTimeout(() => {
+                toast.success("¡Identidad registrada en la lista de espera!", {
+                    description: "Te avisaremos cuando tu acceso cerrado esté habilitado.",
+                    duration: 5000,
+                });
+            }, 300);
+            window.history.replaceState(null, "", "/login");
+        }
+    }, [searchParams]);
+
+    return null;
+}
 
 export default function LoginPage() {
     const [mounted, setMounted] = useState(false);
@@ -25,6 +46,10 @@ export default function LoginPage() {
 
             {/* Grain Overlay */}
             <div className="fixed inset-0 bg-noise opacity-[0.015] pointer-events-none z-10 mix-blend-overlay" />
+
+            <Suspense fallback={null}>
+                <WaitlistSuccessToast />
+            </Suspense>
 
             {/* ─── Top Navbar ─── */}
             <motion.header

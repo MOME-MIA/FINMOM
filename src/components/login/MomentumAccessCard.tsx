@@ -11,6 +11,7 @@ import { SingularityButton } from "./SingularityButton";
 import { MiaOrb } from "./MiaOrb";
 import { useAuth } from "@insforge/nextjs";
 import { insforge } from "@/lib/insforge";
+import { joinWaitlistAction } from "@/app/actions";
 
 interface MomentumAccessCardProps {
     mode?: "login" | "register" | "forgot-password";
@@ -38,19 +39,7 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
 
     const handleSubmit = async () => {
         if (!email || isCoolingDown || isLoading) return;
-        if (!isForgotPassword && !password) return;
-
-        if (isRegister && password !== confirmPassword) {
-            toast.error("Las contraseñas no coinciden");
-            handleFailedAttempt();
-            return;
-        }
-
-        if (isRegister && password.length < 8) {
-            toast.error("La contraseña debe tener al menos 8 caracteres");
-            handleFailedAttempt();
-            return;
-        }
+        if (!isForgotPassword && !isRegister && !password) return;
 
         setIsLoading(true);
 
@@ -74,14 +63,22 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
             }
 
             if (isRegister) {
-                const result = await signUp(email, password);
-                if (result && "error" in result && result.error) {
-                    toast.error(result.error || "Error al crear cuenta");
+                const result = await joinWaitlistAction(email);
+                if (!result.success) {
+                    toast.error(result.error);
                     handleFailedAttempt();
                     setIsLoading(false);
                     return;
                 }
-                toast.success("¡Cuenta creada exitosamente!");
+                toast.success("¡Identidad registrada en la lista de espera!");
+                // Optionally show a generic success state and don't redirect to dashboard since they can't access it yet
+                setIsUnlocked(true);
+                setIsExiting(true);
+                setTimeout(() => {
+                    router.push("/login?waitlist=success");
+                    router.refresh();
+                }, 1500);
+                return;
             } else {
                 const result = await signIn(email, password);
                 if (result && "error" in result && result.error) {
@@ -177,7 +174,7 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
                             Momentum
                         </h1>
                         <span className="text-xs text-white/50 font-medium tracking-[0.1em] mt-2 uppercase">
-                            {isRegister ? "Crear Identidad" : isForgotPassword ? "Recuperar Acceso" : "Validar Identidad"}
+                            {isRegister ? "Solicitud de Acceso (Beta)" : isForgotPassword ? "Recuperar Acceso" : "Validar Identidad"}
                         </span>
                     </motion.div>
 
@@ -204,7 +201,7 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
                         </motion.div>
 
                         {/* Password */}
-                        {!isForgotPassword && (
+                        {!isForgotPassword && !isRegister && (
                             <motion.div animate={controls} className="w-full relative">
                                 <QuantumInput
                                     value={password}
@@ -232,30 +229,7 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
                             </motion.div>
                         )}
 
-                        {/* Confirm Password (Register only) */}
-                        {isRegister && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                className="w-full"
-                            >
-                                <QuantumInput
-                                    value={confirmPassword}
-                                    onChange={(e) => {
-                                        if (isCoolingDown) return;
-                                        setConfirmPassword(e.target.value);
-                                        setIsError(false);
-                                    }}
-                                    onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                                    placeholder="Confirmar contraseña"
-                                    isError={isError}
-                                    isCoolingDown={isCoolingDown}
-                                    disabled={isLoading || isUnlocked}
-                                    type={showPassword ? "text" : "password"}
-                                    autoComplete="new-password"
-                                />
-                            </motion.div>
-                        )}
+                        {/* Confirm Password (Register only) - Removed for Waitlist */}
 
                         {/* Links */}
                         <div className="w-full flex flex-col items-center gap-2 pt-2">
@@ -284,9 +258,9 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
                             isUnlocked={isUnlocked}
                             isLoading={isLoading}
                             onAuthenticate={handleSubmit}
-                            disabled={!email || (!isForgotPassword && !password) || isCoolingDown || (isRegister && !confirmPassword)}
-                            customIdleText={isForgotPassword ? "ENVIAR ENLACE" : "Continuar"}
-                            customSuccessText={isForgotPassword ? "ENVIADO" : "Verificado"}
+                            disabled={!email || (!isForgotPassword && !isRegister && !password) || isCoolingDown}
+                            customIdleText={isRegister ? "SOLICITAR ACCESO" : isForgotPassword ? "ENVIAR ENLACE" : "Continuar"}
+                            customSuccessText={isRegister ? "EN LISTA DE ESPERA" : isForgotPassword ? "ENVIADO" : "Verificado"}
                         />
                     </div>
                 </div>

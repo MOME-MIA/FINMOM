@@ -35,11 +35,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Momentum Finance',
-    default: 'Momentum Finance Manager',
+    template: '%s | Momentum OS',
+    default: 'Momentum Finance | Inteligencia Financiera',
   },
   applicationName: 'MOMENTUM OS',
-  description: 'Financial Health Command Center & Crypto Intelligence',
+  description: 'Financial Health Command Center & AI Intelligence por M.I.A. Optimización asimétrica de tu patrimonio.',
+  keywords: ["Momentum Finance", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.ico',

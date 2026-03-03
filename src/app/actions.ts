@@ -630,3 +630,24 @@ export async function getSmartInsightsAction(kpis: DashboardKPIs, transactions: 
         return null;
     }
 }
+
+// --- CLOSED BETA WAITLIST ---
+export async function joinWaitlistAction(email: string) {
+    try {
+        const { insforge } = await import('@/lib/insforge');
+        const { error } = await insforge.database.from('waitlist').insert({ email, status: 'pending' });
+        if (error) {
+            // Postgres unique violation code usually is 23505
+            if (error.code === '23505' || error.message.includes('unique')) {
+                return { success: false, error: 'Este email ya está en la lista de espera.' };
+            }
+            console.error("Waitlist db error:", error);
+            return { success: false, error: 'Ocurrió un error al registrarte.' };
+        }
+        return { success: true };
+    } catch (error) {
+        console.error("Waitlist error:", error);
+        return { success: false, error: 'Ocurrió un error interno.' };
+    }
+}
+

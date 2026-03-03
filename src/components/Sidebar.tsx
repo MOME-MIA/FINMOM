@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import {
     LayoutDashboard, Activity, WalletCards, Target,
     History, PlusCircle, LogOut, Settings, Wallet,
-    ChevronsLeft, ChevronsRight
+    ChevronsLeft, ChevronsRight, Shield
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -101,6 +101,41 @@ export function Sidebar() {
                         </Link>
                     );
                 })}
+
+                {/* Secrect Admin Route */}
+                {userEmail === "agenciamom.contacto@gmail.com" && (
+                    <Link
+                        href="/admin"
+                        className="block mt-4"
+                        onClick={() => playClick()}
+                        onMouseEnter={() => playHover()}
+                        title={collapsed ? "Admin Panel" : undefined}
+                    >
+                        <motion.div
+                            whileTap={{ scale: 0.97 }}
+                            className={cn(
+                                "flex items-center rounded-xl transition-all duration-300 relative overflow-hidden",
+                                collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5",
+                                pathname === "/admin"
+                                    ? "bg-gradient-to-r from-[#BF5AF2]/20 to-[#BF5AF2]/5 text-[#BF5AF2] shadow-[0_4px_12px_rgba(191,90,242,0.2)] border border-[#BF5AF2]/20"
+                                    : "text-[#BF5AF2]/50 hover:text-[#BF5AF2] hover:bg-[#BF5AF2]/10 border border-transparent"
+                            )}
+                        >
+                            <Shield
+                                className={cn(
+                                    pathname === "/admin" ? "text-[#BF5AF2]" : "text-[#BF5AF2]/50",
+                                    collapsed ? "w-[18px] h-[18px]" : "w-[16px] h-[16px]"
+                                )}
+                                strokeWidth={pathname === "/admin" ? 2 : 1.5}
+                            />
+                            {!collapsed && (
+                                <span className={cn("text-[13px] whitespace-nowrap", pathname === "/admin" ? "font-medium" : "font-normal")}>
+                                    Terminal M.O.M.
+                                </span>
+                            )}
+                        </motion.div>
+                    </Link>
+                )}
             </nav>
 
             <div className={cn("mt-auto flex flex-col gap-3 transition-all duration-300", collapsed ? "p-2" : "p-4")}>

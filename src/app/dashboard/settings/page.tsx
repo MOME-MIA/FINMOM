@@ -175,6 +175,18 @@ export default function SettingsPage() {
                     />
                 </motion.div>
 
+                {/* Secret Admin Panel */}
+                {profile?.email === "agenciamom.contacto@gmail.com" && (
+                    <motion.div variants={itemVars} className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3">
+                        <MenuButton
+                            icon={Shield}
+                            label="Terminal M.O.M. (Admin)"
+                            color="purple"
+                            onClick={() => router.push("/admin")}
+                        />
+                    </motion.div>
+                )}
+
                 {/* Logout */}
                 <motion.div variants={itemVars} className="bg-white/[0.02] rounded-2xl overflow-hidden border border-white/[0.04] mt-6">
                     <button

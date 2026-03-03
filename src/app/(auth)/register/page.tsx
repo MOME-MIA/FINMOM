@@ -54,20 +54,20 @@ export default function RegisterPage() {
                     transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     className="hidden lg:flex flex-col justify-center px-16 xl:px-24 w-1/2 max-w-[640px]"
                 >
-                    <span className="text-[11px] font-bold text-[#30D158]/60 uppercase tracking-[0.25em] mb-4">Comienza ahora</span>
+                    <span className="text-[11px] font-bold text-[#BF5AF2]/60 uppercase tracking-[0.25em] mb-4">Closed Beta Access</span>
                     <h1 className="text-4xl xl:text-5xl font-bold tracking-tighter leading-[1.1] mb-4 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
-                        Activá tu consciencia financiera.
+                        Solicitá tu lugar.
                     </h1>
                     <p className="text-[15px] text-white/35 leading-relaxed font-medium mb-10 max-w-md">
-                        Creá tu cuenta en segundos y dejá que M.I.A. empiece a construir tu ADN financiero desde la primera transacción.
+                        Momentum actualmente opera bajo estricta invitación. Ingresá tu email para unirte a la lista de espera fundacional y desbloquear a M.I.A.
                     </p>
 
                     {/* Steps */}
                     <div className="space-y-5">
                         {[
-                            { step: "01", icon: <Sparkles className="w-4 h-4 text-[#30D158]" />, title: "Creá tu identidad", desc: "Email y contraseña. Sin fricción, sin datos innecesarios." },
-                            { step: "02", icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "M.I.A. se activa", desc: "Tu asistente financiero comienza a aprender de vos inmediatamente." },
-                            { step: "03", icon: <Shield className="w-4 h-4 text-[#FF9F0A]" />, title: "100% seguro", desc: "Encriptación AES-256 desde el primer segundo. Zero-knowledge privacy." },
+                            { step: "01", icon: <Sparkles className="w-4 h-4 text-[#BF5AF2]" />, title: "Reserva tu Identidad", desc: "Completá con tu email. Ingresás al pool de 'Pending evaluation'." },
+                            { step: "02", icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "Supervisión M.I.A.", desc: "Tu solicitud será revisada manualmente por nuestro equipo fundador." },
+                            { step: "03", icon: <Shield className="w-4 h-4 text-[#FF9F0A]" />, title: "Pase de Acceso", desc: "Recibirás la confirmación privada con tu token de habilitación." },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
@@ -87,15 +87,14 @@ export default function RegisterPage() {
                         ))}
                     </div>
 
-                    {/* Guarantee */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1, duration: 0.6 }}
                         className="mt-10 flex items-center gap-2 text-[11px] text-white/50 font-medium tracking-wide"
                     >
-                        <div className="w-1 h-1 rounded-full bg-[#30D158]" />
-                        Gratis para siempre • Sin tarjeta de crédito • Cancelá cuando quieras
+                        <div className="w-1 h-1 rounded-full bg-[#BF5AF2]" />
+                        Cupos Limitados • Audición Continua • Cifrado Absoluto
                     </motion.div>
                 </motion.div>
 

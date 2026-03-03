@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
+import { InteractiveBackground } from "./InteractiveBackground";
 
 const MiaOrb = dynamic(
     () => import("@/components/login/MiaOrb").then((m) => ({ default: m.MiaOrb })),
@@ -159,17 +160,19 @@ export default function EpicLandingPage() {
     const bgY = useTransform(scrollY, [0, 1000], [0, 300]);
 
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-white/20 overflow-x-hidden">
+        <div className="relative min-h-screen bg-black text-white selection:bg-white/20 overflow-x-hidden">
+            <InteractiveBackground />
+
             <StickyLandingMia />
 
             {/* ─── Navbar ─────────────────────────────── */}
             <Navbar />
 
             {/* ═══ HERO: M.I.A. SECTION ═══════════════ */}
-            <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto">
+            <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto z-10">
                 <motion.div
                     style={{ y: bgY }}
-                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#0A84FF]/[0.03] rounded-full blur-[150px] pointer-events-none"
+                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-violet-900/10 rounded-full blur-[150px] pointer-events-none"
                 />
 
                 <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -183,29 +186,29 @@ export default function EpicLandingPage() {
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-6">
                             <Brain className="w-3.5 h-3.5 text-[#0A84FF]" />
                             <span className="text-[12px] font-bold text-white/60 tracking-wider uppercase">
-                                Inteligencia Financiera Autónoma
+                                Consciencia Financiera Inmersiva
                             </span>
                         </div>
 
                         <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-[1.05]">
                             Conoce a M.I.A.
                             <br />
-                            <span className="text-4xl md:text-5xl">Tu consciencia financiera.</span>
+                            <span className="text-4xl md:text-5xl">El ADN de tu patrimonio, evolucionado.</span>
                         </h1>
 
                         <p className="text-[16px] md:text-[19px] text-white/50 max-w-xl mb-10 font-medium leading-relaxed">
-                            M.I.A. analiza cada movimiento, detecta patrones ocultos y actúa con inteligencia real. No es un chatbot — es una mente autónoma que aprende de tu ADN financiero.
+                            Más que un algoritmo. M.I.A. procesa tu historial, predice fluctuaciones con precisión algorítmica y asegura tu patrimonio con niveles de criptografía bancaria AES-256. No es un chatbot — es tu mente maestra financiera.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4 lg:justify-start justify-center">
                             <Link href="/register">
                                 <button className="h-14 px-8 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[16px] font-bold shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] flex items-center gap-2">
-                                    Activar M.I.A. <ArrowRight className="w-5 h-5" />
+                                    Desbloquear el Futuro <ArrowRight className="w-5 h-5" />
                                 </button>
                             </Link>
                             <Link href="/login">
-                                <button className="h-14 px-8 bg-transparent text-white border border-white/10 hover:bg-white/[0.04] rounded-full text-[16px] font-semibold transition-all">
-                                    Acceso seguro
+                                <button className="h-14 px-8 bg-black text-white border border-white/10 hover:bg-white/[0.04] rounded-full text-[16px] font-semibold transition-all backdrop-blur-md">
+                                    Login (Miembros)
                                 </button>
                             </Link>
                         </div>
@@ -296,7 +299,7 @@ export default function EpicLandingPage() {
                     <SectionLabel text="Cómo funciona" />
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                            De caos financiero a <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">claridad total</span>
+                            De la incertidumbre al <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">dominio patrimonial</span>
                         </h2>
                         <p className="text-white/50 text-[16px] max-w-2xl mx-auto">
                             Tres pasos separan tu situación actual de un control financiero absoluto.
@@ -314,8 +317,8 @@ export default function EpicLandingPage() {
                     />
                     <StepCard
                         number="2"
-                        title="M.I.A. analiza y aprende"
-                        desc="La inteligencia autónoma categoriza, detecta patrones ocultos y construye tu ADN financiero único. Cada día se vuelve más precisa."
+                        title="M.I.A. procesa tu ADN"
+                        desc="La inteligencia autónoma categoriza transacciones, alerta sobre patrones de fuga de capital y te permite anticipar escenarios con máxima previsibilidad."
                         icon={<Brain className="w-5 h-5 text-[#BF5AF2]" />}
                         accentColor="#BF5AF2"
                     />
@@ -536,8 +539,9 @@ export default function EpicLandingPage() {
                         Únete a la nueva generación de gestión patrimonial con M.I.A. como tu copiloto financiero autónomo.
                     </p>
                     <Link href="/register">
-                        <button className="h-16 px-10 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[18px] font-bold shadow-[0_0_60px_-15px_rgba(255,255,255,0.3)] flex items-center gap-3 mx-auto">
-                            Crear cuenta ahora <ArrowRight className="w-5 h-5" />
+                        <button className="h-16 px-10 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[18px] font-bold shadow-[0_0_60px_-15px_rgba(255,255,255,0.3)] flex items-center gap-3 mx-auto relative overflow-hidden group">
+                            <span className="relative z-10 flex items-center gap-3">Solicitar Acceso (Closed Beta) <ArrowRight className="w-5 h-5" /></span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-violet-500/0 via-violet-500/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                         </button>
                     </Link>
                 </FadeInSection>
