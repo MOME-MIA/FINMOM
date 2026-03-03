@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useMia } from './MiaContext';
 import { MiaOrb } from '../login/MiaOrb';
 import { SpendingWidget, SavingsWidget, AnomalyWidget } from './ChatWidgets';
-
+import { insforge } from '@/lib/insforge';
 interface Message {
     role: 'user' | 'model';
     content: string;
@@ -94,6 +94,47 @@ export const ChatAssistant: React.FC = () => {
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
+
+    // InsForge Realtime (WebSockets) for Proactive Alerts
+    useEffect(() => {
+        let channelName = '';
+
+        const setupRealtime = async () => {
+            try {
+                const { data: { user } } = await insforge.auth.getCurrentUser();
+                if (!user) return;
+
+                channelName = `user:${user.id}`;
+                await insforge.realtime.connect();
+                await insforge.realtime.subscribe(channelName);
+
+                insforge.realtime.on('budget_alert', (payload: any) => {
+                    // Abrir la ventana de M.I.A proactivamente
+                    setIsOpen(true);
+                    setMessages(prev => {
+                        const newMsg = {
+                            role: 'model' as const,
+                            content: `⚠️ **[ALERTA DE SEGURIDAD PATRIMONIAL]**\n\n${payload.message || 'Presupuesto al límite'}.\n\nGasto detonante: $${payload.transaction_amount || 0}. Tu total mensual es de $${payload.total_expenses || 0} sobre un límite de $${payload.budget_limit || 0}.`
+                        };
+                        return [...prev, newMsg];
+                    });
+                    setAiState('speaking');
+                    setTimeout(() => setAiState('idle'), 5000);
+                });
+            } catch (err) {
+                console.error("MIA Realtime init error:", err);
+            }
+        };
+
+        setupRealtime();
+
+        return () => {
+            if (channelName) {
+                insforge.realtime.off('budget_alert', () => { });
+                insforge.realtime.unsubscribe(channelName);
+            }
+        };
+    }, [setIsOpen]);
 
     // Intelligent Route Hiding (No M.I.A on Auth flows)
     const hiddenRoutes = ['/login'];

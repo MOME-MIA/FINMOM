@@ -186,24 +186,24 @@ export default function EpicLandingPage() {
                         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-6">
                             <Brain className="w-3.5 h-3.5 text-[#0A84FF]" />
                             <span className="text-[12px] font-bold text-white/60 tracking-wider uppercase">
-                                Consciencia Financiera Inmersiva
+                                Tu Bóveda Privada. Inteligencia Autónoma.
                             </span>
                         </div>
 
                         <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-[1.1] sm:leading-[1.05]">
-                            Conoce a M.I.A.
+                            Domina tu Patrimonio.
                             <br />
-                            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white/90 font-extrabold tracking-tight">El ADN de tu patrimonio, evolucionado.</span>
+                            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white/90 font-extrabold tracking-tight">Sin Esfuerzo. Cero Fricción.</span>
                         </h1>
 
                         <p className="text-[16px] md:text-[19px] text-white/50 max-w-xl mb-10 font-medium leading-relaxed">
-                            Más que un algoritmo. M.I.A. procesa tu historial, predice fluctuaciones con precisión algorítmica y asegura tu patrimonio con niveles de criptografía bancaria AES-256. No es un chatbot — es tu mente maestra financiera.
+                            Una inteligencia que entiende cómo piensas. M.I.A. anticipa tus movimientos y asegura tu capital con criptografía de grado militar. El ecosistema definitivo, diseñado exclusivamente para la élite.
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center gap-4 lg:justify-start justify-center">
                             <Link href="/register">
                                 <button className="h-14 px-8 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[16px] font-bold shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] flex items-center gap-2">
-                                    Desbloquear el Futuro <ArrowRight className="w-5 h-5" />
+                                    Solicitar Acceso a Waitlist <ArrowRight className="w-5 h-5" />
                                 </button>
                             </Link>
                             <Link href="/login">
@@ -236,9 +236,9 @@ export default function EpicLandingPage() {
                         {/* Floating Chat Previews */}
                         <div className="flex flex-col gap-3 w-full px-2">
                             {[
-                                { text: "Tu gasto en delivery subió 23%. ¿Configuro un límite?", side: "left" as const, delay: 0 },
-                                { text: "Detecté un cobro duplicado de $42.50 en tu Visa.", side: "right" as const, delay: 0.4 },
-                                { text: "Ahorraste $1,240 más que el mes pasado. ¡Vas bien!", side: "left" as const, delay: 0.8 },
+                                { text: "Tu presupuesto de ocio llega al 90%. Sugiero moderar.", side: "left" as const, delay: 0 },
+                                { text: "Deduciendo $450 USD de tu base Stripe.", side: "right" as const, delay: 0.4 },
+                                { text: "Balance unificado. Tu Net Worth real hoy es $124k USD.", side: "left" as const, delay: 0.8 },
                             ].map((msg, i) => (
                                 <motion.div
                                     key={i}
@@ -296,7 +296,7 @@ export default function EpicLandingPage() {
             {/* ═══ HOW IT WORKS ═══════════════════════ */}
             <section className="py-16 md:py-28 px-6 max-w-4xl mx-auto">
                 <FadeInSection>
-                    <SectionLabel text="Cómo funciona" />
+                    <SectionLabel text="El Poder de M.I.A." />
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
                             De la incertidumbre al <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">dominio patrimonial</span>
@@ -310,22 +310,22 @@ export default function EpicLandingPage() {
                 <div className="flex flex-col gap-2">
                     <StepCard
                         number="1"
-                        title="Unifica tus finanzas"
-                        desc="Todas tus cuentas, monedas y patrimonio en un solo panel. ARS, USD, EUR — todo convertido y sincronizado automáticamente."
+                        title="Bilateralidad Financiera Total"
+                        desc="Conecta cuentas bancarias y exchanges. ARS, USD, Crypto. Todo sincronizado en una bóveda inviolable con conversión en tiempo real."
                         icon={<Globe className="w-5 h-5 text-[#0A84FF]" />}
                         accentColor="#0A84FF"
                     />
                     <StepCard
                         number="2"
-                        title="M.I.A. procesa tu ADN"
-                        desc="La inteligencia autónoma categoriza transacciones, alerta sobre patrones de fuga de capital y te permite anticipar escenarios con máxima previsibilidad."
+                        title="Asimilación de tu ADN Financiero"
+                        desc="M.I.A. asimila tus patrones de gasto, previene fugas de capital y alerta sobre riesgos antes de que impacten tu Net Worth."
                         icon={<Brain className="w-5 h-5 text-[#BF5AF2]" />}
                         accentColor="#BF5AF2"
                     />
                     <StepCard
                         number="3"
-                        title="Actúa con decisiones informadas"
-                        desc="Presupuestos inteligentes, alertas proactivas y proyecciones reales. M.I.A. no solo observa — te protege y optimiza."
+                        title="Ejecución con Precisión Militar"
+                        desc="Control absoluto. Establece presupuestos inquebrantables, automatiza objetivos y escala tu patrimonio con cero fricción."
                         icon={<Zap className="w-5 h-5 text-[#30D158]" />}
                         accentColor="#30D158"
                     />
@@ -335,7 +335,7 @@ export default function EpicLandingPage() {
             {/* ═══ FEATURES BENTO GRID ═══════════════ */}
             <section className="py-16 md:py-28 px-6 max-w-7xl mx-auto">
                 <FadeInSection>
-                    <SectionLabel text="Capacidades" />
+                    <SectionLabel text="Casos de Uso Élite" />
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Ingeniería Financiera Pura</h2>
                         <p className="text-white/50 text-[16px] max-w-2xl mx-auto">
@@ -374,9 +374,9 @@ export default function EpicLandingPage() {
                             <div className="w-12 h-12 rounded-2xl bg-[#FF9F0A]/10 border border-[#FF9F0A]/15 flex items-center justify-center mb-6 group-hover:border-[#FF9F0A]/30 transition-colors">
                                 <Globe className="w-6 h-6 text-[#FF9F0A]" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-white/90">Multi-Moneda</h3>
+                            <h3 className="text-xl font-bold mb-2 text-white/90">B2C: El Nómada Digital</h3>
                             <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-                                ARS, USD, EUR y más. Conversión en tiempo real. Bóvedas separadas por divisa.
+                                Cobra en el exterior, gasta local. M.I.A. maneja el tipo de cambio y unifica tu Net Worth global.
                             </p>
                         </motion.div>
                     </FadeInSection>
@@ -390,9 +390,9 @@ export default function EpicLandingPage() {
                             <div className="w-12 h-12 rounded-2xl bg-[#30D158]/10 border border-[#30D158]/15 flex items-center justify-center mb-6 group-hover:border-[#30D158]/30 transition-colors">
                                 <Target className="w-6 h-6 text-[#30D158]" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-white/90">Precisión Absoluta</h3>
+                            <h3 className="text-xl font-bold mb-2 text-white/90">B2C: Inversor & Familia</h3>
                             <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-                                Presupuestos estrictos con alertas en tiempo real y fricción intencional contra gastos impulsivos.
+                                Planifica la compra de inmuebles o controla el ocio semanal. Tu escudo contra compras impulsivas.
                             </p>
                         </motion.div>
                     </FadeInSection>
@@ -408,9 +408,9 @@ export default function EpicLandingPage() {
                                 <div className="w-12 h-12 rounded-2xl bg-[#BF5AF2]/10 border border-[#BF5AF2]/15 flex items-center justify-center mb-6 group-hover:border-[#BF5AF2]/30 transition-colors">
                                     <TrendingUp className="w-6 h-6 text-[#BF5AF2]" />
                                 </div>
-                                <h3 className="text-2xl font-bold mb-3 text-white/90">Proyecciones M.I.A.</h3>
+                                <h3 className="text-2xl font-bold mb-3 text-white/90">B2B: Freelancers & Agencias</h3>
                                 <p className="text-[15px] text-white/50 leading-relaxed font-medium max-w-md">
-                                    Algoritmos de machine learning que predicen tu comportamiento financiero y proponen optimizaciones antes de que las necesites.
+                                    Proyecta el &quot;Runway&quot; de tu negocio, separa finanzas personales de las corporativas, y autogestiona previsiones de impuestos con reportes quirúrgicos.
                                 </p>
                             </div>
                         </motion.div>
@@ -424,9 +424,9 @@ export default function EpicLandingPage() {
                     <SectionLabel text="Una IA que realmente entiende" />
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                            No es un chatbot.{" "}
+                            No es un chatbot genérico.{" "}
                             <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">
-                                Es una mente autónoma.
+                                Es tu Bóveda Privada.
                             </span>
                         </h2>
                         <p className="text-white/50 text-[16px] max-w-xl mx-auto">
@@ -442,12 +442,12 @@ export default function EpicLandingPage() {
                                 <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Tradicional</span>
                             </div>
                             <MessageCircle className="w-8 h-8 text-white/50 mb-5" />
-                            <h3 className="text-xl font-bold mb-3 text-white/50">Banca Reactiva</h3>
+                            <h3 className="text-xl font-bold mb-3 text-white/50">Sistemas Obsoletos</h3>
                             <ul className="space-y-3">
                                 {[
-                                    "Revisa tu balance manualmente",
-                                    "Categoriza gastos uno por uno",
-                                    "Descubre cobros duplicados... tarde",
+                                    "Revisa tu balance bancario manualmente",
+                                    "Planillas Excel que te roban horas preciosas",
+                                    "Descubre cobros duplicados... cuando es tarde",
                                     "Presupuestos estáticos sin inteligencia",
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-center gap-2.5 text-[14px] text-white/50 font-medium">
@@ -465,13 +465,13 @@ export default function EpicLandingPage() {
                                 <span className="text-[10px] font-bold text-[#0A84FF] uppercase tracking-widest">Momentum</span>
                             </div>
                             <Brain className="w-8 h-8 text-[#0A84FF] mb-5" />
-                            <h3 className="text-xl font-bold mb-3 text-white/90">M.I.A. Proactiva</h3>
+                            <h3 className="text-xl font-bold mb-3 text-white/90">ADN Financiero Activo</h3>
                             <ul className="space-y-3">
                                 {[
                                     "Monitoreo autónomo 24/7 de todos tus flujos",
-                                    "Categorización automática con IA",
-                                    "Detecta anomalías y te alerta al instante",
-                                    "Presupuestos adaptativos que evolucionan contigo",
+                                    "Categorización y predicción con Machine Learning",
+                                    "Especulación de impactos cambiarios (ARS/USD)",
+                                    "Presupuestos inquebrantables que evolucionan contigo",
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-center gap-2.5 text-[14px] text-white/60 font-medium">
                                         <Check className="w-4 h-4 text-[#30D158] shrink-0" />
@@ -490,7 +490,7 @@ export default function EpicLandingPage() {
                     <SectionLabel text="Seguridad" />
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                            Radicalmente seguro.
+                            Privacidad Inquebrantable.
                         </h2>
                         <p className="text-white/50 text-[16px] max-w-xl mx-auto">
                             Arquitectura diseñada para la paz mental. Tus datos nunca salen de tu bóveda personal.
@@ -540,7 +540,7 @@ export default function EpicLandingPage() {
                     </p>
                     <Link href="/register">
                         <button className="h-16 px-10 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[18px] font-bold shadow-[0_0_60px_-15px_rgba(255,255,255,0.3)] flex items-center gap-3 mx-auto relative overflow-hidden group">
-                            <span className="relative z-10 flex items-center gap-3">Solicitar Acceso (Closed Beta) <ArrowRight className="w-5 h-5" /></span>
+                            <span className="relative z-10 flex items-center gap-3">Asegura tu lugar en la Élite <ArrowRight className="w-5 h-5" /></span>
                             <div className="absolute inset-0 bg-gradient-to-r from-violet-500/0 via-violet-500/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                         </button>
                     </Link>
