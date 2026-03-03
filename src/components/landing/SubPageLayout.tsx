@@ -20,8 +20,8 @@ export default function SubPageLayout({ children, title, subtitle, badge }: SubP
             <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/60 backdrop-blur-2xl border-b border-white/[0.04]">
                 <div className="flex items-center gap-2.5">
                     <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-                        <div className="w-8 h-8 bg-gradient-to-br from-white/20 to-transparent rounded-xl flex items-center justify-center border border-white/10">
-                            <Wallet className="w-4 h-4 text-white" />
+                        <div className="w-8 h-8 flex items-center justify-center">
+                            <img src="/logo.png" alt="Finmom Logo" className="w-full h-full object-contain filter invert opacity-90 pointer-events-none select-none" />
                         </div>
                         <span className="font-bold text-[18px] tracking-tight">Finmom</span>
                     </Link>

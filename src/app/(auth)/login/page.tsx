@@ -59,8 +59,8 @@ export default function LoginPage() {
                 className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
             >
                 <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <div className="w-7 h-7 bg-gradient-to-br from-white/15 to-transparent rounded-lg flex items-center justify-center border border-white/[0.06]">
-                        <Wallet className="w-3.5 h-3.5 text-white/70" />
+                    <div className="w-7 h-7 flex items-center justify-center">
+                        <img src="/logo.png" alt="Finmom Logo" className="w-full h-full object-contain filter invert opacity-80 pointer-events-none select-none" />
                     </div>
                     <span className="font-bold text-[15px] text-white/60">Finmom</span>
                 </Link>

@@ -11,8 +11,8 @@ export function Footer() {
                     {/* Brand */}
                     <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
                         <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
-                            <div className="w-8 h-8 bg-gradient-to-br from-white/20 to-transparent rounded-xl flex items-center justify-center border border-white/10">
-                                <Wallet className="w-4 h-4 text-white" />
+                            <div className="w-8 h-8 flex items-center justify-center">
+                                <img src="/logo.png" alt="Finmom Logo" className="w-full h-full object-contain filter invert opacity-90 pointer-events-none select-none" />
                             </div>
                             <span className="font-bold text-[18px] tracking-tight text-[#E0E0E0]">Finmom</span>
                         </Link>
