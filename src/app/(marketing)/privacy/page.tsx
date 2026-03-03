@@ -15,7 +15,7 @@ const SECTIONS = [
     {
         title: "2. Cómo Utilizamos tu Información",
         content: [
-            "Proveer, mantener y mejorar los servicios de Momentum Finance.",
+            "Proveer, mantener y mejorar los servicios de Finmom.",
             "Alimentar los algoritmos de M.I.A. para generar análisis financieros personalizados. **Tus datos de M.I.A. nunca se comparten con terceros.**",
             "Enviar notificaciones relacionadas con tu actividad financiera (alertas, insights, recordatorios).",
             "Proteger la seguridad de tu cuenta y prevenir accesos no autorizados.",

@@ -1,5 +1,5 @@
 /**
- * Momentum Design System — Apple Dark Mode Tokens
+ * Finmom Design System — Apple Dark Mode Tokens
  * Import this file instead of hardcoding colors/radii/sizes.
  */
 

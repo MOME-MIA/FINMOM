@@ -14,7 +14,7 @@ export function Footer() {
                             <div className="w-8 h-8 bg-gradient-to-br from-white/20 to-transparent rounded-xl flex items-center justify-center border border-white/10">
                                 <Wallet className="w-4 h-4 text-white" />
                             </div>
-                            <span className="font-bold text-[18px] tracking-tight text-[#E0E0E0]">Momentum</span>
+                            <span className="font-bold text-[18px] tracking-tight text-[#E0E0E0]">Finmom</span>
                         </Link>
                         <p className="text-[14px] text-white/50 leading-relaxed font-medium tracking-wide">
                             Sistema operativo financiero de nivel institucional con inteligencia artificial autónoma. Asimetría a tu favor.
@@ -96,7 +96,7 @@ export function Footer() {
                 {/* Bottom Section: Copyright & Portals */}
                 <nav className="flex flex-col-reverse md:flex-row justify-between items-center gap-6" aria-label="Footer Navigation">
                     <p className="text-[13px] text-white/40 font-medium tracking-wide">
-                        © {new Date().getFullYear()} Momentum Finance. Todos los derechos reservados.
+                        © {new Date().getFullYear()} Finmom. Todos los derechos reservados.
                     </p>
 
                     <div className="flex items-center gap-6">

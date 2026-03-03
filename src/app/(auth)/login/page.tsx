@@ -1,6 +1,6 @@
 "use client";
 
-import { MomentumAccessCard } from "@/components/login/MomentumAccessCard";
+import { FinmomAccessCard } from "@/components/login/FinmomAccessCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -62,7 +62,7 @@ export default function LoginPage() {
                     <div className="w-7 h-7 bg-gradient-to-br from-white/15 to-transparent rounded-lg flex items-center justify-center border border-white/[0.06]">
                         <Wallet className="w-3.5 h-3.5 text-white/70" />
                     </div>
-                    <span className="font-bold text-[15px] text-white/60">Momentum</span>
+                    <span className="font-bold text-[15px] text-white/60">Finmom</span>
                 </Link>
                 <Link href="/register" className="text-[12px] text-white/50 hover:text-white/60 transition-colors font-medium tracking-wide">
                     Crear Cuenta →
@@ -120,7 +120,7 @@ export default function LoginPage() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             className="w-full max-w-[440px]"
                         >
-                            <MomentumAccessCard mode="login" />
+                            <FinmomAccessCard mode="login" />
                         </motion.div>
                     </AnimatePresence>
                 </div>
@@ -134,7 +134,7 @@ export default function LoginPage() {
                 className="absolute bottom-6 left-0 right-0 text-center z-20 pointer-events-none"
             >
                 <p className="text-white/15 text-[10px] uppercase font-sans tracking-[0.4em]">
-                    Momentum Platform • 2026
+                    Finmom Platform • 2026
                 </p>
             </motion.div>
         </main>

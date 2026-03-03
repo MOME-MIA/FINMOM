@@ -6,7 +6,7 @@ const SECTIONS = [
     {
         title: "1. Aceptación de los Términos",
         content: [
-            "Al acceder y utilizar Momentum Finance (\"la Plataforma\"), aceptás estos Términos de Servicio en su totalidad.",
+            "Al acceder y utilizar Finmom (\"la Plataforma\"), aceptás estos Términos de Servicio en su totalidad.",
             "Si no estás de acuerdo con alguna parte, no deberías utilizar la Plataforma.",
             "Nos reservamos el derecho de modificar estos términos con notificación previa de 30 días.",
         ],
@@ -14,9 +14,9 @@ const SECTIONS = [
     {
         title: "2. Descripción del Servicio",
         content: [
-            "Momentum Finance es una plataforma de gestión financiera personal potenciada por inteligencia artificial (M.I.A.).",
+            "Finmom es una plataforma de gestión financiera personal potenciada por inteligencia artificial (M.I.A.).",
             "El servicio incluye: registro de transacciones, visualización analítica, presupuestos inteligentes, multi-moneda y asistencia de IA.",
-            "**Momentum no es un banco, broker ni asesor financiero regulado.** Las recomendaciones de M.I.A. son informativas y no constituyen asesoramiento financiero profesional.",
+            "**Finmom no es un banco, broker ni asesor financiero regulado.** Las recomendaciones de M.I.A. son informativas y no constituyen asesoramiento financiero profesional.",
         ],
     },
     {
@@ -49,7 +49,7 @@ const SECTIONS = [
     {
         title: "6. Propiedad Intelectual",
         content: [
-            "Todos los derechos de propiedad intelectual sobre la Plataforma, incluyendo código, diseño, marca y algoritmos de M.I.A., pertenecen a Momentum Finance.",
+            "Todos los derechos de propiedad intelectual sobre la Plataforma, incluyendo código, diseño, marca y algoritmos de M.I.A., pertenecen a Finmom.",
             "Retenés la propiedad sobre tus datos financieros personales.",
             "Nos otorgás una licencia limitada para procesar tus datos con el fin de proveer el servicio.",
         ],
@@ -57,7 +57,7 @@ const SECTIONS = [
     {
         title: "7. Limitación de Responsabilidad",
         content: [
-            "Momentum Finance se proporciona \"tal cual\" y \"según disponibilidad\".",
+            "Finmom se proporciona \"tal cual\" y \"según disponibilidad\".",
             "No garantizamos la disponibilidad ininterrumpida del servicio ni la exactitud absoluta de los análisis de M.I.A.",
             "En ningún caso seremos responsables por daños indirectos, incidentales o consecuentes derivados del uso de la Plataforma.",
             "Nuestra responsabilidad total se limita al monto pagado por vos en los últimos 12 meses de suscripción.",
@@ -78,7 +78,7 @@ export default function TermsPage() {
     return (
         <SubPageLayout
             title="Términos de Servicio"
-            subtitle="Transparencia total. Leé nuestros términos para entender tus derechos y responsabilidades al usar Momentum Finance."
+            subtitle="Transparencia total. Leé nuestros términos para entender tus derechos y responsabilidades al usar Finmom."
             badge="Legal"
         >
             <div className="max-w-3xl mx-auto space-y-10">

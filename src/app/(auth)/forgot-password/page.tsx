@@ -1,6 +1,6 @@
 "use client";
 
-import { MomentumAccessCard } from "@/components/login/MomentumAccessCard";
+import { FinmomAccessCard } from "@/components/login/FinmomAccessCard";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -37,7 +37,7 @@ export default function ForgotPasswordPage() {
                     <div className="w-7 h-7 bg-gradient-to-br from-white/15 to-transparent rounded-lg flex items-center justify-center border border-white/[0.06]">
                         <Wallet className="w-3.5 h-3.5 text-white/70" />
                     </div>
-                    <span className="font-bold text-[15px] text-white/60">Momentum</span>
+                    <span className="font-bold text-[15px] text-white/60">Finmom</span>
                 </Link>
                 <Link href="/login" className="text-[12px] text-white/50 hover:text-white/60 transition-colors font-medium tracking-wide">
                     ← Volver al login
@@ -65,7 +65,7 @@ export default function ForgotPasswordPage() {
                     {/* Process */}
                     <div className="space-y-5">
                         {[
-                            { icon: <Mail className="w-4 h-4 text-[#FF9F0A]" />, title: "Ingresá tu email", desc: "El mismo que usaste al registrarte en Momentum." },
+                            { icon: <Mail className="w-4 h-4 text-[#FF9F0A]" />, title: "Ingresá tu email", desc: "El mismo que usaste al registrarte en Finmom." },
                             { icon: <Clock className="w-4 h-4 text-[#64D2FF]" />, title: "Revisá tu correo", desc: "El enlace de recuperación llega en segundos. Revisá spam si no lo ves." },
                             { icon: <ShieldCheck className="w-4 h-4 text-[#30D158]" />, title: "Acceso restaurado", desc: "Creá una nueva contraseña y volvé a tu bóveda con total seguridad." },
                         ].map((item, i) => (
@@ -95,7 +95,7 @@ export default function ForgotPasswordPage() {
                         className="mt-10 p-4 rounded-xl bg-white/[0.02] border border-white/[0.04]"
                     >
                         <p className="text-[12px] text-white/50 font-medium leading-relaxed">
-                            🔒 <strong className="text-white/50">Nota de seguridad:</strong> Momentum nunca te pedirá tu contraseña por email. Si recibís un correo sospechoso, contactá a <span className="text-[#FF9F0A]/60">support@momentum.finance</span>.
+                            🔒 <strong className="text-white/50">Nota de seguridad:</strong> Finmom nunca te pedirá tu contraseña por email. Si recibís un correo sospechoso, contactá a <span className="text-[#FF9F0A]/60">support@momentum.finance</span>.
                         </p>
                     </motion.div>
                 </motion.div>
@@ -110,7 +110,7 @@ export default function ForgotPasswordPage() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             className="w-full max-w-[440px]"
                         >
-                            <MomentumAccessCard mode="forgot-password" />
+                            <FinmomAccessCard mode="forgot-password" />
                         </motion.div>
                     </AnimatePresence>
                 </div>
@@ -124,7 +124,7 @@ export default function ForgotPasswordPage() {
                 className="absolute bottom-6 left-0 right-0 text-center z-20 pointer-events-none"
             >
                 <p className="text-white/15 text-[10px] uppercase font-sans tracking-[0.4em]">
-                    Momentum Platform • 2026
+                    Finmom Platform • 2026
                 </p>
             </motion.div>
         </main>

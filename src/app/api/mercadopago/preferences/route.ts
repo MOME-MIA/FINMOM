@@ -30,8 +30,8 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Invalid plan selected" }, { status: 400 });
         }
 
-        if (planId === 'pro') title = `Momentum Pro (${billingCycle})`;
-        if (planId === 'enterprise') title = `Momentum Enterprise (${billingCycle})`;
+        if (planId === 'pro') title = `Finmom Pro (${billingCycle})`;
+        if (planId === 'enterprise') title = `Finmom Enterprise (${billingCycle})`;
 
         // 3. Initialize Mercado Pago
         const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN! });

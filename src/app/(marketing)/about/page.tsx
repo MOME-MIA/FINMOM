@@ -22,7 +22,7 @@ export default function AboutPage() {
     return (
         <SubPageLayout
             title="Sobre Nosotros"
-            subtitle="Momentum nació de una frustración: las apps financieras existentes son genéricas, lentas y tratando de venderte algo. Decidimos construir algo mejor."
+            subtitle="Finmom nació de una frustración: las apps financieras existentes son genéricas, lentas y tratando de venderte algo. Decidimos construir algo mejor."
             badge="Compañía"
         >
             {/* Origin Story */}
@@ -36,7 +36,7 @@ export default function AboutPage() {
                             Creemos que el control financiero no debería ser un privilegio exclusivo de quienes pueden pagar un asesor. Creemos que la inteligencia artificial puede democratizar la claridad financiera — no con alertas vacías y gráficos básicos, sino con una mente autónoma que realmente entiende tu realidad.
                         </p>
                         <p className="text-[16px] text-white/45 leading-[1.8] font-medium">
-                            Momentum no es una app de finanzas más. Es un <strong className="text-white/70">sistema operativo financiero</strong> con la estética de un producto Apple y la potencia de un terminal Bloomberg. Y en el centro de todo, vive M.I.A. — tu consciencia financiera.
+                            Finmom no es una app de finanzas más. Es un <strong className="text-white/70">sistema operativo financiero</strong> con la estética de un producto Apple y la potencia de un terminal Bloomberg. Y en el centro de todo, vive M.I.A. — tu consciencia financiera.
                         </p>
                     </div>
                 </div>
@@ -89,7 +89,7 @@ export default function AboutPage() {
                     <div>
                         <h3 className="text-2xl font-bold mb-3 text-white/90">El Corazón del Producto</h3>
                         <p className="text-[15px] text-white/50 leading-relaxed font-medium">
-                            M.I.A. (Momentum Intelligence Agent) no fue una ocurrencia tardía — fue la primera decisión de diseño. Todo en Momentum existe para alimentar a M.I.A. y para que M.I.A. te alimente a vos con inteligencia accionable.
+                            M.I.A. (Finmom Intelligence Agent) no fue una ocurrencia tardía — fue la primera decisión de diseño. Todo en Finmom existe para alimentar a M.I.A. y para que M.I.A. te alimente a vos con inteligencia accionable.
                         </p>
                     </div>
                 </div>

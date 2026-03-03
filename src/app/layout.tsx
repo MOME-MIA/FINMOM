@@ -35,12 +35,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Momentum OS',
-    default: 'Momentum Finance | Inteligencia Financiera',
+    template: '%s | Finmom OS',
+    default: 'Finmom | Inteligencia Financiera',
   },
   applicationName: 'MOMENTUM OS',
   description: 'Financial Health Command Center & AI Intelligence por M.I.A. Optimización asimétrica de tu patrimonio.',
-  keywords: ["Momentum Finance", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
+  keywords: ["Finmom", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
   icons: {
     icon: '/favicon.ico',
   },
@@ -53,9 +53,9 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'es_AR',
     url: 'https://momentum-finance.vercel.app',
-    title: 'Momentum Finance Manager',
+    title: 'Finmom Manager',
     description: 'Control total de tus finanzas personales y criptoactivos.',
-    siteName: 'Momentum Finance',
+    siteName: 'Finmom',
   },
 };
 

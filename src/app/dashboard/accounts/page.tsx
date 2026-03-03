@@ -3,7 +3,7 @@ import { AccountsClient } from "./AccountsClient";
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Cuentas | Momentum Finance',
+    title: 'Cuentas | Finmom',
     description: 'Gestión de Cuentas y Divisas',
 };
 

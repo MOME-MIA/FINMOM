@@ -359,7 +359,7 @@ export default function PricingClient() {
                     <div className="relative p-12 md:p-20 text-center border border-white/10 rounded-3xl bg-white/5">
                         <h2 className="text-4xl font-bold mb-6">Tu ADN Financiero te espera.</h2>
                         <p className="text-xl text-white/60 mb-10 max-w-2xl mx-auto">
-                            Únete hoy a Momentum Finance y descubre lo que sucede cuando combinas disciplina financiera con Inteligencia Artificial de vanguardia.
+                            Únete hoy a Finmom y descubre lo que sucede cuando combinas disciplina financiera con Inteligencia Artificial de vanguardia.
                         </p>
                         <Link href="/register">
                             <button className="bg-white text-black hover:bg-gray-100 px-8 py-4 rounded-2xl font-bold text-lg transition-transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,255,255,0.3)]">

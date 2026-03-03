@@ -23,7 +23,7 @@ export default function SubPageLayout({ children, title, subtitle, badge }: SubP
                         <div className="w-8 h-8 bg-gradient-to-br from-white/20 to-transparent rounded-xl flex items-center justify-center border border-white/10">
                             <Wallet className="w-4 h-4 text-white" />
                         </div>
-                        <span className="font-bold text-[18px] tracking-tight">Momentum</span>
+                        <span className="font-bold text-[18px] tracking-tight">Finmom</span>
                     </Link>
                 </div>
                 <div className="flex items-center gap-4">

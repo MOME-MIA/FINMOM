@@ -1,5 +1,5 @@
 /**
- * Momentum Finance — Canonical Categories
+ * Finmom — Canonical Categories
  * 
  * WHY: The History page requires fixed columns for each expense type.
  * These categories map 1:1 to both the transaction form and the

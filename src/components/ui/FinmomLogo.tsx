@@ -2,13 +2,13 @@
 
 import { motion } from "framer-motion";
 
-interface MomentumLogoProps {
+interface FinmomLogoProps {
     className?: string;
     showText?: boolean;
     animate?: boolean;
 }
 
-export function MomentumLogo({ className = "w-12 h-12", showText = false, animate = true }: MomentumLogoProps) {
+export function FinmomLogo({ className = "w-12 h-12", showText = false, animate = true }: FinmomLogoProps) {
     const iconVariants = {
         hidden: { pathLength: 0, opacity: 0 },
         visible: {

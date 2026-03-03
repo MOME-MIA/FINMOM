@@ -13,11 +13,11 @@ import { useAuth } from "@insforge/nextjs";
 import { insforge } from "@/lib/insforge";
 import { joinWaitlistAction } from "@/app/actions";
 
-interface MomentumAccessCardProps {
+interface FinmomAccessCardProps {
     mode?: "login" | "register" | "forgot-password";
 }
 
-export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) {
+export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
     const router = useRouter();
     const { signIn, signUp } = useAuth();
 
@@ -171,7 +171,7 @@ export function MomentumAccessCard({ mode = "login" }: MomentumAccessCardProps) 
                             }
                         />
                         <h1 className="font-sans font-medium text-2xl tracking-[0.05em] text-white/80 leading-none">
-                            Momentum
+                            Finmom
                         </h1>
                         <span className="text-xs text-white/50 font-medium tracking-[0.1em] mt-2 uppercase">
                             {isRegister ? "Solicitud de Acceso (Beta)" : isForgotPassword ? "Recuperar Acceso" : "Validar Identidad"}

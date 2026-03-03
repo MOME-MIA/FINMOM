@@ -1,5 +1,5 @@
 // ============================================================
-// Momentum Finance — Star Schema TypeScript Types
+// Finmom — Star Schema TypeScript Types
 // Maps 1:1 to InsForge dimensional model
 // ============================================================
 

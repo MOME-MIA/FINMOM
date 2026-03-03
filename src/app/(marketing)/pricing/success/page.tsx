@@ -77,7 +77,7 @@ function PricingSuccessContent() {
                             </motion.div>
 
                             <h1 className="text-3xl font-semibold tracking-tight text-white mb-4">
-                                Bienvenido a Momentum <span className="capitalize text-white/70">{plan}</span>
+                                Bienvenido a Finmom <span className="capitalize text-white/70">{plan}</span>
                             </h1>
 
                             <p className="text-white/50 leading-relaxed mb-10 text-[15px]">
@@ -89,7 +89,7 @@ function PricingSuccessContent() {
                                 onClick={() => router.push('/dashboard')}
                                 className="group w-full h-[52px] bg-white text-black font-medium rounded-full flex items-center justify-center gap-2 hover:bg-white/90 transition-all focus:outline-none focus:ring-2 focus:ring-white/50"
                             >
-                                Entrar a Momentum
+                                Entrar a Finmom
                                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                             </button>
                         </>

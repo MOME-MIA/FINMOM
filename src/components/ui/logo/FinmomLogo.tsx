@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 export type LogoVariant = "default" | "pulse" | "glitch" | "fluid" | "typing";
 
-interface MomentumLogoProps extends React.SVGProps<SVGSVGElement> {
+interface FinmomLogoProps extends React.SVGProps<SVGSVGElement> {
     className?: string;
     variant?: LogoVariant;
 }
@@ -69,7 +69,7 @@ const typingVariants: Variants = {
     }
 };
 
-export function MomentumLogo({ className, variant = "default", ...props }: MomentumLogoProps) {
+export function FinmomLogo({ className, variant = "default", ...props }: FinmomLogoProps) {
     const isGlitch = variant === "glitch";
     const isPulse = variant === "pulse";
     const isTyping = variant === "typing";
