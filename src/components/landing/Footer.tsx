@@ -3,7 +3,7 @@ import { Wallet, ShieldCheck, Lock } from "lucide-react";
 
 export function Footer() {
     return (
-        <footer className="bg-black border-t border-white/[0.04] pt-16 pb-8 px-6 md:px-12 relative z-10 font-sans">
+        <footer className="bg-black border-t border-white/[0.04] pt-20 pb-12 md:pt-32 md:pb-16 px-6 md:px-12 relative z-10 font-sans">
             <div className="max-w-7xl mx-auto flex flex-col gap-16">
 
                 {/* Top Section: Navigation & Brand */}
