@@ -93,23 +93,12 @@ export function Footer() {
                 {/* Divider */}
                 <hr className="border-white/[0.04]" />
 
-                {/* Bottom Section: Copyright & Portals */}
-                <nav className="flex flex-col-reverse md:flex-row justify-between items-center gap-6" aria-label="Footer Navigation">
-                    <p className="text-[13px] text-white/40 font-medium tracking-wide">
+                {/* Bottom Section: Copyright */}
+                <div className="flex justify-center items-center">
+                    <p className="text-[13px] text-white/40 font-medium tracking-wide text-center">
                         © {new Date().getFullYear()} Finmom. Todos los derechos reservados.
                     </p>
-
-                    <div className="flex items-center gap-6">
-                        <Link href="/login" className="text-[13px] text-white/50 hover:text-[#E0E0E0] transition-colors duration-200 font-bold tracking-wide">
-                            Iniciar Sesión
-                        </Link>
-                        <Link href="/register">
-                            <button className="bg-white/10 hover:bg-white text-white hover:text-black border border-white/20 hover:border-transparent text-[13px] px-5 py-2 rounded-full font-bold transition-all duration-300 active:scale-95">
-                                Crear Cuenta
-                            </button>
-                        </Link>
-                    </div>
-                </nav>
+                </div>
 
             </div>
         </footer>
