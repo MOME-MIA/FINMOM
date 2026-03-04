@@ -78,11 +78,12 @@ export default function SettingsPage() {
         setIsLoggingOut(true);
         try {
             await performLogout();
-            await logoutAction();
-        } catch {
-            toast.error("Error al cerrar sesión");
-            setIsLoggingOut(false);
+        } catch (error) {
+            console.error("Error al cerrar sesión (Supabase):", error);
+            // Ignoramos el error para forzar la limpieza de cookies local de todos modos
         }
+        // logoutAction arroja un NEXT_REDIRECT internally, por lo que DEBE ir fuera de nuestro try-catch
+        await logoutAction();
     };
 
     return (

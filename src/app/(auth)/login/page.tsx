@@ -9,14 +9,31 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { toast } from "sonner";
 
-function WaitlistSuccessToast() {
+function WaitlistMessages() {
     const searchParams = useSearchParams();
 
     useEffect(() => {
-        if (searchParams.get("waitlist") === "success") {
+        const status = searchParams.get("waitlist");
+        if (status === "success") {
             setTimeout(() => {
                 toast.success("¡Identidad registrada en la lista de espera!", {
                     description: "Te avisaremos cuando tu acceso cerrado esté habilitado.",
+                    duration: 5000,
+                });
+            }, 300);
+            window.history.replaceState(null, "", "/login");
+        } else if (status === "pending") {
+            setTimeout(() => {
+                toast.error("Bóveda Restringida", {
+                    description: "Tu identidad aún está bajo revisión en la lista de espera. Te notificaremos cuando se apruebe tu acceso.",
+                    duration: 6000,
+                });
+            }, 300);
+            window.history.replaceState(null, "", "/login");
+        } else if (status === "system_error") {
+            setTimeout(() => {
+                toast.error("Error de Sistema", {
+                    description: "No se pudo validar tu estado en la lista de espera. Intenta de nuevo más tarde.",
                     duration: 5000,
                 });
             }, 300);
@@ -48,7 +65,7 @@ export default function LoginPage() {
             <div className="fixed inset-0 bg-noise opacity-[0.015] pointer-events-none z-10 mix-blend-overlay" />
 
             <Suspense fallback={null}>
-                <WaitlistSuccessToast />
+                <WaitlistMessages />
             </Suspense>
 
             {/* ─── Top Navbar ─── */}

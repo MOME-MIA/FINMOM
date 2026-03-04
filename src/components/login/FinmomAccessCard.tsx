@@ -2,9 +2,10 @@
 
 import React, { useState } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, CheckCircle2, ChevronRight, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { useMiaStore } from "@/store/miaStore";
 import { cn } from "@/lib/utils";
 import { QuantumInput } from "./QuantumInput";
 import { SingularityButton } from "./SingularityButton";
@@ -23,7 +24,10 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [name, setName] = useState("");
+    const [revenue, setRevenue] = useState("");
+    const [reason, setReason] = useState("");
+
     const [isLoading, setIsLoading] = useState(false);
     const [isUnlocked, setIsUnlocked] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -37,58 +41,90 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
     const isRegister = mode === "register";
     const isForgotPassword = mode === "forgot-password";
 
+    // Waitlist Progressive State
+    const [registerStep, setRegisterStep] = useState(0);
+    const maxRegisterSteps = 3;
+
     const handleSubmit = async () => {
-        if (!email || isCoolingDown || isLoading) return;
-        if (!isForgotPassword && !isRegister && !password) return;
+        if (isCoolingDown || isLoading) return;
 
-        setIsLoading(true);
-
-        try {
-            if (isForgotPassword) {
+        if (isForgotPassword) {
+            if (!email) return;
+            setIsLoading(true);
+            try {
                 const result = await insforge.auth.sendResetPasswordEmail({ email });
                 if (result && "error" in result && result.error) {
-                    toast.error(result.error.message || "Error procesando solicitud");
+                    useMiaStore.getState().notify({ status: 'error', message: result.error.message || "Error procesando solicitud" });
                     handleFailedAttempt();
                     setIsLoading(false);
                     return;
                 }
-                toast.success("Enlace de recuperación enviado. Revisá tu email.");
+                useMiaStore.getState().notify({ status: 'success', message: "Enlace enviado. Revisá tu inbox." });
                 setIsUnlocked(true);
                 setIsExiting(true);
                 setTimeout(() => {
                     router.push("/login");
                     router.refresh();
                 }, 1500);
+            } catch (error) {
+                useMiaStore.getState().notify({ status: 'error', message: "Error de conexión. Intentá de nuevo." });
+                setIsLoading(false);
+            }
+            return;
+        }
+
+        if (isRegister) {
+            // Progressive Waitlist Flow
+            if (registerStep === 0) {
+                if (!email) return;
+                setRegisterStep(1);
+                return;
+            } else if (registerStep === 1) {
+                if (!name) return;
+                setRegisterStep(2);
+                return;
+            } else if (registerStep === 2) {
+                if (!revenue) return;
+                setRegisterStep(3);
+                return;
+            } else if (registerStep === 3) {
+                if (!reason) return;
+                // Final Submission
+                setIsLoading(true);
+                try {
+                    const result = await joinWaitlistAction({ email, name, revenue, reason });
+                    if (!result.success) {
+                        useMiaStore.getState().notify({ status: 'error', message: result.error || "Error desconocido" });
+                        handleFailedAttempt();
+                        setIsLoading(false);
+                        return;
+                    }
+                    useMiaStore.getState().notify({ status: 'success', message: "¡Identidad registrada en la lista de espera!" });
+                    setIsUnlocked(true);
+                    setIsExiting(true);
+                    setTimeout(() => {
+                        router.push("/login?waitlist=success");
+                        router.refresh();
+                    }, 1500);
+                } catch (error) {
+                    useMiaStore.getState().notify({ status: 'error', message: "Error de conexión. Intentá de nuevo." });
+                    setIsLoading(false);
+                }
                 return;
             }
+        }
 
-            if (isRegister) {
-                const result = await joinWaitlistAction(email);
-                if (!result.success) {
-                    toast.error(result.error);
-                    handleFailedAttempt();
-                    setIsLoading(false);
-                    return;
-                }
-                toast.success("¡Identidad registrada en la lista de espera!");
-                // Optionally show a generic success state and don't redirect to dashboard since they can't access it yet
-                setIsUnlocked(true);
-                setIsExiting(true);
-                setTimeout(() => {
-                    router.push("/login?waitlist=success");
-                    router.refresh();
-                }, 1500);
+        // Standard Login
+        if (!email || !password) return;
+        setIsLoading(true);
+        try {
+            const result = await signIn(email, password);
+            if (result && "error" in result && result.error) {
+                useMiaStore.getState().notify({ status: 'error', message: result.error || "Error al iniciar sesión" });
+                handleFailedAttempt();
+                setIsLoading(false);
                 return;
-            } else {
-                const result = await signIn(email, password);
-                if (result && "error" in result && result.error) {
-                    toast.error(result.error || "Error al iniciar sesión");
-                    handleFailedAttempt();
-                    setIsLoading(false);
-                    return;
-                }
             }
-
             setIsUnlocked(true);
             setIsExiting(true);
             setTimeout(() => {
@@ -96,8 +132,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                 router.refresh();
             }, 600);
         } catch (error) {
-            console.error("Auth error:", error);
-            toast.error("Error de conexión. Intentá de nuevo.");
+            useMiaStore.getState().notify({ status: 'error', message: "Error de conexión. Intentá de nuevo." });
             setIsLoading(false);
         }
     };
@@ -113,7 +148,6 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
             x: [0, -8, 8, -5, 5, -2, 2, 0],
             transition: { duration: 0.4, ease: "easeInOut" }
         });
-
         setTimeout(() => setIsError(false), 500);
 
         const newAttempts = failedAttempts + 1;
@@ -121,15 +155,41 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
 
         if (newAttempts >= 10) {
             setIsCoolingDown(true);
-            toast.error("Demasiados intentos. Esperá unos minutos.");
+            useMiaStore.getState().notify({ status: 'error', message: "Demasiados intentos. Esperá unos minutos." });
         } else if (newAttempts % 3 === 0) {
             setIsCoolingDown(true);
-            toast.warning("Bloqueo de seguridad. Esperá un momento...");
+            useMiaStore.getState().notify({ status: 'alert', message: "Bloqueo de seguridad preventivo." });
             setTimeout(() => {
                 setIsCoolingDown(false);
-                toast.success("Podés volver a intentar.");
+                useMiaStore.getState().notify({ status: 'success', message: "Podés volver a intentar." });
             }, 5000);
         }
+    };
+
+    // Determine button text dynamically based on flow
+    const getButtonText = () => {
+        if (isForgotPassword) return "ENVIAR ENLACE";
+        if (isRegister) {
+            if (registerStep === 0) return "Siguiente";
+            if (registerStep === 1) return "Siguiente";
+            if (registerStep === 2) return "Siguiente";
+            if (registerStep === 3) return "SOLICITAR ACCESO";
+        }
+        return "Continuar";
+    };
+
+    // Determine if button is disabled dynamically
+    const isButtonDisabled = () => {
+        if (isCoolingDown) return true;
+        if (isForgotPassword && !email) return true;
+        if (!isRegister && !isForgotPassword && (!email || !password)) return true;
+        if (isRegister) {
+            if (registerStep === 0 && !email.includes("@")) return true;
+            if (registerStep === 1 && name.length < 2) return true;
+            if (registerStep === 2 && revenue.length < 2) return true;
+            if (registerStep === 3 && reason.length < 5) return true;
+        }
+        return false;
     };
 
     return (
@@ -173,63 +233,159 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                         <h1 className="font-sans font-medium text-2xl tracking-[0.05em] text-white/80 leading-none">
                             Finmom
                         </h1>
-                        <span className="text-xs text-white/50 font-medium tracking-[0.1em] mt-2 uppercase">
-                            {isRegister ? "Solicitud de Acceso (Beta)" : isForgotPassword ? "Recuperar Acceso" : "Validar Identidad"}
+                        <span className="text-xs text-white/50 font-medium tracking-[0.1em] mt-2 uppercase flex items-center gap-2 justify-center">
+                            {isRegister ? (
+                                <>Solicitud de Acceso <span className="text-[#0A84FF]">{registerStep + 1}/4</span></>
+                            ) : isForgotPassword ? "Recuperar Acceso" : "Validar Identidad"}
                         </span>
                     </motion.div>
 
                     {/* INPUT SECTION */}
-                    <div className="flex-1 flex flex-col items-center justify-center space-y-3 w-full">
-                        {/* Email */}
-                        <motion.div animate={controls} className="w-full">
-                            <QuantumInput
-                                value={email}
-                                onChange={(e) => {
-                                    if (isCoolingDown) return;
-                                    setEmail(e.target.value);
-                                    setIsError(false);
-                                }}
-                                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                                placeholder="Email"
-                                isError={isError}
-                                isCoolingDown={isCoolingDown}
-                                disabled={isLoading || isUnlocked}
-                                type="email"
-                                autoFocus
-                                autoComplete="email"
-                            />
-                        </motion.div>
-
-                        {/* Password */}
-                        {!isForgotPassword && !isRegister && (
-                            <motion.div animate={controls} className="w-full relative">
-                                <QuantumInput
-                                    value={password}
-                                    onChange={(e) => {
-                                        if (isCoolingDown) return;
-                                        setPassword(e.target.value);
-                                        setIsError(false);
-                                    }}
-                                    onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                                    placeholder="Contraseña"
-                                    isError={isError}
-                                    isCoolingDown={isCoolingDown}
-                                    disabled={isLoading || isUnlocked}
-                                    type={showPassword ? "text" : "password"}
-                                    autoComplete={isRegister ? "new-password" : "current-password"}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/60 transition-colors focus:outline-none focus:text-white z-30"
-                                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                    <div className="flex-1 flex flex-col items-center justify-center space-y-3 w-full min-h-[140px]">
+                        <AnimatePresence mode="wait">
+                            {(!isRegister || (isRegister && registerStep === 0)) && (
+                                <motion.div
+                                    key="email-input"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20, filter: "blur(10px)" }}
+                                    transition={{ duration: 0.4 }}
+                                    className="w-full flex justify-center"
                                 >
-                                    {showPassword ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
-                                </button>
-                            </motion.div>
-                        )}
+                                    <motion.div animate={controls} className="w-full">
+                                        <QuantumInput
+                                            value={email}
+                                            onChange={(e) => {
+                                                if (isCoolingDown) return;
+                                                setEmail(e.target.value);
+                                                setIsError(false);
+                                            }}
+                                            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                                            placeholder="Email"
+                                            isError={isError}
+                                            isCoolingDown={isCoolingDown}
+                                            disabled={isLoading || isUnlocked}
+                                            type="email"
+                                            autoFocus
+                                            autoComplete="email"
+                                        />
+                                    </motion.div>
+                                </motion.div>
+                            )}
 
-                        {/* Confirm Password (Register only) - Removed for Waitlist */}
+                            {isRegister && registerStep === 1 && (
+                                <motion.div
+                                    key="name-input"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20, filter: "blur(10px)" }}
+                                    transition={{ duration: 0.4 }}
+                                    className="w-full"
+                                >
+                                    <QuantumInput
+                                        value={name}
+                                        onChange={(e) => {
+                                            setName(e.target.value);
+                                            setIsError(false);
+                                        }}
+                                        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                                        placeholder="Nombre Completo / Alias"
+                                        isError={isError}
+                                        disabled={isLoading || isUnlocked}
+                                        type="text"
+                                        autoFocus
+                                    />
+                                </motion.div>
+                            )}
+
+                            {isRegister && registerStep === 2 && (
+                                <motion.div
+                                    key="revenue-input"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20, filter: "blur(10px)" }}
+                                    transition={{ duration: 0.4 }}
+                                    className="w-full"
+                                >
+                                    <QuantumInput
+                                        value={revenue}
+                                        onChange={(e) => {
+                                            setRevenue(e.target.value);
+                                            setIsError(false);
+                                        }}
+                                        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                                        placeholder="Ingreso Promedio USD (Ej: 2000-5000)"
+                                        isError={isError}
+                                        disabled={isLoading || isUnlocked}
+                                        type="text"
+                                        autoFocus
+                                    />
+                                    <p className="text-[10px] text-white/30 text-left mt-2 pl-2 tracking-wide uppercase">Cifra confidencial cifrada E2E.</p>
+                                </motion.div>
+                            )}
+
+                            {isRegister && registerStep === 3 && (
+                                <motion.div
+                                    key="reason-input"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20, filter: "blur(10px)" }}
+                                    transition={{ duration: 0.4 }}
+                                    className="w-full"
+                                >
+                                    <QuantumInput
+                                        value={reason}
+                                        onChange={(e) => {
+                                            setReason(e.target.value);
+                                            setIsError(false);
+                                        }}
+                                        onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                                        placeholder="¿Cuál es tu mayor fricción financiera hoy?"
+                                        isError={isError}
+                                        disabled={isLoading || isUnlocked}
+                                        type="text"
+                                        autoFocus
+                                    />
+                                </motion.div>
+                            )}
+
+                            {!isForgotPassword && !isRegister && (
+                                <motion.div
+                                    key="password-input"
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20, filter: "blur(10px)" }}
+                                    transition={{ duration: 0.4 }}
+                                    className="w-full relative"
+                                >
+                                    <motion.div animate={controls} className="w-full relative">
+                                        <QuantumInput
+                                            value={password}
+                                            onChange={(e) => {
+                                                if (isCoolingDown) return;
+                                                setPassword(e.target.value);
+                                                setIsError(false);
+                                            }}
+                                            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                                            placeholder="Contraseña"
+                                            isError={isError}
+                                            isCoolingDown={isCoolingDown}
+                                            disabled={isLoading || isUnlocked}
+                                            type={showPassword ? "text" : "password"}
+                                            autoComplete={isRegister ? "new-password" : "current-password"}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/60 transition-colors focus:outline-none focus:text-white z-30"
+                                            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                                        >
+                                            {showPassword ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
+                                        </button>
+                                    </motion.div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
 
                         {/* Links */}
                         <div className="w-full flex flex-col items-center gap-2 pt-2">
@@ -244,10 +400,13 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                             )}
                             <button
                                 type="button"
-                                onClick={() => router.push(isRegister ? "/login" : (isForgotPassword ? "/login" : "/register"))}
+                                onClick={() => {
+                                    setRegisterStep(0);
+                                    router.push(isRegister ? "/login" : (isForgotPassword ? "/login" : "/register"))
+                                }}
                                 className="text-[12px] text-white/50 hover:text-white/70 transition-colors font-medium outline-none tracking-wide"
                             >
-                                {isRegister ? "¿Ya tenés cuenta? Iniciá sesión" : (isForgotPassword ? "Volver a iniciar sesión" : "¿No tenés cuenta? Registrate")}
+                                {isRegister ? "¿Ya tenés cuenta? Iniciá sesión" : (isForgotPassword ? "Volver a iniciar sesión" : "¿No tenés cuenta? Evaluá acceso")}
                             </button>
                         </div>
                     </div>
@@ -258,9 +417,9 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                             isUnlocked={isUnlocked}
                             isLoading={isLoading}
                             onAuthenticate={handleSubmit}
-                            disabled={!email || (!isForgotPassword && !isRegister && !password) || isCoolingDown}
-                            customIdleText={isRegister ? "SOLICITAR ACCESO" : isForgotPassword ? "ENVIAR ENLACE" : "Continuar"}
-                            customSuccessText={isRegister ? "EN LISTA DE ESPERA" : isForgotPassword ? "ENVIADO" : "Verificado"}
+                            disabled={isButtonDisabled()}
+                            customIdleText={getButtonText()}
+                            customSuccessText={isRegister ? "ENVIANDO DATOS" : isForgotPassword ? "ENVIADO" : "Verificado"}
                         />
                     </div>
                 </div>
