@@ -9,11 +9,21 @@ import { MiaMicroWidget } from "@/components/chat/MiaMicroWidget";
 import { useDate } from "@/context/DateContext";
 import { CurrencySelector } from "@/components/layout/CurrencySelector";
 import { DateSelector } from "@/components/layout/DateSelector";
+import { useState, useEffect } from "react";
+import { fetchProfile, type ProfileData } from "@/lib/insforgeProfile";
 
 export function MobileTopHeader() {
     const { setOpen: setSearchOpen } = useSearch();
     const { toggleMia, isOpen: isMiaOpen } = useMia();
     const router = useRouter();
+    const [profile, setProfile] = useState<ProfileData | null>(null);
+
+    useEffect(() => {
+        fetchProfile().then((data) => {
+            if (data) setProfile(data);
+        });
+    }, []);
+
     return (
         <div
             className="w-full bg-black/90 backdrop-blur-md border-b border-white/[0.04] px-3 py-2 flex justify-between items-center gap-2"
@@ -51,9 +61,13 @@ export function MobileTopHeader() {
                     <button
                         onClick={() => router.push("/dashboard/settings")}
                         aria-label="Ajustes de perfil"
-                        className="w-[38px] h-[38px] flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-colors active:scale-95 shrink-0"
+                        className="w-[38px] h-[38px] flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-colors active:scale-95 shrink-0 overflow-hidden"
                     >
-                        <User className="h-[17px] w-[17px]" />
+                        {profile?.avatar_url ? (
+                            <img src={profile.avatar_url} alt="Perfil" className="w-[34px] h-[34px] rounded-full object-cover" />
+                        ) : (
+                            <User className="h-[17px] w-[17px]" />
+                        )}
                     </button>
                 </div>
             </div>
