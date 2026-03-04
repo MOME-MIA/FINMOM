@@ -176,8 +176,13 @@ export default function SettingsPage() {
                 </motion.div>
 
                 {/* Admin Panel — visible for admin emails */}
-                {profile?.email && ["agenciamom.contacto@gmail.com"].includes(profile.email.trim().toLowerCase()) && (
-                    <motion.div variants={itemVars} className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3">
+                {profile?.email && profile.email.toLowerCase().includes("agenciamom.contacto") && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ type: "spring", stiffness: 420, damping: 28 }}
+                        className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3"
+                    >
                         <MenuButton
                             icon={Shield}
                             label="Terminal M.O.M. (Admin)"
