@@ -176,7 +176,7 @@ export default function SettingsPage() {
                 </motion.div>
 
                 {/* Admin Panel — visible for admin emails */}
-                {profile?.email && ["agenciamom.contacto@gmail.com"].includes(profile.email.toLowerCase()) && (
+                {profile?.email && ["agenciamom.contacto@gmail.com"].includes(profile.email.trim().toLowerCase()) && (
                     <motion.div variants={itemVars} className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3">
                         <MenuButton
                             icon={Shield}
