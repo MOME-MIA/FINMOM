@@ -4,6 +4,7 @@ import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Toaster } from "sonner";
+import { MiaNotificationOverlay } from "@/components/ui/MiaNotificationOverlay";
 
 const goia = localFont({
   src: [
@@ -98,8 +99,21 @@ export default async function RootLayout({
               <ThemeProvider>
                 <CurrencyProvider>
                   {children}
+                  <Toaster
+                    theme="dark"
+                    position="bottom-center"
+                    toastOptions={{
+                      style: {
+                        background: '#0a0a0a',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'rgba(255,255,255,0.9)',
+                        borderRadius: '16px',
+                        backdropFilter: 'blur(16px)',
+                      }
+                    }}
+                  />
+                  <MiaNotificationOverlay />
                 </CurrencyProvider>
-                <Toaster position="bottom-right" theme="dark" />
               </ThemeProvider>
             </NativeSystemProvider>
           </QueryProvider>

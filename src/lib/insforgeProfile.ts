@@ -85,6 +85,7 @@ export const updateDisplayName = async (
             .from('profiles')
             .upsert({
                 id: user.id,
+                email: user.email,
                 display_name: newName,
                 updated_at: new Date().toISOString(),
             });
@@ -109,6 +110,7 @@ export const updateProfile = async (updates: Partial<ProfileData>): Promise<void
         .from('profiles')
         .upsert({
             id: user.id,
+            email: user.email,
             ...updates,
             updated_at: new Date().toISOString(),
         });
@@ -176,6 +178,7 @@ export const uploadAvatar = async (
             .from('profiles')
             .upsert({
                 id: user.id,
+                email: user.email,
                 avatar_url: publicUrl,
                 updated_at: new Date().toISOString(),
             });

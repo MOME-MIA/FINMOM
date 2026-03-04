@@ -9,27 +9,37 @@ import { MiaMicroWidget } from "@/components/chat/MiaMicroWidget";
 import { useDate } from "@/context/DateContext";
 import { CurrencySelector } from "@/components/layout/CurrencySelector";
 import { DateSelector } from "@/components/layout/DateSelector";
+import { useState, useEffect } from "react";
+import { fetchProfile, type ProfileData } from "@/lib/insforgeProfile";
 
 export function MobileTopHeader() {
     const { setOpen: setSearchOpen } = useSearch();
     const { toggleMia, isOpen: isMiaOpen } = useMia();
     const router = useRouter();
+    const [profile, setProfile] = useState<ProfileData | null>(null);
+
+    useEffect(() => {
+        fetchProfile().then((data) => {
+            if (data) setProfile(data);
+        });
+    }, []);
+
     return (
         <div
-            className="md:hidden fixed top-[40px] left-0 right-0 z-40 bg-gradient-to-b from-black via-black/80 to-transparent pb-6 px-3 flex justify-between items-center pointer-events-none gap-2 h-[calc(var(--header-height)-40px)] pt-[calc(var(--safe-top)+8px)]"
+            className="w-full bg-black/90 backdrop-blur-md border-b border-white/[0.04] px-3 py-2 flex justify-between items-center gap-2"
         >
             {/* Left: Global Currency Selector */}
-            <div className="pointer-events-auto shrink-0 z-10">
+            <div className="shrink-0">
                 <CurrencySelector />
             </div>
 
             {/* Date Picker (Pill) */}
-            <div className="pointer-events-auto flex justify-center shrink z-10 overflow-hidden scale-90 sm:scale-100 origin-center">
+            <div className="flex justify-center shrink overflow-hidden scale-90 sm:scale-100 origin-center">
                 <DateSelector />
             </div>
 
             {/* Actions: M.I.A. Hero + Utilities */}
-            <div className="flex items-center gap-1.5 pointer-events-auto z-10 shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
                 {/* M.I.A. — Hero Element */}
                 <div
                     className={cn(
@@ -51,9 +61,13 @@ export function MobileTopHeader() {
                     <button
                         onClick={() => router.push("/dashboard/settings")}
                         aria-label="Ajustes de perfil"
-                        className="w-[38px] h-[38px] flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-colors active:scale-95 shrink-0"
+                        className="w-[38px] h-[38px] flex items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-colors active:scale-95 shrink-0 overflow-hidden"
                     >
-                        <User className="h-[17px] w-[17px]" />
+                        {profile?.avatar_url ? (
+                            <img src={profile.avatar_url} alt="Perfil" className="w-[34px] h-[34px] rounded-full object-cover" />
+                        ) : (
+                            <User className="h-[17px] w-[17px]" />
+                        )}
                     </button>
                 </div>
             </div>

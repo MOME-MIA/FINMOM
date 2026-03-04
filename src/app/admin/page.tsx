@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@insforge/nextjs";
 import { insforge } from "@/lib/insforge";
 import { motion } from "framer-motion";
-import { Shield, Mail, Clock, CheckCircle, XCircle, LogOut } from "lucide-react";
-import { toast } from "sonner";
+import { Shield, Clock, CheckCircle, XCircle, ArrowLeft } from "lucide-react";
+import { useMiaStore } from "@/store/miaStore";
 import { logoutAction } from "@/app/actions";
 
 interface WaitlistEntry {
     email: string;
+    full_name: string | null;
+    revenue_bracket: string | null;
+    application_reason: string | null;
     status: 'pending' | 'approved' | 'rejected';
     created_at: string;
 }
@@ -46,7 +49,7 @@ export default function AdminPage() {
             setEntries(data as WaitlistEntry[]);
         } catch (error: any) {
             console.error("Error fetching waitlist:", error);
-            toast.error("Error al obtener la lista de espera.");
+            useMiaStore.getState().notify({ status: 'error', message: "Error al obtener la lista de espera." });
         } finally {
             setIsLoading(false);
         }
@@ -61,17 +64,16 @@ export default function AdminPage() {
 
             if (error) throw error;
 
-            toast.success(`Usuario marcado como ${newStatus}`);
+            useMiaStore.getState().notify({ status: 'success', message: `Usuario marcado como ${newStatus}` });
             fetchWaitlist(); // refresh
         } catch (error: any) {
             console.error("Error updating status:", error);
-            toast.error("Error al actualizar estado");
+            useMiaStore.getState().notify({ status: 'error', message: "Error al actualizar estado" });
         }
     };
 
-    const handleLogout = async () => {
-        await logoutAction();
-        router.push("/login");
+    const handleExit = () => {
+        router.push("/dashboard");
     };
 
     if (!isLoaded || isLoading) {
@@ -124,10 +126,11 @@ export default function AdminPage() {
                         </div>
 
                         <button
-                            onClick={handleLogout}
-                            className="bg-white/5 hover:bg-white/10 text-white/70 p-4 rounded-xl transition-colors border border-white/10"
+                            onClick={handleExit}
+                            title="Volver al Dashboard"
+                            className="bg-white/5 hover:bg-white/10 text-white/70 p-4 rounded-xl transition-colors border border-white/10 active:scale-95"
                         >
-                            <LogOut className="w-5 h-5" />
+                            <ArrowLeft className="w-5 h-5" />
                         </button>
                     </div>
                 </header>
@@ -137,10 +140,13 @@ export default function AdminPage() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-white/10 text-xs uppercase tracking-widest text-white/40 bg-white/5">
-                                    <th className="p-6 font-medium">Email</th>
-                                    <th className="p-6 font-medium">Fecha de Solicitud</th>
-                                    <th className="p-6 font-medium">Estado</th>
-                                    <th className="p-6 font-medium text-right">Acciones</th>
+                                    <th className="p-4 font-medium whitespace-nowrap">Identidad</th>
+                                    <th className="p-4 font-medium">Email</th>
+                                    <th className="p-4 font-medium whitespace-nowrap">Ingresos USD</th>
+                                    <th className="p-4 font-medium max-w-[250px]">Fricción (Razón)</th>
+                                    <th className="p-4 font-medium whitespace-nowrap">Solicitud</th>
+                                    <th className="p-4 font-medium">Estado</th>
+                                    <th className="p-4 font-medium text-right">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -159,21 +165,24 @@ export default function AdminPage() {
                                             transition={{ delay: index * 0.05 }}
                                             className="border-b border-white/5 hover:bg-white/[0.02] transition-colors"
                                         >
-                                            <td className="p-6">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/70">
-                                                        <Mail className="w-4 h-4" />
-                                                    </div>
-                                                    <span className="font-medium">{entry.email}</span>
-                                                </div>
+                                            <td className="p-4 font-medium text-white/90 whitespace-nowrap">
+                                                {entry.full_name || 'Desconocido'}
                                             </td>
-                                            <td className="p-6 text-white/50 text-sm">
-                                                {new Date(entry.created_at).toLocaleString('es-AR', {
-                                                    dateStyle: 'medium',
-                                                    timeStyle: 'short',
+                                            <td className="p-4 text-white/70">
+                                                {entry.email}
+                                            </td>
+                                            <td className="p-4 text-white/50 text-sm whitespace-nowrap">
+                                                {entry.revenue_bracket || '-'}
+                                            </td>
+                                            <td className="p-4 text-white/50 text-xs max-w-[250px] truncate" title={entry.application_reason || ''}>
+                                                {entry.application_reason || '-'}
+                                            </td>
+                                            <td className="p-4 text-white/30 text-xs whitespace-nowrap">
+                                                {new Date(entry.created_at).toLocaleDateString('es-AR', {
+                                                    day: '2-digit', month: 'short'
                                                 })}
                                             </td>
-                                            <td className="p-6">
+                                            <td className="p-4">
                                                 <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium tracking-wide ${entry.status === 'approved'
                                                     ? 'bg-[#30D158]/10 text-[#30D158] border border-[#30D158]/20'
                                                     : entry.status === 'rejected'

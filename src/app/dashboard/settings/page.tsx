@@ -78,11 +78,12 @@ export default function SettingsPage() {
         setIsLoggingOut(true);
         try {
             await performLogout();
-            await logoutAction();
-        } catch {
-            toast.error("Error al cerrar sesión");
-            setIsLoggingOut(false);
+        } catch (error) {
+            console.error("Error al cerrar sesión (Supabase):", error);
+            // Ignoramos el error para forzar la limpieza de cookies local de todos modos
         }
+        // logoutAction arroja un NEXT_REDIRECT internally, por lo que DEBE ir fuera de nuestro try-catch
+        await logoutAction();
     };
 
     return (
@@ -175,16 +176,16 @@ export default function SettingsPage() {
                     />
                 </motion.div>
 
-                {/* Secret Admin Panel */}
-                {profile?.email === "agenciamom.contacto@gmail.com" && (
-                    <motion.div variants={itemVars} className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3">
+                {/* Admin Panel — visible for admin emails */}
+                {profile?.email && profile.email.toLowerCase().includes("agenciamom.contacto") && (
+                    <div className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3 animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both">
                         <MenuButton
                             icon={Shield}
                             label="Terminal M.O.M. (Admin)"
                             color="purple"
                             onClick={() => router.push("/admin")}
                         />
-                    </motion.div>
+                    </div>
                 )}
 
                 {/* Logout */}

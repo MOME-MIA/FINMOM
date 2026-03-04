@@ -21,14 +21,16 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             {/* 1. Base Layer: Pure Black */}
             <div className="fixed inset-0 z-[-10] bg-black" />
 
-            {/* Top Market Ticker */}
-            <MarketTicker className="fixed top-0 left-0 right-0 z-50" />
+            {/* Unified Fixed Top: Ticker + Mobile Header */}
+            <div className="fixed top-0 left-0 right-0 z-50 flex flex-col md:contents">
+                <MarketTicker />
+                <div className="md:hidden">
+                    <MobileTopHeader />
+                </div>
+            </div>
 
             {/* Desktop Navigation */}
             <Sidebar />
-
-            {/* Mobile Navigation / Headers */}
-            <MobileTopHeader />
             <Navbar />
 
             {/* Main Content */}
