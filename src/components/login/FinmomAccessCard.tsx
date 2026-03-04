@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
 import { ArrowRight, Eye, EyeOff, CheckCircle2, ChevronRight, CornerDownLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/Input";
 import { useMiaStore } from "@/store/miaStore";
 import { cn } from "@/lib/utils";
 import { QuantumInput } from "./QuantumInput";
