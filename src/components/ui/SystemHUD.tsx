@@ -48,7 +48,7 @@ export function SystemHUD() {
                     transition={{ delay: 2, duration: 1 }}
                     className="flex flex-col gap-1"
                 >
-                    <span className="text-white/60">MOMENTUM OS v2.1</span>
+                    <span className="text-white/60">FINMOM OS v2.1</span>
                     <span>KERNEL: OBSIDIAN.45 [LIVE]</span>
                 </motion.div>
 

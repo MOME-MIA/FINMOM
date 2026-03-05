@@ -2,8 +2,8 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Momentum OS',
-        short_name: 'Finmom',
+        name: 'FINMOM',
+        short_name: 'FINMOM',
         description: 'Sistema Operativo Financiero Autónomo',
         start_url: '/',
         display: 'standalone',
