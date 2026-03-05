@@ -351,7 +351,7 @@ export function AuditClient() {
             {/* Footer */}
             <div className="text-center py-4">
                 <p className="text-[10px] text-white/15 font-mono">
-                    Finmom · Star Schema v2.0 · InsForge Edge Database · Audited at {new Date(health.databaseTimestamp).toLocaleString('es-AR')}
+                    FINMOM · Star Schema v2.0 · InsForge Edge Database · Audited at {new Date(health.databaseTimestamp).toLocaleString('es-AR')}
                 </p>
             </div>
         </div>

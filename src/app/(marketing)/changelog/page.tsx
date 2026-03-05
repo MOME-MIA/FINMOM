@@ -75,7 +75,7 @@ export default function ChangelogPage() {
     return (
         <SubPageLayout
             title="Changelog"
-            subtitle="Cada línea de código tiene un propósito. Seguí la evolución de Finmom en tiempo real."
+            subtitle="Cada línea de código tiene un propósito. Seguí la evolución de FINMOM en tiempo real."
             badge="Producto"
         >
             <div className="max-w-3xl mx-auto space-y-8">

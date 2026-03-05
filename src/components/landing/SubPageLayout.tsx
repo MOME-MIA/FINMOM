@@ -21,9 +21,9 @@ export default function SubPageLayout({ children, title, subtitle, badge }: SubP
                 <div className="flex items-center gap-2.5">
                     <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
                         <div className="w-8 h-8 flex items-center justify-center">
-                            <img src="/logos/logo-white.webp" alt="Finmom Logo" className="w-full h-full object-contain pointer-events-none select-none" />
+                            <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
                         </div>
-                        <span className="font-bold text-[18px] tracking-tight">Finmom</span>
+                        <span className="font-bold text-[18px] tracking-tight">FINMOM</span>
                     </Link>
                 </div>
                 <div className="flex items-center gap-4">

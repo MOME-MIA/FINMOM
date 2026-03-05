@@ -61,7 +61,7 @@ export default function CareersPage() {
                     <div className="relative z-10 max-w-3xl">
                         <h2 className="text-2xl font-bold mb-4 text-white/90">Nuestra Cultura</h2>
                         <p className="text-[16px] text-white/50 leading-[1.8] font-medium mb-4">
-                            En Finmom no buscamos gente que cumpla tareas — buscamos constructores obsesivos que quieran redefinir cómo funciona el dinero. Trabajamos remoto, en ciclos de impacto, con autonomía total y responsabilidad real.
+                            En FINMOM no buscamos gente que cumpla tareas — buscamos constructores obsesivos que quieran redefinir cómo funciona el dinero. Trabajamos remoto, en ciclos de impacto, con autonomía total y responsabilidad real.
                         </p>
                         <div className="flex flex-wrap gap-3">
                             {["100% Remoto", "Ciclos de 6 semanas", "Sin reuniones innecesarias", "Equity desde día 1"].map((tag, i) => (

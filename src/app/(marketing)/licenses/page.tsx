@@ -65,7 +65,7 @@ export default function LicensesPage() {
     return (
         <SubPageLayout
             title="Licencias"
-            subtitle="Finmom se construye sobre los hombros de gigantes. Estas son las tecnologías open-source que hacen posible nuestra plataforma."
+            subtitle="FINMOM se construye sobre los hombros de gigantes. Estas son las tecnologías open-source que hacen posible nuestra plataforma."
             badge="Legal"
         >
             <div className="max-w-3xl mx-auto">
@@ -90,7 +90,7 @@ export default function LicensesPage() {
 
                 <div className="mt-12 p-6 rounded-[20px] bg-white/[0.015] border border-white/[0.04] text-center">
                     <p className="text-[14px] text-white/50 font-medium leading-relaxed">
-                        Finmom respeta y agradece profundamente a la comunidad open-source.
+                        FINMOM respeta y agradece profundamente a la comunidad open-source.
                         Si encontrás algún problema de licenciamiento, contactanos en <strong className="text-white/50">legal@momentum.finance</strong>.
                     </p>
                 </div>

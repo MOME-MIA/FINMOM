@@ -70,7 +70,7 @@ export default function SecuritySettingsPage() {
                         </div>
                         <div>
                             <h3 className="text-white font-semibold text-[16px]">Cambiar Contraseña</h3>
-                            <p className="text-white/50 text-[13px]">Asegurá tu cuenta Finmom</p>
+                            <p className="text-white/50 text-[13px]">Asegurá tu cuenta FINMOM</p>
                         </div>
                     </div>
                     <button
