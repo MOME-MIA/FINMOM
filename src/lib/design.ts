@@ -1,5 +1,5 @@
 /**
- * Finmom Design System — Apple Dark Mode Tokens
+ * FINMOM Design System — Apple Dark Mode Tokens
  * Import this file instead of hardcoding colors/radii/sizes.
  */
 
