@@ -88,7 +88,7 @@ export default function SecurityPage() {
                     <Network className="w-10 h-10 text-[#30D158] mx-auto mb-4" />
                     <h3 className="text-2xl font-bold mb-3 text-white/90">Cumplimiento Regulatorio</h3>
                     <p className="text-[15px] text-white/50 leading-relaxed font-medium max-w-2xl mx-auto">
-                        Finmom cumple con las regulaciones de protección de datos personales (Ley 25.326 Argentina, GDPR) y estándares de seguridad de la industria financiera. Protocolos de auditoría interna y reportes de seguridad disponibles bajo solicitud.
+                        FINMOM cumple con las regulaciones de protección de datos personales (Ley 25.326 Argentina, GDPR) y estándares de seguridad de la industria financiera. Protocolos de auditoría interna y reportes de seguridad disponibles bajo solicitud.
                     </p>
                 </div>
             </FadeIn>

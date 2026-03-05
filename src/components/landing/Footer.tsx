@@ -12,9 +12,9 @@ export function Footer() {
                     <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
                         <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
                             <div className="w-8 h-8 flex items-center justify-center">
-                                <img src="/logos/logo-white.webp" alt="Finmom Logo" className="w-full h-full object-contain pointer-events-none select-none" />
+                                <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
                             </div>
-                            <span className="font-bold text-[18px] tracking-tight text-[#E0E0E0]">Finmom</span>
+                            <span className="font-bold text-[18px] tracking-tight text-[#E0E0E0]">FINMOM</span>
                         </Link>
                         <p className="text-[14px] text-white/50 leading-relaxed font-medium tracking-wide">
                             Sistema operativo financiero de nivel institucional con inteligencia artificial autónoma. Asimetría a tu favor.
@@ -96,7 +96,7 @@ export function Footer() {
                 {/* Bottom Section: Copyright */}
                 <div className="flex justify-center items-center">
                     <p className="text-[13px] text-white/40 font-medium tracking-wide text-center">
-                        © {new Date().getFullYear()} Finmom. Todos los derechos reservados.
+                        © {new Date().getFullYear()} FINMOM. Todos los derechos reservados.
                     </p>
                 </div>
 

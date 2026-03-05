@@ -238,7 +238,7 @@ function LoginContent() {
                     className="text-center mt-10"
                 >
                     <p className="text-white/50 text-[10px] uppercase font-sans tracking-[0.4em]">
-                        Finmom Platform • 2026
+                        FINMOM Platform • 2026
                     </p>
                 </motion.div>
             </motion.div>

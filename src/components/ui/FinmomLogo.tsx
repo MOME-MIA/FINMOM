@@ -39,8 +39,8 @@ export function FinmomLogo({ className = "w-12 h-12", showText = false, animate 
                 {/* Spiral Logo - Requiere public/logo.png */}
                 <div className="relative w-full h-full z-10 flex items-center justify-center">
                     <img
-                        src="/logos/logo-white.webp"
-                        alt="Finmom Oficial Logo"
+                        src="/logos/logo-blanco.svg"
+                        alt="FINMOM Oficial Logo"
                         className="w-full h-full object-contain pointer-events-none select-none"
                     />
                 </div>
@@ -54,7 +54,7 @@ export function FinmomLogo({ className = "w-12 h-12", showText = false, animate 
                     className="text-center"
                 >
                     <h1 className="text-white text-xl font-sans tracking-[0.2em] font-medium uppercase">
-                        Finmom
+                        FINMOM
                     </h1>
                 </motion.div>
             )}

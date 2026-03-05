@@ -35,9 +35,9 @@ export default function RegisterPage() {
             >
                 <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                     <div className="w-7 h-7 flex items-center justify-center">
-                        <img src="/logos/logo-white.webp" alt="Finmom Logo" className="w-full h-full object-contain pointer-events-none select-none" />
+                        <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
                     </div>
-                    <span className="font-bold text-[15px] text-white/60">Finmom</span>
+                    <span className="font-bold text-[15px] text-white/60">FINMOM</span>
                 </Link>
                 <Link href="/login" className="text-[12px] text-white/50 hover:text-white/60 transition-colors font-medium tracking-wide">
                     Ya tengo cuenta →
@@ -59,7 +59,7 @@ export default function RegisterPage() {
                         Solicitá tu lugar.
                     </h1>
                     <p className="text-[15px] text-white/35 leading-relaxed font-medium mb-10 max-w-md">
-                        Finmom actualmente opera bajo estricta invitación. Ingresá tu email para unirte a la lista de espera fundacional y desbloquear a M.I.A.
+                        FINMOM actualmente opera bajo estricta invitación. Ingresá tu email para unirte a la lista de espera fundacional y desbloquear a M.I.A.
                     </p>
 
                     {/* Steps */}
@@ -122,7 +122,7 @@ export default function RegisterPage() {
                 className="absolute bottom-6 left-0 right-0 text-center z-20 pointer-events-none"
             >
                 <p className="text-white/15 text-[10px] uppercase font-sans tracking-[0.4em]">
-                    Finmom Platform • 2026
+                    FINMOM Platform • 2026
                 </p>
             </motion.div>
         </main>

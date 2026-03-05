@@ -61,55 +61,55 @@ export function LiquidVoidBackground({ variant = "login" }: LiquidVoidBackground
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [transform:rotateX(60deg)_scale(2)] origin-bottom" />
             </div>
 
-            {/* 3. Parallax Orbs (The Energy) */}
-            {/* Orb 1: Electric Sabbath (Violet) */}
+            {/* 3. Parallax Orbs (The Energy) - Refined Premium Apple Aesthetic */}
+            {/* Orb 1: Deep Indigo (Professional & Trust) */}
             <motion.div
                 animate={{
-                    scale: [1, 1.2, 1],
+                    scale: [1, 1.1, 1],
+                    opacity: isDashboard ? [0.03, 0.05, 0.03] : [0.15, 0.25, 0.15],
                 }}
                 transition={{
-                    duration: 20 * durationMultiplier,
+                    duration: 40 * durationMultiplier,
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
                 style={{
                     x: x1,
                     y: y1,
-                    opacity: isDashboard ? 0.03 : 0.3
                 }}
-                className="absolute top-[-10%] left-[-10%] w-[70vw] h-[70vw] rounded-full bg-violet-600 blur-[120px] mix-blend-screen"
+                className="absolute top-[-15%] left-[-10%] w-[80vw] h-[80vw] rounded-full bg-indigo-900/40 blur-[180px] mix-blend-screen"
             />
 
-            {/* Orb 2: Toxic Lime (Green) */}
+            {/* Orb 2: Subtle Cyan/Teal (Wealth & Growth) */}
             <motion.div
                 animate={{
-                    scale: [1.2, 1, 1.2],
+                    scale: [1.1, 1, 1.1],
+                    opacity: isDashboard ? [0.02, 0.04, 0.02] : [0.1, 0.2, 0.1],
                 }}
                 transition={{
-                    duration: 25 * durationMultiplier,
+                    duration: 50 * durationMultiplier,
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
                 style={{
                     x: x2,
                     y: y2,
-                    opacity: isDashboard ? 0.02 : 0.25
                 }}
-                className="absolute bottom-[-10%] right-[-10%] w-[60vw] h-[60vw] rounded-full bg-lime-500 blur-[120px] mix-blend-screen"
+                className="absolute bottom-[-15%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-cyan-900/30 blur-[160px] mix-blend-screen"
             />
 
-            {/* Orb 3: Amber Ventures (Orange/Amber) */}
+            {/* Orb 3: Dark Slate/Violet (Depth & Sophistication) */}
             <motion.div
                 animate={{
-                    scale: [1, 1.1, 1],
-                    opacity: isDashboard ? [0.02, 0.03, 0.02] : [0.2, 0.3, 0.2],
+                    scale: [1, 1.15, 1],
+                    opacity: isDashboard ? [0.01, 0.03, 0.01] : [0.08, 0.15, 0.08],
                 }}
                 transition={{
-                    duration: 15 * durationMultiplier,
+                    duration: 45 * durationMultiplier,
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
-                className="absolute top-[20%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-amber-500 blur-[120px] mix-blend-screen"
+                className="absolute top-[20%] left-[30%] w-[60vw] h-[60vw] rounded-full bg-slate-800/50 blur-[200px] mix-blend-screen"
             />
         </div>
     );

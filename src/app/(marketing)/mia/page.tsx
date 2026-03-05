@@ -44,7 +44,7 @@ export default function MiaPage() {
     return (
         <SubPageLayout
             title="Conoce a M.I.A."
-            subtitle="Finmom Intelligence Agent — tu consciencia financiera autónoma. No es un chatbot. Es una mente que aprende de vos."
+            subtitle="FINMOM Intelligence Agent — tu consciencia financiera autónoma. No es un chatbot. Es una mente que aprende de vos."
             badge="M.I.A."
         >
             {/* Hero Orb */}

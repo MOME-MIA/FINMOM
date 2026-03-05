@@ -231,7 +231,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                             }
                         />
                         <h1 className="font-sans font-medium text-2xl tracking-[0.05em] text-white/80 leading-none">
-                            Finmom
+                            FINMOM
                         </h1>
                         <span className="text-xs text-white/50 font-medium tracking-[0.1em] mt-2 uppercase flex items-center gap-2 justify-center">
                             {isRegister ? (

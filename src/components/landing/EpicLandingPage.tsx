@@ -462,7 +462,7 @@ export default function EpicLandingPage() {
                     <FadeInSection delay={0.15}>
                         <div className="p-8 rounded-[28px] bg-gradient-to-br from-[#0A84FF]/[0.04] to-transparent border border-[#0A84FF]/10 relative overflow-hidden">
                             <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-[#0A84FF]/10 border border-[#0A84FF]/20">
-                                <span className="text-[10px] font-bold text-[#0A84FF] uppercase tracking-widest">Finmom</span>
+                                <span className="text-[10px] font-bold text-[#0A84FF] uppercase tracking-widest">FINMOM</span>
                             </div>
                             <Brain className="w-8 h-8 text-[#0A84FF] mb-5" />
                             <h3 className="text-xl font-bold mb-3 text-white/90">ADN Financiero Activo</h3>

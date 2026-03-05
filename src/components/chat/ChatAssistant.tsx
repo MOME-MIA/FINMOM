@@ -42,7 +42,7 @@ export const ChatAssistant: React.FC = () => {
         if (saved) {
             setMessages(JSON.parse(saved));
         } else {
-            setMessages([{ role: 'model', content: 'Soy M.I.A. (Finmom Intelligence Assistant). Mis sistemas están en línea y monitoreando tu base de datos.\n\n¿En qué te asisto hoy?' }]);
+            setMessages([{ role: 'model', content: 'Soy M.I.A. (FINMOM Intelligence Assistant). Mis sistemas están en línea y monitoreando tu base de datos.\n\n¿En qué te asisto hoy?' }]);
         }
         setIsHydrated(true);
     }, []);
