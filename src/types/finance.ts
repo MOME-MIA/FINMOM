@@ -1,5 +1,5 @@
 // ============================================================
-// Finmom — Star Schema TypeScript Types
+// FINMOM — Star Schema TypeScript Types
 // Maps 1:1 to InsForge dimensional model
 // ============================================================
 
