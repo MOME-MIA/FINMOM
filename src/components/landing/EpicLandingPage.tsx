@@ -5,9 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from "framer-motion";
 import {
     ArrowRight,
-    Wallet,
     Activity,
-    Target,
     Shield,
     Zap,
     Brain,
@@ -15,12 +13,14 @@ import {
     Lock,
     Check,
     Sparkles,
-    MessageCircle,
     Eye,
     BarChart3,
     Globe,
     Fingerprint,
     ShieldCheck,
+    Target,
+    Users,
+    Clock,
     ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -33,7 +33,6 @@ const MiaOrb = dynamic(
     () => import("@/components/login/MiaOrb").then((m) => ({ default: m.MiaOrb })),
     { ssr: false, loading: () => <div className="w-full h-full rounded-full bg-white/5 animate-pulse" /> }
 );
-
 
 // ─── Animated Section Wrapper ────────────────────────
 function FadeInSection({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -61,16 +60,19 @@ function StickyLandingMia() {
 
     useEffect(() => {
         return scrollYProgress.onChange((v) => {
-            if (v > 0.15 && v < 0.25) {
+            if (v > 0.12 && v < 0.22) {
                 setBubble("Mis algoritmos procesan datos bancarios al instante.");
                 setActive(true);
-            } else if (v > 0.40 && v < 0.50) {
+            } else if (v > 0.35 && v < 0.45) {
                 setBubble("Seguridad de grado financiero. Tus bóvedas están encriptadas.");
                 setActive(true);
-            } else if (v > 0.65 && v < 0.75) {
+            } else if (v > 0.55 && v < 0.65) {
                 setBubble("No soy un chatbot. Soy tu consciencia financiera.");
                 setActive(true);
-            } else if (v > 0.88) {
+            } else if (v > 0.80 && v < 0.90) {
+                setBubble("Cada decisión de M.I.A. es explicable y transparente.");
+                setActive(true);
+            } else if (v > 0.92) {
                 setBubble("Comienza tu viaje. Yo te guiaré desde adentro.");
                 setActive(true);
             } else {
@@ -118,173 +120,164 @@ function SectionLabel({ text }: { text: string }) {
     );
 }
 
-// ─── How it Works Step ───────────────────────────────
-function StepCard({ number, title, desc, icon, accentColor }: {
-    number: string; title: string; desc: string; icon: React.ReactNode; accentColor: string;
-}) {
+// ─── Animated Counter ────────────────────────────────
+function AnimatedCounter({ end, suffix = "", prefix = "" }: { end: number; suffix?: string; prefix?: string }) {
+    const [count, setCount] = useState(0);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
+
+    useEffect(() => {
+        if (!isInView) return;
+        let start = 0;
+        const duration = 2000;
+        const increment = end / (duration / 16);
+        const timer = setInterval(() => {
+            start += increment;
+            if (start >= end) {
+                setCount(end);
+                clearInterval(timer);
+            } else {
+                setCount(Math.floor(start));
+            }
+        }, 16);
+        return () => clearInterval(timer);
+    }, [isInView, end]);
+
     return (
-        <FadeInSection delay={Number(number) * 0.15}>
-            <div className="flex gap-6 items-start group">
-                <div className="flex flex-col items-center shrink-0">
-                    <div
-                        className="w-12 h-12 rounded-2xl border border-white/[0.08] flex items-center justify-center mb-2 transition-colors group-hover:border-white/[0.15]"
-                        style={{ backgroundColor: `${accentColor}10` }}
-                    >
-                        {icon}
-                    </div>
-                    <div className="w-px h-16 bg-gradient-to-b from-white/[0.08] to-transparent hidden md:block" />
-                </div>
-                <div className="flex-1 pb-8">
-                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] mb-2 block" style={{ color: accentColor }}>
-                        Paso {number}
-                    </span>
-                    <h3 className="text-xl font-bold mb-2 text-white/90">{title}</h3>
-                    <p className="text-[15px] text-white/50 leading-relaxed font-medium">{desc}</p>
-                </div>
-            </div>
-        </FadeInSection>
+        <span ref={ref} className="tabular-nums">
+            {prefix}{count.toLocaleString()}{suffix}
+        </span>
     );
 }
 
-
 // ═══════════════════════════════════════════════════════
-// ═══ MAIN LANDING PAGE ════════════════════════════════
+// ═══ MAIN LANDING PAGE — "THE AUTONOMOUS CONSCIOUSNESS"
 // ═══════════════════════════════════════════════════════
 export default function EpicLandingPage() {
     const { scrollY } = useScroll();
 
-    // Parallax Transforms for Hero
-    const orbY = useTransform(scrollY, [0, 600], [0, 150]);
-    const orbScale = useTransform(scrollY, [0, 600], [1, 0.85]);
-    const orbOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+    const orbY = useTransform(scrollY, [0, 800], [0, 200]);
+    const orbScale = useTransform(scrollY, [0, 800], [1, 0.7]);
+    const orbOpacity = useTransform(scrollY, [0, 600], [1, 0]);
     const bgY = useTransform(scrollY, [0, 1000], [0, 300]);
 
     return (
         <div className="relative min-h-screen bg-black text-white selection:bg-white/20 overflow-x-hidden">
             <InteractiveBackground />
-
             <StickyLandingMia />
-
-            {/* ─── Navbar ─────────────────────────────── */}
             <Navbar />
 
-            {/* ═══ HERO: M.I.A. SECTION ═══════════════ */}
-            <section className="relative pt-32 pb-20 px-6 max-w-7xl mx-auto z-10">
+            {/* ═══ HERO: THE CONSCIOUSNESS ═══════════════ */}
+            <section className="relative min-h-screen flex flex-col items-center justify-center px-6 z-10 pt-20">
                 <motion.div
                     style={{ y: bgY }}
-                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-violet-900/[0.04] sm:bg-violet-900/10 rounded-full blur-[100px] sm:blur-[150px] pointer-events-none"
+                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#0A84FF]/[0.03] rounded-full blur-[150px] pointer-events-none"
                 />
 
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-                    {/* Text Side */}
+                {/* M.I.A. Orb — Giant, Centered, Breathing */}
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ y: orbY, scale: orbScale, opacity: orbOpacity }}
+                    className="relative mb-10 md:mb-14"
+                >
+                    <div className="absolute inset-0 scale-[2] bg-[#0A84FF]/[0.04] rounded-full blur-[100px] pointer-events-none" />
+                    <div className="relative z-10 hidden md:flex">
+                        <MiaOrb size={280} />
+                    </div>
+                    <div className="relative z-10 flex md:hidden">
+                        <MiaOrb size={180} />
+                    </div>
+                </motion.div>
+
+                {/* Badge */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center"
+                >
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.04] border border-white/[0.08] mb-8">
+                        <Brain className="w-3.5 h-3.5 text-[#0A84FF]" />
+                        <span className="text-[12px] font-bold text-white/60 tracking-wider uppercase">
+                            Sistema Operativo Financiero Autónomo
+                        </span>
+                    </div>
+                </motion.div>
+
+                {/* Headline */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="text-center max-w-4xl"
+                >
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white via-white/90 to-white/40 bg-clip-text text-transparent leading-[1.05]">
+                        Tu conciencia
+                        <br />
+                        financiera autónoma.
+                    </h1>
+                    <p className="text-[16px] md:text-[19px] text-white/50 max-w-2xl mx-auto mb-10 font-medium leading-relaxed">
+                        M.I.A. no es un chatbot. Es una inteligencia que aprende cómo pensás,
+                        anticipa tus movimientos y protege tu patrimonio con criptografía de grado militar.
+                    </p>
+                </motion.div>
+
+                {/* CTA */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.9, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col sm:flex-row items-center gap-4"
+                >
+                    <Link href="/register">
+                        <button className="h-14 px-8 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[16px] font-bold shadow-[0_0_60px_-15px_rgba(255,255,255,0.3)] flex items-center gap-2">
+                            Únete al 1% <ArrowRight className="w-5 h-5" />
+                        </button>
+                    </Link>
+                    <Link href="/sandbox">
+                        <button className="h-14 px-8 bg-black text-white border border-white/10 hover:bg-white/[0.04] rounded-full text-[16px] font-semibold transition-all backdrop-blur-md flex items-center gap-2">
+                            Ver demo interactiva <ChevronRight className="w-4 h-4 text-white/50" />
+                        </button>
+                    </Link>
+                </motion.div>
+
+                {/* Scroll indicator */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.5, duration: 1 }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2"
+                >
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex-1 text-center lg:text-left"
+                        animate={{ y: [0, 8, 0] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        className="w-6 h-10 rounded-full border border-white/20 flex items-start justify-center p-2"
                     >
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] mb-6">
-                            <Brain className="w-3.5 h-3.5 text-[#0A84FF]" />
-                            <span className="text-[12px] font-bold text-white/60 tracking-wider uppercase">
-                                Tu Bóveda Privada. Inteligencia Autónoma.
-                            </span>
-                        </div>
-
-                        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter mb-6 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-[1.1] sm:leading-[1.05]">
-                            Domina tu Patrimonio.
-                            <br />
-                            <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white/90 font-extrabold tracking-tight">Sin Esfuerzo. Cero Fricción.</span>
-                        </h1>
-
-                        <p className="text-[16px] md:text-[19px] text-white/50 max-w-xl mb-10 font-medium leading-relaxed">
-                            Una inteligencia que entiende cómo piensas. M.I.A. anticipa tus movimientos y asegura tu capital con criptografía de grado militar. El ecosistema definitivo, diseñado exclusivamente para la élite.
-                        </p>
-
-                        <div className="flex flex-col sm:flex-row items-center gap-4 lg:justify-start justify-center">
-                            <Link href="/register">
-                                <button className="h-14 px-8 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[16px] font-bold shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] flex items-center gap-2">
-                                    Solicitar Acceso a Waitlist <ArrowRight className="w-5 h-5" />
-                                </button>
-                            </Link>
-                            <Link href="/login">
-                                <button className="h-14 px-8 bg-black text-white border border-white/10 hover:bg-white/[0.04] rounded-full text-[16px] font-semibold transition-all backdrop-blur-md">
-                                    Login (Miembros)
-                                </button>
-                            </Link>
-                        </div>
+                        <div className="w-1 h-2 rounded-full bg-white/50" />
                     </motion.div>
-
-                    {/* M.I.A. Orb Side */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        style={{ y: orbY, scale: orbScale, opacity: orbOpacity }}
-                        className="flex-1 flex flex-col items-center gap-8 w-full max-w-md"
-                    >
-                        <div className="relative">
-                            {/* Ambient glow behind orb */}
-                            <div className="absolute inset-0 scale-150 bg-[#0A84FF]/[0.01] sm:bg-[#0A84FF]/[0.04] rounded-full blur-[80px] pointer-events-none" />
-                            <div className="hidden md:flex relative z-10">
-                                <MiaOrb size={220} />
-                            </div>
-                            <div className="flex md:hidden relative z-10">
-                                <MiaOrb size={160} />
-                            </div>
-                        </div>
-
-                        {/* Floating Chat Previews */}
-                        <div className="flex flex-col gap-3 w-full px-2">
-                            {[
-                                { text: "Tu presupuesto de ocio llega al 90%. Sugiero moderar.", side: "left" as const, delay: 0 },
-                                { text: "Deduciendo $450 USD de tu base Stripe.", side: "right" as const, delay: 0.4 },
-                                { text: "Balance unificado. Tu Net Worth real hoy es $124k USD.", side: "left" as const, delay: 0.8 },
-                            ].map((msg, i) => (
-                                <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                                    transition={{ delay: msg.delay + 0.8, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                    className={cn(
-                                        "flex items-start gap-3 max-w-[320px]",
-                                        msg.side === "left" ? "self-start" : "self-end flex-row-reverse"
-                                    )}
-                                >
-                                    {msg.side === "left" && (
-                                        <div className="shrink-0 w-7 h-7 rounded-full bg-gradient-to-br from-[#0A84FF]/20 to-transparent border border-white/[0.08] flex items-center justify-center">
-                                            <Sparkles className="w-3 h-3 text-[#0A84FF]" />
-                                        </div>
-                                    )}
-                                    <div className={cn(
-                                        "px-4 py-2.5 rounded-2xl text-[13px] leading-relaxed font-medium",
-                                        msg.side === "left"
-                                            ? "bg-white/[0.04] border border-white/[0.06] text-white/70 rounded-tl-sm"
-                                            : "bg-[#0A84FF]/10 border border-[#0A84FF]/15 text-[#4DA6FF] rounded-tr-sm"
-                                    )}>
-                                        {msg.text}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </motion.div>
-                </div>
+                </motion.div>
             </section>
 
-            {/* ═══ SOCIAL PROOF / TRUST ═══════════════ */}
-            <section className="py-16 px-6 border-y border-white/[0.04]">
+            {/* ═══ SOCIAL PROOF — METRICS BAR ═══════════ */}
+            <section className="py-16 px-6 border-y border-white/[0.04] relative z-10">
                 <FadeInSection className="max-w-5xl mx-auto">
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                         {[
-                            { icon: <ShieldCheck className="w-5 h-5" />, label: "Encriptación AES-256" },
-                            { icon: <Lock className="w-5 h-5" />, label: "Auth Biométrica" },
-                            { icon: <Eye className="w-5 h-5" />, label: "Zero-Knowledge Privacy" },
-                            { icon: <Fingerprint className="w-5 h-5" />, label: "Verificación Continua" },
+                            { value: <AnimatedCounter end={256} />, label: "Encriptación AES-Bit", icon: <Lock className="w-4 h-4" /> },
+                            { value: <AnimatedCounter end={99} suffix="%" prefix="" />, label: "Uptime Garantizado", icon: <ShieldCheck className="w-4 h-4" /> },
+                            { value: <AnimatedCounter end={24} suffix="/7" />, label: "Monitoreo Autónomo", icon: <Eye className="w-4 h-4" /> },
+                            { value: <AnimatedCounter end={0} suffix=" datos vendidos" />, label: "Zero-Knowledge Privacy", icon: <Fingerprint className="w-4 h-4" /> },
                         ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-3 text-white/50 group">
-                                <div className="text-white/50 group-hover:text-[#30D158] transition-colors">
+                            <div key={i} className="flex flex-col items-center gap-2 group">
+                                <div className="text-white/40 group-hover:text-[#0A84FF] transition-colors">
                                     {item.icon}
                                 </div>
-                                <span className="text-[13px] font-semibold tracking-wide uppercase group-hover:text-white/50 transition-colors">
+                                <span className="text-2xl md:text-3xl font-bold text-white/90 tracking-tight">
+                                    {item.value}
+                                </span>
+                                <span className="text-[11px] font-bold text-white/40 uppercase tracking-[0.15em]">
                                     {item.label}
                                 </span>
                             </div>
@@ -293,13 +286,87 @@ export default function EpicLandingPage() {
                 </FadeInSection>
             </section>
 
-            {/* ═══ HOW IT WORKS ═══════════════════════ */}
-            <section className="py-16 md:py-28 px-6 max-w-4xl mx-auto">
+            {/* ═══ NARRATIVE — PAS FRAMEWORK ═══════════ */}
+            <section className="py-20 md:py-32 px-6 max-w-5xl mx-auto relative z-10">
                 <FadeInSection>
-                    <SectionLabel text="El Poder de M.I.A." />
+                    <SectionLabel text="El Problema" />
+                    <div className="text-center mb-20">
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-6">
+                            Tus finanzas son un <span className="bg-gradient-to-r from-[#FF453A] to-[#FF9F0A] bg-clip-text text-transparent">caos invisible.</span>
+                        </h2>
+                        <p className="text-white/50 text-[16px] md:text-[18px] max-w-2xl mx-auto leading-relaxed">
+                            10 apps bancarias. Planillas manuales. Comisiones ocultas. Presupuestos que fallan.
+                            El 82% de las personas no sabe exactamente cuánto vale su patrimonio hoy.
+                        </p>
+                    </div>
+                </FadeInSection>
+
+                {/* Agitation → Solution */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+                    <FadeInSection>
+                        <div className="p-8 rounded-[28px] bg-white/[0.015] border border-white/[0.04] relative overflow-hidden h-full">
+                            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.06]">
+                                <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Sin M.I.A.</span>
+                            </div>
+                            <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center mb-5">
+                                <Clock className="w-5 h-5 text-white/40" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-4 text-white/40">El método tradicional</h3>
+                            <ul className="space-y-3">
+                                {[
+                                    "Revisás tu balance bancario manualmente cada semana",
+                                    "Planillas Excel que te roban horas de tu vida",
+                                    "Descubrís cobros duplicados cuando ya es tarde",
+                                    "Presupuestos estáticos sin ninguna inteligencia",
+                                    "Cero visibilidad sobre tu patrimonio real",
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-2.5 text-[14px] text-white/40 font-medium">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-white/15 mt-2 shrink-0" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </FadeInSection>
+
+                    <FadeInSection delay={0.15}>
+                        <div className="p-8 rounded-[28px] bg-gradient-to-br from-[#0A84FF]/[0.05] to-transparent border border-[#0A84FF]/10 relative overflow-hidden h-full">
+                            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-[#0A84FF]/10 border border-[#0A84FF]/20">
+                                <span className="text-[10px] font-bold text-[#0A84FF] uppercase tracking-widest">Con M.I.A.</span>
+                            </div>
+                            <div className="w-10 h-10 rounded-xl bg-[#0A84FF]/10 border border-[#0A84FF]/15 flex items-center justify-center mb-5">
+                                <Brain className="w-5 h-5 text-[#0A84FF]" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-4 text-white/90">Conciencia autónoma</h3>
+                            <ul className="space-y-3">
+                                {[
+                                    "Monitoreo autónomo 24/7 de todos tus flujos financieros",
+                                    "Categorización y predicción con Machine Learning",
+                                    "Alertas proactivas antes de que el daño ocurra",
+                                    "Presupuestos inquebrantables que evolucionan con vos",
+                                    "Net Worth unificado en tiempo real: ARS, USD, Crypto",
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-2.5 text-[14px] text-white/60 font-medium">
+                                        <Check className="w-4 h-4 text-[#30D158] shrink-0 mt-0.5" />
+                                        {item}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </FadeInSection>
+                </div>
+            </section>
+
+            {/* ═══ HOW IT WORKS — 3 STEPS ═══════════════ */}
+            <section className="py-16 md:py-28 px-6 max-w-4xl mx-auto relative z-10">
+                <FadeInSection>
+                    <SectionLabel text="Cómo funciona" />
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                            De la incertidumbre al <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">dominio patrimonial</span>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+                            De la incertidumbre al{" "}
+                            <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">
+                                dominio patrimonial
+                            </span>
                         </h2>
                         <p className="text-white/50 text-[16px] max-w-2xl mx-auto">
                             Tres pasos separan tu situación actual de un control financiero absoluto.
@@ -308,45 +375,67 @@ export default function EpicLandingPage() {
                 </FadeInSection>
 
                 <div className="flex flex-col gap-2">
-                    <StepCard
-                        number="1"
-                        title="Bilateralidad Financiera Total"
-                        desc="Conecta cuentas bancarias y exchanges. ARS, USD, Crypto. Todo sincronizado en una bóveda inviolable con conversión en tiempo real."
-                        icon={<Globe className="w-5 h-5 text-[#0A84FF]" />}
-                        accentColor="#0A84FF"
-                    />
-                    <StepCard
-                        number="2"
-                        title="Asimilación de tu ADN Financiero"
-                        desc="M.I.A. asimila tus patrones de gasto, previene fugas de capital y alerta sobre riesgos antes de que impacten tu Net Worth."
-                        icon={<Brain className="w-5 h-5 text-[#BF5AF2]" />}
-                        accentColor="#BF5AF2"
-                    />
-                    <StepCard
-                        number="3"
-                        title="Ejecución con Precisión Militar"
-                        desc="Control absoluto. Establece presupuestos inquebrantables, automatiza objetivos y escala tu patrimonio con cero fricción."
-                        icon={<Zap className="w-5 h-5 text-[#30D158]" />}
-                        accentColor="#30D158"
-                    />
+                    {[
+                        {
+                            number: "1",
+                            title: "Conectá tus flujos financieros",
+                            desc: "Sincronizá cuentas bancarias, exchanges y billeteras. ARS, USD, Crypto. Todo unificado en una bóveda encriptada con conversión en tiempo real.",
+                            icon: <Globe className="w-5 h-5 text-[#0A84FF]" />,
+                            color: "#0A84FF",
+                        },
+                        {
+                            number: "2",
+                            title: "M.I.A. asimila tu ADN Financiero",
+                            desc: "La IA aprende tus patrones de gasto, previene fugas de capital y te alerta sobre riesgos antes de que impacten tu Net Worth.",
+                            icon: <Brain className="w-5 h-5 text-[#30D158]" />,
+                            color: "#30D158",
+                        },
+                        {
+                            number: "3",
+                            title: "Ejecución con precisión autónoma",
+                            desc: "Presupuestos inquebrantables, automatización de objetivos y escalamiento patrimonial con cero fricción. M.I.A. opera por vos.",
+                            icon: <Zap className="w-5 h-5 text-[#FF9F0A]" />,
+                            color: "#FF9F0A",
+                        },
+                    ].map((step) => (
+                        <FadeInSection key={step.number} delay={Number(step.number) * 0.15}>
+                            <div className="flex gap-6 items-start group">
+                                <div className="flex flex-col items-center shrink-0">
+                                    <div
+                                        className="w-12 h-12 rounded-2xl border border-white/[0.08] flex items-center justify-center mb-2 transition-colors group-hover:border-white/[0.15]"
+                                        style={{ backgroundColor: `${step.color}10` }}
+                                    >
+                                        {step.icon}
+                                    </div>
+                                    <div className="w-px h-16 bg-gradient-to-b from-white/[0.08] to-transparent hidden md:block" />
+                                </div>
+                                <div className="flex-1 pb-8">
+                                    <span className="text-[11px] font-bold uppercase tracking-[0.2em] mb-2 block" style={{ color: step.color }}>
+                                        Paso {step.number}
+                                    </span>
+                                    <h3 className="text-xl font-bold mb-2 text-white/90">{step.title}</h3>
+                                    <p className="text-[15px] text-white/50 leading-relaxed font-medium">{step.desc}</p>
+                                </div>
+                            </div>
+                        </FadeInSection>
+                    ))}
                 </div>
             </section>
 
             {/* ═══ FEATURES BENTO GRID ═══════════════ */}
-            <section className="py-16 md:py-28 px-6 max-w-7xl mx-auto">
+            <section className="py-16 md:py-28 px-6 max-w-7xl mx-auto relative z-10">
                 <FadeInSection>
-                    <SectionLabel text="Casos de Uso Élite" />
+                    <SectionLabel text="Capacidades" />
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Ingeniería Financiera Pura</h2>
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">Ingeniería Financiera Pura</h2>
                         <p className="text-white/50 text-[16px] max-w-2xl mx-auto">
                             Arquitectura diseñada para velocidad, exactitud y privacidad absoluta.
                         </p>
                     </div>
                 </FadeInSection>
 
-                {/* Bento Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-                    {/* Large Card - ADN Financiero */}
+                    {/* Large — ADN Financiero */}
                     <FadeInSection className="md:col-span-4">
                         <motion.div
                             whileHover={{ y: -4 }}
@@ -365,7 +454,7 @@ export default function EpicLandingPage() {
                         </motion.div>
                     </FadeInSection>
 
-                    {/* Small Card - Multi-Moneda */}
+                    {/* Small — Multi-Moneda */}
                     <FadeInSection className="md:col-span-2" delay={0.1}>
                         <motion.div
                             whileHover={{ y: -4 }}
@@ -374,14 +463,14 @@ export default function EpicLandingPage() {
                             <div className="w-12 h-12 rounded-2xl bg-[#FF9F0A]/10 border border-[#FF9F0A]/15 flex items-center justify-center mb-6 group-hover:border-[#FF9F0A]/30 transition-colors">
                                 <Globe className="w-6 h-6 text-[#FF9F0A]" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-white/90">B2C: El Nómada Digital</h3>
+                            <h3 className="text-xl font-bold mb-2 text-white/90">Multi-Moneda Nativo</h3>
                             <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-                                Cobra en el exterior, gasta local. M.I.A. maneja el tipo de cambio y unifica tu Net Worth global.
+                                ARS, USD, EUR, Crypto. Bóvedas individuales con conversión FX en tiempo real. Tu Net Worth global unificado.
                             </p>
                         </motion.div>
                     </FadeInSection>
 
-                    {/* Small Card - Presupuestos */}
+                    {/* Small — Presupuestos */}
                     <FadeInSection className="md:col-span-2" delay={0.15}>
                         <motion.div
                             whileHover={{ y: -4 }}
@@ -390,27 +479,27 @@ export default function EpicLandingPage() {
                             <div className="w-12 h-12 rounded-2xl bg-[#30D158]/10 border border-[#30D158]/15 flex items-center justify-center mb-6 group-hover:border-[#30D158]/30 transition-colors">
                                 <Target className="w-6 h-6 text-[#30D158]" />
                             </div>
-                            <h3 className="text-xl font-bold mb-2 text-white/90">B2C: Inversor & Familia</h3>
+                            <h3 className="text-xl font-bold mb-2 text-white/90">Presupuestos Inquebrantables</h3>
                             <p className="text-[14px] text-white/50 leading-relaxed font-medium">
-                                Planifica la compra de inmuebles o controla el ocio semanal. Tu escudo contra compras impulsivas.
+                                Alertas proactivas. Límites que se adaptan. Tu escudo contra compras impulsivas y fugas de capital.
                             </p>
                         </motion.div>
                     </FadeInSection>
 
-                    {/* Large Card - Proyecciones */}
+                    {/* Large — Proyecciones */}
                     <FadeInSection className="md:col-span-4" delay={0.2}>
                         <motion.div
                             whileHover={{ y: -4 }}
-                            className="p-8 md:p-10 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group relative overflow-hidden transition-all hover:bg-white/[0.04] hover:shadow-[0_0_30px_rgba(191,90,242,0.03)]"
+                            className="p-8 md:p-10 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group relative overflow-hidden transition-all hover:bg-white/[0.04] hover:shadow-[0_0_30px_rgba(48,209,88,0.03)]"
                         >
-                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#BF5AF2]/[0.03] rounded-full blur-[80px] pointer-events-none" />
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#30D158]/[0.03] rounded-full blur-[80px] pointer-events-none" />
                             <div className="relative z-10">
-                                <div className="w-12 h-12 rounded-2xl bg-[#BF5AF2]/10 border border-[#BF5AF2]/15 flex items-center justify-center mb-6 group-hover:border-[#BF5AF2]/30 transition-colors">
-                                    <TrendingUp className="w-6 h-6 text-[#BF5AF2]" />
+                                <div className="w-12 h-12 rounded-2xl bg-[#30D158]/10 border border-[#30D158]/15 flex items-center justify-center mb-6 group-hover:border-[#30D158]/30 transition-colors">
+                                    <TrendingUp className="w-6 h-6 text-[#30D158]" />
                                 </div>
-                                <h3 className="text-2xl font-bold mb-3 text-white/90">B2B: Freelancers & Agencias</h3>
+                                <h3 className="text-2xl font-bold mb-3 text-white/90">Proyecciones Inteligentes</h3>
                                 <p className="text-[15px] text-white/50 leading-relaxed font-medium max-w-md">
-                                    Proyecta el &quot;Runway&quot; de tu negocio, separa finanzas personales de las corporativas, y autogestiona previsiones de impuestos con reportes quirúrgicos.
+                                    Simulaciones predictivas de tu flujo de caja. Visualizá tu runway, planificá tu futuro y anticipá escenarios con datos reales.
                                 </p>
                             </div>
                         </motion.div>
@@ -418,78 +507,94 @@ export default function EpicLandingPage() {
                 </div>
             </section>
 
-            {/* ═══ M.I.A. DIFFERENTIATOR ═══════════════ */}
-            <section className="py-16 md:py-28 px-6 max-w-5xl mx-auto">
+            {/* ═══ M.I.A. EXPLAINABLE AI (AUDIT TRAIL) ═══ */}
+            <section className="py-16 md:py-28 px-6 max-w-5xl mx-auto relative z-10">
                 <FadeInSection>
-                    <SectionLabel text="Una IA que realmente entiende" />
+                    <SectionLabel text="IA Explicable" />
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-                            No es un chatbot genérico.{" "}
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+                            Cada decisión de M.I.A. es{" "}
                             <span className="bg-gradient-to-r from-[#0A84FF] to-[#64D2FF] bg-clip-text text-transparent">
-                                Es tu Bóveda Privada.
+                                transparente.
                             </span>
                         </h2>
                         <p className="text-white/50 text-[16px] max-w-xl mx-auto">
-                            M.I.A. no espera a que preguntes. Anticipa, analiza y actúa por vos.
+                            No confiás a ciegas. Ves exactamente cómo razona, qué datos usó y por qué tomó cada decisión.
                         </p>
                     </div>
                 </FadeInSection>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FadeInSection>
-                        <div className="p-8 rounded-[28px] bg-white/[0.015] border border-white/[0.04] relative overflow-hidden">
-                            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.06]">
-                                <span className="text-[10px] font-bold text-white/50 uppercase tracking-widest">Tradicional</span>
-                            </div>
-                            <MessageCircle className="w-8 h-8 text-white/50 mb-5" />
-                            <h3 className="text-xl font-bold mb-3 text-white/50">Sistemas Obsoletos</h3>
-                            <ul className="space-y-3">
-                                {[
-                                    "Revisa tu balance bancario manualmente",
-                                    "Planillas Excel que te roban horas preciosas",
-                                    "Descubre cobros duplicados... cuando es tarde",
-                                    "Presupuestos estáticos sin inteligencia",
-                                ].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-2.5 text-[14px] text-white/50 font-medium">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-white/15" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </FadeInSection>
+                {/* Audit Trail Visualization */}
+                <FadeInSection delay={0.1}>
+                    <div className="p-8 md:p-10 rounded-[32px] bg-white/[0.02] border border-white/[0.04] relative overflow-hidden">
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-[#0A84FF]/[0.03] rounded-full blur-[100px] pointer-events-none" />
 
-                    <FadeInSection delay={0.15}>
-                        <div className="p-8 rounded-[28px] bg-gradient-to-br from-[#0A84FF]/[0.04] to-transparent border border-[#0A84FF]/10 relative overflow-hidden">
-                            <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full bg-[#0A84FF]/10 border border-[#0A84FF]/20">
-                                <span className="text-[10px] font-bold text-[#0A84FF] uppercase tracking-widest">FINMOM</span>
-                            </div>
-                            <Brain className="w-8 h-8 text-[#0A84FF] mb-5" />
-                            <h3 className="text-xl font-bold mb-3 text-white/90">ADN Financiero Activo</h3>
-                            <ul className="space-y-3">
-                                {[
-                                    "Monitoreo autónomo 24/7 de todos tus flujos",
-                                    "Categorización y predicción con Machine Learning",
-                                    "Especulación de impactos cambiarios (ARS/USD)",
-                                    "Presupuestos inquebrantables que evolucionan contigo",
-                                ].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-2.5 text-[14px] text-white/60 font-medium">
-                                        <Check className="w-4 h-4 text-[#30D158] shrink-0" />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
+                        <div className="relative z-10 space-y-6">
+                            {[
+                                {
+                                    time: "hace 3 min",
+                                    action: "Anomalía detectada",
+                                    detail: "Cobro duplicado de $14.500 ARS en MercadoPago. Patrón inusual vs. historial de 90 días.",
+                                    reasoning: "Comparé 847 transacciones similares. Probabilidad de error: 94.2%",
+                                    status: "alert",
+                                    color: "#FF9F0A",
+                                },
+                                {
+                                    time: "hace 12 min",
+                                    action: "Presupuesto ajustado",
+                                    detail: "Categoría 'Delivery' excedió el 85% del límite mensual. Reasigné $3.200 desde 'Reserva'.",
+                                    reasoning: "Tu patrón histórico sugiere un gasto promedio de $18k/mes en esta categoría. Ajuste preventivo aplicado.",
+                                    status: "success",
+                                    color: "#30D158",
+                                },
+                                {
+                                    time: "hace 1 hora",
+                                    action: "FX optimizado",
+                                    detail: "Tipo de cambio ARS/USD favorable detectado. Sugerí conversión de USD 200 a mejor tasa.",
+                                    reasoning: "Analicé variación de 30 días. Tasa actual 2.3% por debajo del promedio. Window de oportunidad: ~4 horas.",
+                                    status: "info",
+                                    color: "#0A84FF",
+                                },
+                            ].map((entry, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.2, duration: 0.6 }}
+                                    className="flex gap-4 items-start group"
+                                >
+                                    <div className="flex flex-col items-center shrink-0">
+                                        <div
+                                            className="w-3 h-3 rounded-full border-2"
+                                            style={{ borderColor: entry.color, backgroundColor: `${entry.color}30` }}
+                                        />
+                                        {i < 2 && <div className="w-px h-full min-h-[60px] bg-white/[0.06]" />}
+                                    </div>
+                                    <div className="flex-1 pb-2">
+                                        <div className="flex items-center gap-3 mb-1.5">
+                                            <span className="text-[13px] font-bold text-white/80">{entry.action}</span>
+                                            <span className="text-[10px] text-white/30 font-medium">{entry.time}</span>
+                                        </div>
+                                        <p className="text-[13px] text-white/50 font-medium mb-2">{entry.detail}</p>
+                                        <div className="px-3 py-2 rounded-lg bg-white/[0.03] border border-white/[0.06]">
+                                            <span className="text-[10px] text-[#0A84FF] font-bold uppercase tracking-widest block mb-1">Razonamiento de M.I.A.</span>
+                                            <p className="text-[12px] text-white/40 font-medium italic">&quot;{entry.reasoning}&quot;</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
-                    </FadeInSection>
-                </div>
+                    </div>
+                </FadeInSection>
             </section>
 
-            {/* ═══ SECURITY ═══════════════════════════ */}
-            <section className="py-16 md:py-28 px-6 max-w-5xl mx-auto">
+            {/* ═══ SECURITY FORTRESS ═══════════════════ */}
+            <section className="py-16 md:py-28 px-6 max-w-5xl mx-auto relative z-10">
                 <FadeInSection>
                     <SectionLabel text="Seguridad" />
                     <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
                             Privacidad Inquebrantable.
                         </h2>
                         <p className="text-white/50 text-[16px] max-w-xl mx-auto">
@@ -521,11 +626,117 @@ export default function EpicLandingPage() {
                         </FadeInSection>
                     ))}
                 </div>
+
+                {/* Trust badges below security */}
+                <FadeInSection delay={0.3}>
+                    <div className="mt-10 flex flex-wrap items-center justify-center gap-6">
+                        {[
+                            { icon: <ShieldCheck className="w-4 h-4 text-[#30D158]/70" />, label: "SOC 2 Ready" },
+                            { icon: <Lock className="w-4 h-4 text-[#0A84FF]/70" />, label: "GDPR Compliant" },
+                            { icon: <Eye className="w-4 h-4 text-[#FF9F0A]/70" />, label: "Ley 25.326 (ARG)" },
+                            { icon: <Fingerprint className="w-4 h-4 text-[#FF453A]/70" />, label: "Row-Level Security" },
+                        ].map((badge, i) => (
+                            <div key={i} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06]">
+                                {badge.icon}
+                                <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">{badge.label}</span>
+                            </div>
+                        ))}
+                    </div>
+                </FadeInSection>
             </section>
 
-            {/* ═══ FINAL CTA ═════════════════════════ */}
-            <section className="py-20 md:py-32 px-6 text-center relative">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A84FF]/[0.02] to-transparent pointer-events-none" />
+            {/* ═══ FOUNDER STORY ═══════════════════════ */}
+            <section className="py-16 md:py-28 px-6 max-w-4xl mx-auto relative z-10">
+                <FadeInSection>
+                    <SectionLabel text="El Fundador" />
+                    <div className="p-8 md:p-12 rounded-[32px] bg-white/[0.02] border border-white/[0.04] relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-80 h-80 bg-[#0A84FF]/[0.02] rounded-full blur-[100px] pointer-events-none" />
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#0A84FF]/20 to-[#30D158]/10 border border-white/[0.08] flex items-center justify-center">
+                                    <span className="text-2xl font-bold text-white/90">NS</span>
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-white/90">Nahuel Silva</h3>
+                                    <p className="text-[13px] text-white/50 font-medium">CEO & Founder · MOMENTUM</p>
+                                </div>
+                            </div>
+
+                            <blockquote className="text-[17px] md:text-[20px] text-white/70 leading-relaxed font-medium mb-8 italic">
+                                &quot;Construí FINMOM porque estaba harto de que mis finanzas dependieran de 10 apps que no se hablan entre sí.
+                                Quería una inteligencia que piense por mí, que proteja mi patrimonio y que evolucione conmigo.
+                                M.I.A. no es un producto. Es la conciencia financiera que todos merecemos.&quot;
+                            </blockquote>
+
+                            <div className="flex flex-wrap gap-3">
+                                {["Solo Founder", "Full-Stack Engineer", "Buenos Aires, Argentina", "Beta Activa"].map((tag, i) => (
+                                    <span key={i} className="px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.08] text-[11px] font-bold text-white/50 uppercase tracking-[0.15em]">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </FadeInSection>
+            </section>
+
+            {/* ═══ SOLUTIONS TEASER ═══════════════════ */}
+            <section className="py-16 md:py-24 px-6 max-w-5xl mx-auto relative z-10">
+                <FadeInSection>
+                    <SectionLabel text="Soluciones" />
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl md:text-5xl font-bold tracking-tighter mb-4">
+                            Diseñado para <span className="bg-gradient-to-r from-[#0A84FF] to-[#30D158] bg-clip-text text-transparent">tu realidad.</span>
+                        </h2>
+                    </div>
+                </FadeInSection>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FadeInSection>
+                        <Link href="/solutions/nomads" className="block">
+                            <motion.div
+                                whileHover={{ y: -4 }}
+                                className="p-8 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group transition-all hover:bg-white/[0.04] hover:border-[#0A84FF]/15 cursor-pointer"
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-[#0A84FF]/10 border border-[#0A84FF]/15 flex items-center justify-center mb-6">
+                                    <Globe className="w-6 h-6 text-[#0A84FF]" />
+                                </div>
+                                <h3 className="text-xl font-bold mb-2 text-white/90">Nómadas Digitales</h3>
+                                <p className="text-[14px] text-white/50 leading-relaxed font-medium mb-4">
+                                    Tu dinero viaja contigo. Multi-divisa, bóvedas por país y tipo de cambio optimizado automáticamente.
+                                </p>
+                                <span className="text-[13px] font-semibold text-[#0A84FF] flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                                    Explorar solución <ArrowRight className="w-4 h-4" />
+                                </span>
+                            </motion.div>
+                        </Link>
+                    </FadeInSection>
+
+                    <FadeInSection delay={0.1}>
+                        <Link href="/solutions/freelancers" className="block">
+                            <motion.div
+                                whileHover={{ y: -4 }}
+                                className="p-8 rounded-[28px] bg-white/[0.02] border border-white/[0.04] h-full group transition-all hover:bg-white/[0.04] hover:border-[#30D158]/15 cursor-pointer"
+                            >
+                                <div className="w-12 h-12 rounded-2xl bg-[#30D158]/10 border border-[#30D158]/15 flex items-center justify-center mb-6">
+                                    <BarChart3 className="w-6 h-6 text-[#30D158]" />
+                                </div>
+                                <h3 className="text-xl font-bold mb-2 text-white/90">Freelancers & Agencias</h3>
+                                <p className="text-[14px] text-white/50 leading-relaxed font-medium mb-4">
+                                    Tu CFO autónomo. Runway, separación de finanzas personales vs. corporativas, y previsión de impuestos.
+                                </p>
+                                <span className="text-[13px] font-semibold text-[#30D158] flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                                    Explorar solución <ArrowRight className="w-4 h-4" />
+                                </span>
+                            </motion.div>
+                        </Link>
+                    </FadeInSection>
+                </div>
+            </section>
+
+            {/* ═══ FINAL CTA — WAITLIST ════════════════ */}
+            <section className="py-20 md:py-32 px-6 text-center relative z-10">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A84FF]/[0.03] to-transparent pointer-events-none" />
                 <FadeInSection className="relative z-10">
                     <div className="flex justify-center mb-8">
                         <MiaOrb size={80} state="idle" />
@@ -540,8 +751,8 @@ export default function EpicLandingPage() {
                     </p>
                     <Link href="/register">
                         <button className="h-16 px-10 bg-white text-black hover:bg-white/90 hover:scale-105 active:scale-95 transition-all rounded-full text-[18px] font-bold shadow-[0_0_60px_-15px_rgba(255,255,255,0.3)] flex items-center gap-3 mx-auto relative overflow-hidden group">
-                            <span className="relative z-10 flex items-center gap-3">Asegura tu lugar en la Élite <ArrowRight className="w-5 h-5" /></span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-violet-500/0 via-violet-500/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                            <span className="relative z-10 flex items-center gap-3">Asegura tu lugar <ArrowRight className="w-5 h-5" /></span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#0A84FF]/0 via-[#0A84FF]/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                         </button>
                     </Link>
                 </FadeInSection>

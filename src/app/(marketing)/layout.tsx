@@ -41,6 +41,30 @@ const METADATA_MAP: Record<string, { title: string; description: string }> = {
         title: "Licencias Open Source | FINMOM",
         description: "Dependencias y licencias open source que hacen posible FINMOM. Transparencia en nuestro stack.",
     },
+    "/solutions/nomads": {
+        title: "FINMOM para Nómadas Digitales | Multi-Moneda & FX Inteligente",
+        description: "Cobrás en dólares, gastás en pesos, ahorrás en crypto. M.I.A. unifica todo en una sola vista patrimonial, optimizando cada conversión.",
+    },
+    "/solutions/freelancers": {
+        title: "FINMOM para Freelancers & Agencias | Tu CFO Autónomo",
+        description: "Separá automáticamente tus finanzas personales de las laborales. M.I.A. proyecta tu runway, anticipa impuestos y protege tu margen.",
+    },
+    "/compare": {
+        title: "FINMOM vs. Bancos Tradicionales | Comparación",
+        description: "Tu banco te da una cuenta. FINMOM te da un sistema operativo financiero autónomo. Compará funcionalidad por funcionalidad.",
+    },
+    "/sandbox": {
+        title: "Demo Interactiva | Explorá FINMOM sin Registrarte",
+        description: "Navegá un dashboard con datos ficticios. Sentí el poder de M.I.A. sin compromisos ni registro.",
+    },
+    "/status": {
+        title: "Estado del Sistema | FINMOM",
+        description: "Monitoreo en tiempo real de todos los servicios de FINMOM. Uptime, M.I.A., API Gateway, encriptación y más.",
+    },
+    "/help-center": {
+        title: "Centro de Ayuda | FINMOM",
+        description: "Respuestas rápidas sobre FINMOM, M.I.A., seguridad, privacidad y planes. Preguntas frecuentes y soporte.",
+    },
 };
 
 export async function generateMetadata({

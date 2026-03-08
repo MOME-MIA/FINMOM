@@ -111,7 +111,7 @@ export function InteractiveBackground() {
 
             // Draw radial gradient tracking mouse (very subtle spotlight)
             const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 600);
-            gradient.addColorStop(0, "rgba(255, 255, 255, 0.03)");
+            gradient.addColorStop(0, "rgba(10, 132, 255, 0.03)");
             gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);

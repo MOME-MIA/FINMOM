@@ -3,7 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Wallet, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
 interface SubPageLayoutProps {
@@ -11,36 +12,21 @@ interface SubPageLayoutProps {
     title: string;
     subtitle?: string;
     badge?: string;
+    heroGlow?: string;
 }
 
-export default function SubPageLayout({ children, title, subtitle, badge }: SubPageLayoutProps) {
+export default function SubPageLayout({ children, title, subtitle, badge, heroGlow = "#0A84FF" }: SubPageLayoutProps) {
     return (
         <div className="min-h-screen bg-black text-white selection:bg-white/20 overflow-x-hidden">
             {/* ─── Navbar ──────────── */}
-            <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-black/60 backdrop-blur-2xl border-b border-white/[0.04]">
-                <div className="flex items-center gap-2.5">
-                    <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity">
-                        <div className="w-8 h-8 flex items-center justify-center">
-                            <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
-                        </div>
-                        <span className="font-bold text-[18px] tracking-tight">FINMOM</span>
-                    </Link>
-                </div>
-                <div className="flex items-center gap-4">
-                    <Link href="/login" className="text-[14px] font-medium text-white/50 hover:text-white transition-colors">
-                        Iniciar Sesión
-                    </Link>
-                    <Link href="/register">
-                        <button className="bg-white text-black hover:bg-white/90 font-semibold px-5 h-9 rounded-full text-[13px] transition-all active:scale-95">
-                            Comenzar gratis
-                        </button>
-                    </Link>
-                </div>
-            </header>
+            <Navbar />
 
             {/* ─── Page Header ──────── */}
             <section className="relative pt-32 pb-16 px-6 max-w-5xl mx-auto text-center">
-                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#0A84FF]/[0.02] rounded-full blur-[120px] pointer-events-none" />
+                <div
+                    className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px] pointer-events-none"
+                    style={{ backgroundColor: `${heroGlow}05` }}
+                />
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
