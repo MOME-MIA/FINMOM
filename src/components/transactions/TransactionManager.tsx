@@ -69,7 +69,7 @@ export function TransactionManager({ transactions, month }: TransactionManagerPr
     };
 
     return (
-        <div className="space-y-3 pb-[calc(var(--nav-height)+24px)] md:pb-0">
+        <div className="space-y-4 md:space-y-6">
             <div className="flex items-center justify-between">
                 <h2 className="text-[15px] font-semibold text-white/80">Registro</h2>
                 <div className="flex gap-2">

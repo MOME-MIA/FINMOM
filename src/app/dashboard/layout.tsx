@@ -36,16 +36,12 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             {/* Main Content */}
             <main
                 className={cn(
-                    "flex-1 w-full px-4 md:px-8 overflow-y-auto h-screen no-scrollbar relative z-0 transition-[padding-left] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                    collapsed ? "lg:pl-[112px]" : "lg:pl-[280px]"
+                    "flex-1 w-full overflow-y-auto h-screen no-scrollbar relative z-0 transition-[padding-left] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] pb-[calc(var(--nav-height)+24px)] md:pb-8 pt-[var(--header-height)] md:pt-[56px]",
+                    collapsed ? "lg:pl-[72px]" : "lg:pl-[240px]"
                 )}
-                style={{
-                    paddingTop: 'var(--header-height)',
-                    paddingBottom: 'calc(var(--nav-height) + 16px)'
-                }}
             >
-                <div className="max-w-7xl mx-auto h-full flex flex-col">
-                    <div className="w-full pt-2 lg:pt-6 pb-2 md:pb-6 z-10 relative">
+                <div className="max-w-7xl mx-auto h-full flex flex-col px-4 sm:px-6 md:px-8">
+                    <div className="w-full pt-4 md:pt-6 pb-2 md:pb-4 z-10 relative">
                         <Breadcrumbs />
                     </div>
                     <div className="flex-1 space-y-4">

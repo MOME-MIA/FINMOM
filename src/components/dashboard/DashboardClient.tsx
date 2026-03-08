@@ -141,7 +141,7 @@ export function DashboardClient({
     return (
         <PageTransition>
             <PageLayout title="Dashboard" subtitle={monthLabel}>
-                <div className="space-y-4 pb-[calc(var(--nav-height)+24px)] md:pb-0">
+                <div className="space-y-4 md:space-y-6">
 
                     {/* HERO SECTION */}
                     <div className="flex flex-col items-center justify-center pt-2 pb-6">
