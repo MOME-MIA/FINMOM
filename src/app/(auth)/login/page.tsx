@@ -1,12 +1,12 @@
 "use client";
 
+import { AuthLayout } from "@/components/auth/AuthLayout";
 import { FinmomAccessCard } from "@/components/login/FinmomAccessCard";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Wallet, Shield, Lock, Zap } from "lucide-react";
+import { motion } from "framer-motion";
+import { Lock, Shield, Zap, Fingerprint, KeyRound } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 function WaitlistMessages() {
@@ -54,106 +54,88 @@ export default function LoginPage() {
     if (!mounted) return null;
 
     return (
-        <main className="relative w-full min-h-screen overflow-hidden bg-[#000000] text-white font-sans selection:bg-[#0A84FF]/30">
-            {/* ─── Ambient Background ─── */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-black">
-                <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#0A84FF]/[0.03] rounded-full blur-[150px]" />
-                <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-[#64D2FF]/[0.02] rounded-full blur-[120px]" />
-            </div>
+        <AuthLayout
+            theme={{
+                primaryGlow: "#0A84FF",
+                secondaryGlow: "#64D2FF",
+                accentGlow: "#5856D6",
+                selectionColor: "rgba(10, 132, 255, 0.3)",
+            }}
+            headerLink={{ href: "/register", label: "Crear Cuenta" }}
+            mobileTitle="FINMOM"
+            mobileSubtitle="Validar Identidad"
+            orbState="idle"
+            trustBadges={[
+                { icon: <Lock className="w-3.5 h-3.5 text-[#30D158]" />, text: "AES-256" },
+                { icon: <Shield className="w-3.5 h-3.5 text-[#0A84FF]" />, text: "Bloqueo progresivo" },
+                { icon: <Zap className="w-3.5 h-3.5 text-[#FF9F0A]" />, text: "M.I.A. 24/7" },
+            ]}
+            leftPanel={
+                <div className="space-y-10">
+                    {/* Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#0A84FF]/5 border border-[#0A84FF]/10"
+                    >
+                        <Fingerprint className="w-3.5 h-3.5 text-[#0A84FF]" />
+                        <span className="text-[11px] font-bold text-[#0A84FF]/70 uppercase tracking-[0.2em]">Bienvenido de vuelta</span>
+                    </motion.div>
 
-            {/* Grain Overlay */}
-            <div className="fixed inset-0 bg-noise opacity-[0.015] pointer-events-none z-10 mix-blend-overlay" />
+                    {/* Hero text */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <h1 className="text-[42px] xl:text-[50px] font-extrabold tracking-[-0.03em] leading-[1.05] bg-gradient-to-b from-white via-white/90 to-white/40 bg-clip-text text-transparent">
+                            Tu bóveda financiera
+                            <br />
+                            te espera.
+                        </h1>
+                    </motion.div>
 
-            <Suspense fallback={null}>
-                <WaitlistMessages />
-            </Suspense>
-
-            {/* ─── Top Navbar ─── */}
-            <motion.header
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
-            >
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <div className="w-7 h-7 flex items-center justify-center">
-                        <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
-                    </div>
-                    <span className="font-bold text-[15px] text-white/60">FINMOM</span>
-                </Link>
-                <Link href="/register" className="text-[12px] text-white/50 hover:text-white/60 transition-colors font-medium tracking-wide">
-                    Crear Cuenta →
-                </Link>
-            </motion.header>
-
-            {/* ─── Split Layout ─── */}
-            <div className="relative z-20 w-full min-h-screen flex flex-col lg:flex-row">
-
-                {/* Left Panel — Copy & Trust (hidden on mobile) */}
-                <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="hidden lg:flex flex-col justify-center px-16 xl:px-24 w-1/2 max-w-[640px]"
-                >
-                    <span className="text-[11px] font-bold text-[#0A84FF]/60 uppercase tracking-[0.25em] mb-4">Bienvenido de vuelta</span>
-                    <h1 className="text-4xl xl:text-5xl font-bold tracking-tighter leading-[1.1] mb-4 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
-                        Tu bóveda financiera te espera.
-                    </h1>
-                    <p className="text-[15px] text-white/35 leading-relaxed font-medium mb-10 max-w-md">
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.55, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-[15px] text-white/35 leading-[1.7] font-medium max-w-[380px]"
+                    >
                         M.I.A. ha estado analizando el mercado mientras no estabas. Ingresá para ver qué descubrió.
-                    </p>
+                    </motion.p>
 
-                    {/* Trust Signals */}
-                    <div className="space-y-4">
+                    {/* Trust Signals — elevated design */}
+                    <div className="space-y-3 pt-2">
                         {[
-                            { icon: <Lock className="w-4 h-4 text-[#30D158]" />, text: "Encriptación AES-256 en todos tus datos" },
-                            { icon: <Shield className="w-4 h-4 text-[#0A84FF]" />, text: "Autenticación con bloqueo progresivo" },
-                            { icon: <Zap className="w-4 h-4 text-[#FF9F0A]" />, text: "M.I.A. activa y analizando 24/7" },
+                            { icon: <Lock className="w-4 h-4 text-[#30D158]" />, title: "Encriptación AES-256", desc: "Todos tus datos financieros protegidos" },
+                            { icon: <Shield className="w-4 h-4 text-[#0A84FF]" />, title: "Bloqueo progresivo", desc: "Seguridad adaptativa ante amenazas" },
+                            { icon: <KeyRound className="w-4 h-4 text-[#FF9F0A]" />, title: "M.I.A. activa 24/7", desc: "Tu asistente financiera nunca descansa" },
                         ].map((item, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 + i * 0.1, duration: 0.5 }}
-                                className="flex items-center gap-3"
+                                initial={{ opacity: 0, x: -15 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.7 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                className="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/[0.02] border border-white/[0.04] hover:bg-white/[0.04] hover:border-white/[0.07] transition-all duration-300 group cursor-default"
                             >
-                                <div className="w-8 h-8 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0">
+                                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.05] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
                                     {item.icon}
                                 </div>
-                                <span className="text-[13px] text-white/50 font-medium">{item.text}</span>
+                                <div>
+                                    <h3 className="text-[13px] font-bold text-white/60 group-hover:text-white/70 transition-colors">{item.title}</h3>
+                                    <p className="text-[11px] text-white/30 font-medium mt-0.5">{item.desc}</p>
+                                </div>
                             </motion.div>
                         ))}
                     </div>
-                </motion.div>
-
-                {/* Right Panel — Card */}
-                <div className="flex-1 flex items-center justify-center px-4 py-20 lg:py-0">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key="access"
-                            initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            className="w-full max-w-[440px]"
-                        >
-                            <FinmomAccessCard mode="login" />
-                        </motion.div>
-                    </AnimatePresence>
                 </div>
-            </div>
-
-            {/* Minimalist Watermark */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-6 left-0 right-0 text-center z-20 pointer-events-none"
-            >
-                <p className="text-white/15 text-[10px] uppercase font-sans tracking-[0.4em]">
-                    FINMOM Platform • 2026
-                </p>
-            </motion.div>
-        </main>
+            }
+        >
+            <Suspense fallback={null}>
+                <WaitlistMessages />
+            </Suspense>
+            <FinmomAccessCard mode="login" />
+        </AuthLayout>
     );
 }

@@ -202,24 +202,26 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                 transition={{ duration: isExiting ? 0.8 : 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className={cn(
                     "relative w-full h-auto rounded-[40px] text-center",
-                    "bg-white/[0.01] backdrop-blur-[64px]",
-                    "border border-white/[0.03] shadow-[0_24px_80px_-20px_rgba(0,0,0,1)]",
+                    "bg-white/[0.025] backdrop-blur-[80px]",
+                    "border border-white/[0.06] shadow-[0_30px_100px_-20px_rgba(0,0,0,0.9)]",
                     "flex flex-col overflow-hidden z-10",
                     "transition-all duration-700 ease-out",
                     isError && "border-red-500/30 shadow-[0_0_60px_-10px_rgba(239,68,68,0.2)]"
                 )}
             >
+                {/* Inner shimmer gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent pointer-events-none rounded-[40px]" />
                 {/* Vertical Premium Sheen */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000 pointer-events-none rounded-[40px]" />
 
                 <div className="relative z-30 flex flex-col h-full p-10 md:p-14 space-y-10">
 
-                    {/* HEADER */}
+                    {/* HEADER — hidden on mobile (AuthLayout provides hero Orb) */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col items-center justify-center space-y-1"
+                        className="hidden lg:flex flex-col items-center justify-center space-y-1"
                     >
                         <MiaOrb
                             size={88}
@@ -406,7 +408,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                                 }}
                                 className="text-[12px] text-white/50 hover:text-white/70 transition-colors font-medium outline-none tracking-wide"
                             >
-                                {isRegister ? "¿Ya tenés cuenta? Iniciá sesión" : (isForgotPassword ? "Volver a iniciar sesión" : "¿No tenés cuenta? Evaluá acceso")}
+                                {isRegister ? "¿Ya tenés cuenta? Iniciar Sesión" : (isForgotPassword ? "Volver a Iniciar Sesión" : "¿No tenés cuenta? Evaluá acceso")}
                             </button>
                         </div>
                     </div>
