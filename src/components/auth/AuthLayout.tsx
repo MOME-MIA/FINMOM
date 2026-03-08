@@ -283,27 +283,27 @@ export function AuthLayout({
                 </motion.div>
 
                 {/* Right Panel */}
-                <div className="flex-1 flex flex-col items-center justify-center px-5 sm:px-6 py-20 sm:py-24 lg:py-0">
+                <div className="flex-1 flex flex-col items-center justify-center px-5 sm:px-6 py-16 sm:py-20 lg:py-0">
 
                     {/* ─── Mobile M.I.A. Orb Hero ─── */}
                     <motion.div
-                        initial={{ opacity: 0, y: 15 }}
+                        initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                        className="lg:hidden flex flex-col items-center mb-6 sm:mb-8"
+                        transition={{ delay: 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="lg:hidden flex flex-col items-center mb-4 sm:mb-6"
                     >
                         {/* Orb with static glow behind (no animated scale on mobile) */}
                         <div className="relative">
                             <div
-                                className="absolute inset-[-20px] rounded-full blur-[30px] opacity-[0.15]"
+                                className="absolute inset-[-12px] sm:inset-[-18px] rounded-full blur-[25px] sm:blur-[30px] opacity-[0.12]"
                                 style={{ backgroundColor: theme.primaryGlow, transform: "translateZ(0)" }}
                             />
-                            <MiaOrb size={100} state={orbState} />
+                            <MiaOrb size={80} state={orbState} />
                         </div>
-                        <div className="text-center mt-4">
-                            <h1 className="text-[22px] sm:text-[24px] font-bold tracking-tight text-white/90">{mobileTitle}</h1>
+                        <div className="text-center mt-3">
+                            <h1 className="text-[20px] sm:text-[22px] font-bold tracking-tight text-white/90">{mobileTitle}</h1>
                             <p
-                                className="text-[10px] sm:text-[11px] font-bold mt-1 tracking-[0.2em] uppercase opacity-60"
+                                className="text-[11px] font-bold mt-1 tracking-[0.18em] uppercase opacity-60"
                                 style={{ color: theme.primaryGlow }}
                             >
                                 {mobileSubtitle}
@@ -320,7 +320,7 @@ export function AuthLayout({
                     >
                         {/* Ambient card glow — static, GPU-friendly */}
                         <div
-                            className="absolute -inset-6 sm:-inset-8 rounded-[50px] sm:rounded-[60px] blur-[40px] sm:blur-[60px] opacity-[0.05] sm:opacity-[0.06]"
+                            className="absolute -inset-4 sm:-inset-6 lg:-inset-8 rounded-[36px] sm:rounded-[50px] lg:rounded-[60px] blur-[30px] sm:blur-[40px] lg:blur-[60px] opacity-[0.04] sm:opacity-[0.05] lg:opacity-[0.06]"
                             style={{ backgroundColor: theme.primaryGlow, transform: "translateZ(0)" }}
                         />
                         <div className="relative z-10">
@@ -334,18 +334,18 @@ export function AuthLayout({
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.8, duration: 0.5 }}
-                            className="lg:hidden mt-8 sm:mt-10 w-full max-w-[440px]"
+                            className="lg:hidden mt-6 sm:mt-8 w-full max-w-[440px]"
                         >
-                            <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
+                            <div className="flex flex-wrap justify-center gap-2.5">
                                 {trustBadges.map((badge, i) => (
                                     <div
                                         key={i}
-                                        className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full bg-white/[0.03] border border-white/[0.05]"
+                                        className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/[0.03] border border-white/[0.05]"
                                     >
                                         <div className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center shrink-0">
                                             {badge.icon}
                                         </div>
-                                        <span className="text-[9px] sm:text-[10px] text-white/40 font-semibold tracking-wide">{badge.text}</span>
+                                        <span className="text-[10px] sm:text-[11px] text-white/40 font-semibold tracking-wide">{badge.text}</span>
                                     </div>
                                 ))}
                             </div>

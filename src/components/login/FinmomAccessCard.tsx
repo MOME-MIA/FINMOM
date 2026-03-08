@@ -201,7 +201,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                 animate={isExiting ? { opacity: 0, scale: 0.98, y: -20, filter: "blur(20px)" } : { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
                 transition={{ duration: isExiting ? 0.8 : 0.8, ease: [0.16, 1, 0.3, 1] }}
                 className={cn(
-                    "relative w-full h-auto rounded-[40px] text-center",
+                    "relative w-full h-auto rounded-[24px] sm:rounded-[32px] lg:rounded-[40px] text-center",
                     "bg-white/[0.025] backdrop-blur-[80px]",
                     "border border-white/[0.06] shadow-[0_30px_100px_-20px_rgba(0,0,0,0.9)]",
                     "flex flex-col overflow-hidden z-10",
@@ -210,11 +210,11 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                 )}
             >
                 {/* Inner shimmer gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent pointer-events-none rounded-[40px]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.04] via-transparent to-transparent pointer-events-none rounded-[24px] sm:rounded-[32px] lg:rounded-[40px]" />
                 {/* Vertical Premium Sheen */}
-                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000 pointer-events-none rounded-[40px]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-0 hover:opacity-100 transition-opacity duration-1000 pointer-events-none rounded-[24px] sm:rounded-[32px] lg:rounded-[40px]" />
 
-                <div className="relative z-30 flex flex-col h-full p-10 md:p-14 space-y-10">
+                <div className="relative z-30 flex flex-col h-full p-6 sm:p-8 md:p-10 lg:p-14 space-y-6 sm:space-y-8 lg:space-y-10">
 
                     {/* HEADER — hidden on mobile (AuthLayout provides hero Orb) */}
                     <motion.div
@@ -243,7 +243,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                     </motion.div>
 
                     {/* INPUT SECTION */}
-                    <div className="flex-1 flex flex-col items-center justify-center space-y-3 w-full min-h-[140px]">
+                    <div className="flex-1 flex flex-col items-center justify-center space-y-3 w-full min-h-[100px] sm:min-h-[120px] lg:min-h-[140px]">
                         <AnimatePresence mode="wait">
                             {(!isRegister || (isRegister && registerStep === 0)) && (
                                 <motion.div
@@ -379,10 +379,10 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/60 transition-colors focus:outline-none focus:text-white z-30"
+                                            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white/60 transition-colors focus:outline-none focus:text-white z-30 min-w-[44px] min-h-[44px] flex items-center justify-center"
                                             aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                                         >
-                                            {showPassword ? <EyeOff size={16} strokeWidth={1.5} /> : <Eye size={16} strokeWidth={1.5} />}
+                                            {showPassword ? <EyeOff size={18} strokeWidth={1.5} /> : <Eye size={18} strokeWidth={1.5} />}
                                         </button>
                                     </motion.div>
                                 </motion.div>
@@ -390,12 +390,12 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                         </AnimatePresence>
 
                         {/* Links */}
-                        <div className="w-full flex flex-col items-center gap-2 pt-2">
+                        <div className="w-full flex flex-col items-center gap-1 sm:gap-2 pt-1 sm:pt-2">
                             {!isRegister && !isForgotPassword && (
                                 <button
                                     type="button"
                                     onClick={() => router.push("/forgot-password")}
-                                    className="text-[12px] text-white/50 hover:text-white transition-colors font-medium outline-none tracking-wide"
+                                    className="text-[13px] sm:text-[14px] text-white/50 hover:text-white transition-colors font-medium outline-none tracking-wide min-h-[44px] flex items-center justify-center"
                                 >
                                     ¿Olvidaste tu contraseña?
                                 </button>
@@ -406,7 +406,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                                     setRegisterStep(0);
                                     router.push(isRegister ? "/login" : (isForgotPassword ? "/login" : "/register"))
                                 }}
-                                className="text-[12px] text-white/50 hover:text-white/70 transition-colors font-medium outline-none tracking-wide"
+                                className="text-[13px] sm:text-[14px] text-white/50 hover:text-white/70 transition-colors font-medium outline-none tracking-wide min-h-[44px] flex items-center justify-center"
                             >
                                 {isRegister ? "¿Ya tenés cuenta? Iniciar Sesión" : (isForgotPassword ? "Volver a Iniciar Sesión" : "¿No tenés cuenta? Evaluá acceso")}
                             </button>
@@ -414,7 +414,7 @@ export function FinmomAccessCard({ mode = "login" }: FinmomAccessCardProps) {
                     </div>
 
                     {/* FOOTER ACTION */}
-                    <div className="w-full pb-6">
+                    <div className="w-full pb-2 sm:pb-4 lg:pb-6">
                         <SingularityButton
                             isUnlocked={isUnlocked}
                             isLoading={isLoading}
