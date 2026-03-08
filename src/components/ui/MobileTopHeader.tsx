@@ -26,7 +26,7 @@ export function MobileTopHeader() {
 
     return (
         <div
-            className="w-full bg-black/90 backdrop-blur-md border-b border-white/[0.04] px-3 py-2 flex justify-between items-center gap-2"
+            className="w-full bg-black/90 backdrop-blur-md border-b border-white/[0.04] px-4 py-2.5 flex justify-between items-center gap-2 md:px-6"
         >
             {/* Left: Global Currency Selector */}
             <div className="shrink-0">

@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: '%s | FINMOM OS',
     default: 'FINMOM | Inteligencia Financiera',
   },
-  applicationName: 'MOMENTUM OS',
+  applicationName: 'FINMOM',
   description: 'Financial Health Command Center & AI Intelligence por M.I.A. Optimización asimétrica de tu patrimonio.',
   keywords: ["FINMOM", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
   icons: {
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'MOMENTUM OS',
+    title: 'FINMOM',
   },
   openGraph: {
     type: 'website',
@@ -75,6 +75,7 @@ import { CurrencyProvider } from "@/context/CurrencyContext";
 import { NativeSystemProvider } from "@/components/NativeSystemProvider";
 import { getAuthFromCookies } from "@insforge/nextjs";
 import { Providers as InsforgeAuthProviders } from "./providers";
+import { SplashWrapper } from "@/components/ui/SplashWrapper";
 
 export default async function RootLayout({
   children,
@@ -98,7 +99,9 @@ export default async function RootLayout({
             <NativeSystemProvider>
               <ThemeProvider>
                 <CurrencyProvider>
-                  {children}
+                  <SplashWrapper>
+                    {children}
+                  </SplashWrapper>
                   <Toaster
                     theme="dark"
                     position="bottom-center"

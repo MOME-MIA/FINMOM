@@ -108,7 +108,7 @@ export function Navbar() {
                     initial={{ y: 100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 350, damping: 28, mass: 0.8 }}
-                    className="pointer-events-auto relative inline-flex items-center gap-1.5 bg-white/[0.02] backdrop-blur-[48px] border border-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)] rounded-[32px] px-3 py-2.5"
+                    className="pointer-events-auto relative inline-flex items-center gap-1.5 bg-white/[0.02] backdrop-blur-[48px] border border-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)] rounded-[32px] px-4 py-3 md:px-5 md:py-3.5"
                 >
                     {/* Left Items */}
                     <div className="flex items-center gap-1">

@@ -1,11 +1,12 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     LayoutDashboard, Activity, WalletCards, Target,
-    History, PlusCircle, LogOut, Settings, Wallet,
-    ChevronsLeft, ChevronsRight, Shield
+    History, PlusCircle, LogOut, Wallet, User,
+    ChevronsLeft, ChevronsRight, Plus
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
@@ -16,6 +17,8 @@ import { useMia } from "@/components/chat/MiaContext";
 import { MiaMicroWidget } from "@/components/chat/MiaMicroWidget";
 import { useUser } from "@insforge/nextjs";
 import { useSidebar } from "@/context/SidebarContext";
+import { FinmomLogo } from "@/components/ui/FinmomLogo";
+import { fetchProfile, type ProfileData } from "@/lib/insforgeProfile";
 
 const menuItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -24,7 +27,6 @@ const menuItems = [
     { href: "/dashboard/expenses", label: "Gastos", icon: WalletCards },
     { href: "/dashboard/budgets", label: "Presupuestos", icon: Target },
     { href: "/dashboard/history", label: "Historial", icon: History },
-    { href: "/dashboard/settings", label: "Ajustes", icon: Settings },
 ];
 
 export function Sidebar() {
@@ -33,6 +35,13 @@ export function Sidebar() {
     const { toggleMia, isOpen: isMiaOpen } = useMia();
     const { user } = useUser();
     const { collapsed, toggle } = useSidebar();
+    const [profile, setProfile] = useState<ProfileData | null>(null);
+
+    useEffect(() => {
+        fetchProfile().then((data) => {
+            if (data) setProfile(data);
+        });
+    }, []);
 
     const userEmail = user?.email || "";
     const userName = user?.profile?.name || userEmail.split("@")[0] || "User";
@@ -45,15 +54,32 @@ export function Sidebar() {
                 collapsed ? "w-[72px]" : "w-[240px]"
             )}
         >
-            {/* Header with Selectors */}
+            {/* Header with Selectors & Logo */}
             <div className={cn(
-                "pt-8 pb-4 flex flex-col gap-4 border-b border-white/[0.04] transition-all duration-300",
-                collapsed ? "px-3 items-center" : "px-5"
+                "pt-4 pb-5 flex flex-col gap-5 border-b border-white/[0.04] transition-all duration-300 items-center",
+                collapsed ? "px-3" : "px-5"
             )}>
-                {!collapsed && <CurrencySelector />}
-                {!collapsed && <DateSelector className="w-full justify-between px-3 py-2 bg-white/[0.02]" />}
+                <div className="flex flex-row items-center justify-center gap-3 w-full">
+                    <div className="shrink-0 w-8 h-8 flex items-center justify-center">
+                        <FinmomLogo className="w-full h-full" animate={false} showText={false} />
+                    </div>
+                    {!collapsed && (
+                        <span className="text-[16px] font-sans font-medium tracking-[0.2em] uppercase text-white">
+                            FINMOM
+                        </span>
+                    )}
+                </div>
+
+                {!collapsed && (
+                    <div className="flex flex-row items-center gap-2 w-full">
+                        <CurrencySelector />
+                        <div className="flex-1 w-full relative">
+                            <DateSelector className="w-full justify-between !py-0.5 !px-1 h-[36px]" />
+                        </div>
+                    </div>
+                )}
                 {collapsed && (
-                    <div className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
+                    <div className="w-[36px] h-[36px] rounded-full bg-white/[0.02] border border-white/[0.06] flex items-center justify-center">
                         <span className="text-[11px] font-bold text-white/60">$</span>
                     </div>
                 )}
@@ -102,103 +128,49 @@ export function Sidebar() {
                     );
                 })}
 
-                {/* Secrect Admin Route */}
-                {userEmail === "agenciamom.contacto@gmail.com" && (
-                    <Link
-                        href="/admin"
-                        className="block mt-4"
-                        onClick={() => playClick()}
-                        onMouseEnter={() => playHover()}
-                        title={collapsed ? "Admin Panel" : undefined}
-                    >
-                        <motion.div
-                            whileTap={{ scale: 0.97 }}
-                            className={cn(
-                                "flex items-center rounded-xl transition-all duration-300 relative overflow-hidden",
-                                collapsed ? "justify-center px-0 py-2.5" : "gap-3 px-3 py-2.5",
-                                pathname === "/admin"
-                                    ? "bg-gradient-to-r from-[#BF5AF2]/20 to-[#BF5AF2]/5 text-[#BF5AF2] shadow-[0_4px_12px_rgba(191,90,242,0.2)] border border-[#BF5AF2]/20"
-                                    : "text-[#BF5AF2]/50 hover:text-[#BF5AF2] hover:bg-[#BF5AF2]/10 border border-transparent"
-                            )}
-                        >
-                            <Shield
-                                className={cn(
-                                    pathname === "/admin" ? "text-[#BF5AF2]" : "text-[#BF5AF2]/50",
-                                    collapsed ? "w-[18px] h-[18px]" : "w-[16px] h-[16px]"
-                                )}
-                                strokeWidth={pathname === "/admin" ? 2 : 1.5}
-                            />
-                            {!collapsed && (
-                                <span className={cn("text-[13px] whitespace-nowrap", pathname === "/admin" ? "font-medium" : "font-normal")}>
-                                    Terminal M.O.M.
-                                </span>
-                            )}
-                        </motion.div>
-                    </Link>
-                )}
             </nav>
 
-            <div className={cn("mt-auto flex flex-col gap-3 transition-all duration-300", collapsed ? "p-2" : "p-4")}>
-                {/* Nueva Transacción */}
-                <Link
-                    href="/dashboard/add"
-                    title={collapsed ? "Nueva Transacción" : undefined}
-                    className={cn(
-                        "flex items-center justify-center bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.02] py-2.5 rounded-lg text-white transition-colors group",
-                        collapsed ? "w-full" : "gap-2 w-full"
-                    )}
-                >
-                    <PlusCircle className="w-4 h-4 text-white/50 group-hover:text-white transition-colors shrink-0" strokeWidth={1.5} />
-                    {!collapsed && <span className="text-[12px] font-medium tracking-wide">Nueva Transacción</span>}
-                </Link>
+            <div className={cn("mt-auto flex flex-col gap-3 transition-all duration-300", collapsed ? "p-2" : "px-4 pb-4 pt-2")}>
+                {/* ACCIÓN PRINCIPAL (Desktop) */}
+                <div className="w-full">
+                    <Link
+                        href="/dashboard/add"
+                        className="flex flex-row items-center justify-center gap-2 py-2.5 px-3 w-full bg-white/[0.03] border border-white/[0.05] hover:bg-white/[0.08] text-white/80 hover:text-white rounded-[16px] transition-all text-[12px] font-medium tracking-wide active:scale-95"
+                    >
+                        <Plus className="w-4 h-4 shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)] bg-neutral-800 rounded-full p-0.5" />
+                        {!collapsed && <span>Nueva Transacción</span>}
+                    </Link>
+                </div>
 
-                {/* System Intelligence */}
-                <button
-                    onClick={() => { playClick(); toggleMia(); }}
-                    title={collapsed ? "M.I.A." : undefined}
-                    className={cn(
-                        "flex items-center justify-center border py-2.5 rounded-lg transition-colors group relative overflow-hidden",
-                        collapsed ? "w-full" : "gap-3 px-3",
-                        isMiaOpen
-                            ? "bg-[#0A84FF]/10 border-[#0A84FF]/20 text-[#0A84FF]"
-                            : "bg-transparent border-white/[0.02] text-white/50 hover:text-white hover:bg-white/[0.04]"
-                    )}
-                >
-                    <div className="pointer-events-none shrink-0">
-                        <MiaMicroWidget showOrb={true} orbSize={20} className="w-5 h-5 flex items-center justify-center" />
-                    </div>
-                    {!collapsed && <span className="text-[13px] font-medium tracking-wide">M.I.A.</span>}
-                </button>
-
-                {/* User Profile */}
+                {/* User Profile & M.I.A Matching Mobile Layout */}
                 <div className={cn(
-                    "flex items-center group hover:bg-white/[0.02] rounded-lg transition-colors cursor-pointer mt-2",
-                    collapsed ? "justify-center p-2" : "gap-3 px-2 py-2"
+                    "flex mt-1 mb-1 items-center",
+                    collapsed ? "flex-col justify-center gap-4" : "flex-row justify-center gap-6 px-2"
                 )}>
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center text-[10px] font-medium text-white/70 uppercase shrink-0">
-                        {userInitials}
-                    </div>
-                    {!collapsed && (
-                        <>
-                            <div className="flex-1 min-w-0">
-                                <p className="text-[12px] font-medium text-white/90 truncate">{userName}</p>
-                                <p className="text-[10px] text-white/50 truncate">{userEmail}</p>
-                            </div>
-                            <button
-                                onClick={async (e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    const { logoutAction } = await import("@/app/actions");
-                                    await logoutAction();
-                                }}
-                                className="w-[36px] h-[36px] flex items-center justify-center text-white/50 hover:text-white/70 transition-colors rounded-md hover:bg-white/[0.06] shrink-0 active:scale-95"
-                                title="Cerrar Sesión"
-                                aria-label="Cerrar Sesión"
-                            >
-                                <LogOut className="w-4 h-4 ml-0.5" strokeWidth={1.5} />
-                            </button>
-                        </>
-                    )}
+                    {/* Settings / Profile link */}
+                    <Link
+                        href="/dashboard/settings"
+                        title="Ajustes de Perfil"
+                        onClick={() => playClick()}
+                        className="w-[38px] h-[38px] flex flex-col items-center justify-center rounded-full text-white/50 hover:text-white hover:bg-white/5 transition-colors active:scale-95 shrink-0 overflow-hidden border border-white/10 bg-gradient-to-br from-white/10 to-white/5"
+                    >
+                        {profile?.avatar_url ? (
+                            <img src={profile.avatar_url} alt="Perfil" className="w-[38px] h-[38px] rounded-full object-cover" />
+                        ) : (
+                            <span className="text-[10px] font-medium text-white/70 uppercase">
+                                {userInitials}
+                            </span>
+                        )}
+                    </Link>
+
+                    {/* M.I.A Orb replacing Logout */}
+                    <button
+                        onClick={() => { playClick(); toggleMia(); }}
+                        title="M.I.A."
+                        className="w-[38px] h-[38px] flex items-center justify-center rounded-full transition-colors active:scale-95 shrink-0"
+                    >
+                        <MiaMicroWidget showOrb={true} orbSize={38} className="w-[38px] h-[38px] flex items-center justify-center pointer-events-none" />
+                    </button>
                 </div>
 
                 {/* Collapse Toggle */}
