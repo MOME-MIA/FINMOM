@@ -103,6 +103,7 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
                     provider: dataToSave.provider,
                     currencyCode: dataToSave.currencyCode,
                     currentBalance: dataToSave.currentBalance,
+                    color: dataToSave.color
                 });
 
                 if (updated) {

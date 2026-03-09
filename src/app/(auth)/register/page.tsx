@@ -4,12 +4,14 @@ import { AuthLayout } from "@/components/auth/AuthLayout";
 import { FinmomAccessCard } from "@/components/login/FinmomAccessCard";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Sparkles, Brain, Shield, Crown, Users } from "lucide-react";
+import { Sparkles, Brain, Shield, Crown, Users, Lock, User } from "lucide-react";
 
 const WAITLIST_STEPS = [
-    { icon: <Sparkles className="w-4 h-4 text-[#BF5AF2]" />, title: "Reserva tu Identidad", desc: "Completá con tu email. Ingresás al pool de evaluación pendiente." },
-    { icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "Supervisión M.I.A.", desc: "Tu solicitud será revisada manualmente por nuestro equipo fundador." },
-    { icon: <Shield className="w-4 h-4 text-[#30D158]" />, title: "Pase de Acceso", desc: "Recibirás la confirmación privada con tu token de habilitación." },
+    { icon: <Sparkles className="w-4 h-4 text-[#BF5AF2]" />, title: "Contacto", desc: "Tu email principal." },
+    { icon: <Lock className="w-4 h-4 text-[#FF9F0A]" />, title: "Seguridad", desc: "Crea tu contraseña cifrada." },
+    { icon: <User className="w-4 h-4 text-[#30D158]" />, title: "Identidad", desc: "Tu nombre completo." },
+    { icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "Evaluación M.I.A.", desc: "Contexto para tu perfil." },
+    { icon: <Shield className="w-4 h-4 text-[#5856D6]" />, title: "Pase de Acceso", desc: "Confirmación final." },
 ];
 
 export default function RegisterPage() {
@@ -103,8 +105,8 @@ export default function RegisterPage() {
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.7 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                                     className={`flex items-center gap-4 px-4 py-3 rounded-2xl border transition-all duration-500 cursor-default ${isCompleted
-                                            ? "bg-[#30D158]/[0.04] border-[#30D158]/10"
-                                            : "bg-white/[0.02] border-white/[0.04] hover:bg-white/[0.04] hover:border-white/[0.07]"
+                                        ? "bg-[#30D158]/[0.04] border-[#30D158]/10"
+                                        : "bg-white/[0.02] border-white/[0.04] hover:bg-white/[0.04] hover:border-white/[0.07]"
                                         }`}
                                 >
                                     <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all duration-500 ${isCompleted ? "bg-[#30D158]/10 border-[#30D158]/20" : "bg-white/[0.04] border-white/[0.05]"

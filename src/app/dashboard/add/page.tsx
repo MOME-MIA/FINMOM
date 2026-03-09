@@ -1,16 +1,9 @@
-import { Suspense } from 'react';
-import { AddClient } from "./AddClient";
-import { Metadata } from 'next';
+import { AddTransactionForm } from '@/components/dashboard/AddTransactionForm';
 
-export const metadata: Metadata = {
-    title: 'Nueva Transacción',
-    description: 'Registrá un nuevo ingreso o gasto en tu sistema financiero.',
-};
-
-export default function AddPage() {
+export default function AddTransactionPage() {
     return (
-        <Suspense fallback={<div>Cargando...</div>}>
-            <AddClient />
-        </Suspense>
+        <div className="w-full">
+            <AddTransactionForm />
+        </div>
     );
 }
