@@ -122,7 +122,7 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
                                             className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full flex items-center justify-center"
                                         >
                                             <img
-                                                src="/logos/logo-blanco.svg"
+                                                src="/logos/LOGO FINMOM APP.svg"
                                                 alt="FINMOM"
                                                 className="w-full h-full object-contain select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
                                             />

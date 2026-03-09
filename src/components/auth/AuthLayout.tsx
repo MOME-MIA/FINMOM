@@ -257,7 +257,7 @@ export function AuthLayout({
             >
                 <Link href="/" className="flex items-center gap-2 group">
                     <div className="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center opacity-70 group-hover:opacity-100 transition-opacity duration-300">
-                        <img src="/logos/logo-blanco.svg" alt="FINMOM" className="w-full h-full object-contain pointer-events-none select-none" />
+                        <img src="/logos/LOGO FINMOM APP.svg" alt="FINMOM" className="w-full h-full object-contain pointer-events-none select-none" />
                     </div>
                     <span className="font-bold text-[13px] sm:text-[14px] text-white/50 group-hover:text-white/70 transition-colors tracking-wide">FINMOM</span>
                 </Link>

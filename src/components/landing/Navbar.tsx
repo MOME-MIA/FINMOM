@@ -43,7 +43,7 @@ export function Navbar() {
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2.5 hover:opacity-80 transition-opacity z-10">
                     <div className="w-8 h-8 flex items-center justify-center shrink-0">
-                        <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
+                        <img src="/logos/LOGO FINMOM APP.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
                     </div>
                     <span className="font-bold text-[16px] sm:text-[18px] tracking-tight">FINMOM</span>
                 </Link>
