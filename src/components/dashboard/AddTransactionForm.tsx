@@ -32,7 +32,7 @@ const fieldVariants = {
         opacity: 1,
         y: 0,
         scale: 1,
-        transition: { delay: i * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] },
+        transition: { delay: i * 0.06, duration: 0.35, ease: [0.16, 1, 0.3, 1] as const },
     }),
     exit: { opacity: 0, y: -8, scale: 0.98, transition: { duration: 0.2 } },
 };
