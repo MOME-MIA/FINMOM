@@ -635,18 +635,14 @@ export async function getSmartInsightsAction(kpis: DashboardKPIs, transactions: 
 export async function joinWaitlistAction(data: { email: string, name?: string, revenue?: string, reason?: string }) {
     try {
         const { insforge } = await import('@/lib/insforge');
-        const { error } = await insforge.database.from('waitlist').insert({
+        const { error } = await insforge.database.from('waitlist').upsert({
             email: data.email,
             full_name: data.name || null,
             revenue_bracket: data.revenue || null,
             application_reason: data.reason || null,
             status: 'pending'
-        });
+        }, { onConflict: 'email' });
         if (error) {
-            // Postgres unique violation code usually is 23505
-            if (error.code === '23505' || error.message.includes('unique')) {
-                return { success: false, error: 'Esta identidad ya está en la fila.' };
-            }
             console.error("Waitlist db error:", error);
             return { success: false, error: 'Ocurrió un error al registrarte.' };
         }
@@ -654,6 +650,60 @@ export async function joinWaitlistAction(data: { email: string, name?: string, r
     } catch (error) {
         console.error("Waitlist error:", error);
         return { success: false, error: 'Ocurrió un error interno.' };
+    }
+}
+
+export async function reapplyWaitlistAction(email: string) {
+    try {
+        const { insforge } = await import('@/lib/insforge');
+        // Usar upsert o update
+        const { error } = await insforge.database
+            .from('waitlist')
+            .update({ status: 'pending' })
+            .eq('email', email);
+
+        if (error) {
+            console.error("Reapply error:", error);
+            return { success: false, error: 'Error al procesar solicitud.' };
+        }
+        return { success: true };
+    } catch (error) {
+        console.error("Reapply error:", error);
+        return { success: false, error: 'Error interno del sistema.' };
+    }
+}
+
+export async function checkWaitlistStatusAction(email: string): Promise<{
+    found: boolean;
+    status: 'pending' | 'approved' | 'rejected' | null;
+    fullName: string | null;
+    createdAt: string | null;
+}> {
+    if (!email || !email.includes('@')) {
+        return { found: false, status: null, fullName: null, createdAt: null };
+    }
+    try {
+        const { insforge } = await import('@/lib/insforge');
+        const { data, error } = await insforge.database
+            .from('waitlist')
+            .select('status, full_name, created_at')
+            .eq('email', email.toLowerCase().trim())
+            .limit(1);
+
+        if (error || !data || data.length === 0) {
+            return { found: false, status: null, fullName: null, createdAt: null };
+        }
+
+        const row = data[0];
+        return {
+            found: true,
+            status: row.status as 'pending' | 'approved' | 'rejected',
+            fullName: row.full_name || null,
+            createdAt: row.created_at || null,
+        };
+    } catch (error) {
+        console.error("[checkWaitlistStatus] Error:", error);
+        return { found: false, status: null, fullName: null, createdAt: null };
     }
 }
 

@@ -20,6 +20,7 @@ const PUBLIC_PATHS = new Set([
     "/login",
     "/register",
     "/forgot-password",
+    "/access-status",
     "/mom-capital",
     "/pricing",
     "/pricing/success",
@@ -35,6 +36,7 @@ const PUBLIC_PATHS = new Set([
     "/licenses",
     "/compare",
     "/sandbox",
+    "/sandbox-e2e",
     "/status",
     "/help-center",
 ]);
@@ -103,15 +105,15 @@ export async function middleware(req: NextRequest) {
 
                 if (!isApproved) {
                     const url = req.nextUrl.clone();
-                    url.pathname = '/login';
-                    url.searchParams.set('waitlist', 'pending');
+                    url.pathname = '/access-status';
+                    url.searchParams.set('email', email);
                     return NextResponse.redirect(url);
                 }
             } catch (edgeError) {
                 console.error("[Middleware] Error comprobando Waitlist en Edge:", edgeError);
                 const url = req.nextUrl.clone();
-                url.pathname = '/login';
-                url.searchParams.set('waitlist', 'system_error');
+                url.pathname = '/access-status';
+                url.searchParams.set('email', email);
                 return NextResponse.redirect(url);
             }
         }

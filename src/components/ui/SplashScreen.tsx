@@ -122,7 +122,7 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
                                             className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full flex items-center justify-center"
                                         >
                                             <img
-                                                src="/logos/logo-blanco.svg"
+                                                src="/logos/LOGO FINMOM APP.svg"
                                                 alt="FINMOM"
                                                 className="w-full h-full object-contain select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
                                             />
@@ -241,30 +241,41 @@ function LiquidRipples({ phase }: { phase: string }) {
             {/* Ambient Void Particles */}
             {phase !== "exit" && (
                 <>
-                    {[...Array(6)].map((_, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{
-                                opacity: 0,
-                                x: (Math.random() - 0.5) * 300,
-                                y: (Math.random() - 0.5) * 300,
-                                scale: 0,
-                            }}
-                            animate={{
-                                opacity: [0, 0.3, 0],
-                                x: (Math.random() - 0.5) * 100,
-                                y: (Math.random() - 0.5) * 100,
-                                scale: [0, 1, 0.5],
-                            }}
-                            transition={{
-                                duration: 3 + Math.random() * 2,
-                                delay: 0.8 + i * 0.3,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                            }}
-                            className="absolute w-1 h-1 rounded-full bg-white/30"
-                        />
-                    ))}
+                    {[...Array(6)].map((_, i) => {
+                        // Deterministic positions to avoid SSR/CSR hydration mismatch
+                        const angles = [0.2, 0.85, 1.4, 2.1, 2.7, 3.5];
+                        const radii = [120, 90, 140, 100, 130, 110];
+                        const durations = [3.5, 4.2, 3.8, 4.5, 3.2, 4.0];
+                        const initX = Math.cos(angles[i]) * radii[i];
+                        const initY = Math.sin(angles[i]) * radii[i];
+                        const animX = Math.cos(angles[i] + 1) * (radii[i] * 0.4);
+                        const animY = Math.sin(angles[i] + 1) * (radii[i] * 0.4);
+
+                        return (
+                            <motion.div
+                                key={i}
+                                initial={{
+                                    opacity: 0,
+                                    x: initX,
+                                    y: initY,
+                                    scale: 0,
+                                }}
+                                animate={{
+                                    opacity: [0, 0.3, 0],
+                                    x: animX,
+                                    y: animY,
+                                    scale: [0, 1, 0.5],
+                                }}
+                                transition={{
+                                    duration: durations[i],
+                                    delay: 0.8 + i * 0.3,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                }}
+                                className="absolute w-1 h-1 rounded-full bg-white/30"
+                            />
+                        );
+                    })}
                 </>
             )}
 

@@ -1,130 +1,159 @@
 "use client";
 
+import { AuthLayout } from "@/components/auth/AuthLayout";
 import { FinmomAccessCard } from "@/components/login/FinmomAccessCard";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Link from "next/link";
-import { Wallet, Sparkles, Shield, Brain, ArrowRight } from "lucide-react";
+import { Sparkles, Brain, Shield, Crown, Users, Lock, User } from "lucide-react";
+
+const WAITLIST_STEPS = [
+    { icon: <Sparkles className="w-4 h-4 text-[#BF5AF2]" />, title: "Contacto", desc: "Tu email principal." },
+    { icon: <Lock className="w-4 h-4 text-[#FF9F0A]" />, title: "Seguridad", desc: "Crea tu contraseña cifrada." },
+    { icon: <User className="w-4 h-4 text-[#30D158]" />, title: "Identidad", desc: "Tu nombre completo." },
+    { icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "Evaluación M.I.A.", desc: "Contexto para tu perfil." },
+    { icon: <Shield className="w-4 h-4 text-[#5856D6]" />, title: "Pase de Acceso", desc: "Confirmación final." },
+];
 
 export default function RegisterPage() {
     const [mounted, setMounted] = useState(false);
+    const [currentStep, setCurrentStep] = useState(0);
 
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    useEffect(() => {
+        const checkStep = () => {
+            const stepIndicator = document.querySelector('[data-register-step]');
+            if (stepIndicator) {
+                const step = parseInt(stepIndicator.getAttribute('data-register-step') || '0');
+                setCurrentStep(step);
+            }
+        };
+
+        const observer = new MutationObserver(checkStep);
+        const target = document.querySelector('[role="form"]');
+        if (target) {
+            observer.observe(target, { childList: true, subtree: true, attributes: true });
+        }
+
+        return () => observer.disconnect();
+    }, [mounted]);
+
     if (!mounted) return null;
 
     return (
-        <main className="relative w-full min-h-screen overflow-hidden bg-[#000000] text-white font-sans selection:bg-[#30D158]/30">
-            {/* ─── Ambient Background ─── */}
-            <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden bg-black">
-                <div className="absolute top-[-15%] right-[-5%] w-[500px] h-[500px] bg-[#30D158]/[0.03] rounded-full blur-[150px]" />
-                <div className="absolute bottom-[-15%] left-[-10%] w-[550px] h-[550px] bg-[#0A84FF]/[0.02] rounded-full blur-[120px]" />
-            </div>
+        <AuthLayout
+            theme={{
+                primaryGlow: "#BF5AF2",
+                secondaryGlow: "#30D158",
+                accentGlow: "#5856D6",
+                selectionColor: "rgba(191, 90, 242, 0.3)",
+            }}
+            headerLink={{ href: "/login", label: "Ya tengo cuenta" }}
+            mobileTitle="FINMOM"
+            mobileSubtitle="Solicitud de Acceso"
+            orbState="idle"
+            trustBadges={[
+                { icon: <Crown className="w-3.5 h-3.5 text-[#BF5AF2]" />, text: "Beta cerrada" },
+                { icon: <Shield className="w-3.5 h-3.5 text-[#30D158]" />, text: "Cifrado E2E" },
+                { icon: <Users className="w-3.5 h-3.5 text-[#FF9F0A]" />, text: "Cupos limitados" },
+            ]}
+            leftPanel={
+                <div className="space-y-10">
+                    {/* Badge */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#BF5AF2]/5 border border-[#BF5AF2]/10"
+                    >
+                        <Crown className="w-3.5 h-3.5 text-[#BF5AF2]" />
+                        <span className="text-[11px] font-bold text-[#BF5AF2]/70 uppercase tracking-[0.2em]">Acceso Beta Cerrado</span>
+                    </motion.div>
 
-            {/* Grain Overlay */}
-            <div className="fixed inset-0 bg-noise opacity-[0.015] pointer-events-none z-10 mix-blend-overlay" />
+                    {/* Hero text */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <h1 className="text-[42px] xl:text-[50px] font-extrabold tracking-[-0.03em] leading-[1.05] bg-gradient-to-b from-white via-white/90 to-white/40 bg-clip-text text-transparent">
+                            Solicitá
+                            <br />
+                            tu lugar.
+                        </h1>
+                    </motion.div>
 
-            {/* ─── Top Navbar ─── */}
-            <motion.header
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4"
-            >
-                <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                    <div className="w-7 h-7 flex items-center justify-center">
-                        <img src="/logos/logo-blanco.svg" alt="FINMOM Logo" className="w-full h-full object-contain pointer-events-none select-none" />
-                    </div>
-                    <span className="font-bold text-[15px] text-white/60">FINMOM</span>
-                </Link>
-                <Link href="/login" className="text-[12px] text-white/50 hover:text-white/60 transition-colors font-medium tracking-wide">
-                    Ya tengo cuenta →
-                </Link>
-            </motion.header>
-
-            {/* ─── Split Layout ─── */}
-            <div className="relative z-20 w-full min-h-screen flex flex-col lg:flex-row">
-
-                {/* Left Panel — Value Props (hidden on mobile) */}
-                <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="hidden lg:flex flex-col justify-center px-16 xl:px-24 w-1/2 max-w-[640px]"
-                >
-                    <span className="text-[11px] font-bold text-[#BF5AF2]/60 uppercase tracking-[0.25em] mb-4">Closed Beta Access</span>
-                    <h1 className="text-4xl xl:text-5xl font-bold tracking-tighter leading-[1.1] mb-4 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent">
-                        Solicitá tu lugar.
-                    </h1>
-                    <p className="text-[15px] text-white/35 leading-relaxed font-medium mb-10 max-w-md">
-                        FINMOM actualmente opera bajo estricta invitación. Ingresá tu email para unirte a la lista de espera fundacional y desbloquear a M.I.A.
-                    </p>
+                    <motion.p
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.55, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className="text-[15px] text-white/35 leading-[1.7] font-medium max-w-[380px]"
+                    >
+                        FINMOM opera bajo estricta invitación. Ingresá tu email para unirte a la lista de espera fundacional y desbloquear a M.I.A.
+                    </motion.p>
 
                     {/* Steps */}
-                    <div className="space-y-5">
-                        {[
-                            { step: "01", icon: <Sparkles className="w-4 h-4 text-[#BF5AF2]" />, title: "Reserva tu Identidad", desc: "Completá con tu email. Ingresás al pool de 'Pending evaluation'." },
-                            { step: "02", icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "Supervisión M.I.A.", desc: "Tu solicitud será revisada manualmente por nuestro equipo fundador." },
-                            { step: "03", icon: <Shield className="w-4 h-4 text-[#FF9F0A]" />, title: "Pase de Acceso", desc: "Recibirás la confirmación privada con tu token de habilitación." },
-                        ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.5 + i * 0.12, duration: 0.5 }}
-                                className="flex items-start gap-4"
-                            >
-                                <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center justify-center shrink-0">
-                                    {item.icon}
-                                </div>
-                                <div>
-                                    <h3 className="text-[14px] font-bold text-white/60 mb-0.5">{item.title}</h3>
-                                    <p className="text-[13px] text-white/50 font-medium leading-relaxed">{item.desc}</p>
-                                </div>
-                            </motion.div>
-                        ))}
+                    <div className="space-y-3 pt-2">
+                        {WAITLIST_STEPS.map((item, i) => {
+                            const isCompleted = currentStep > i;
+                            return (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: -15 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.7 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                                    className={`flex items-center gap-4 px-4 py-3 rounded-2xl border transition-all duration-500 cursor-default ${isCompleted
+                                        ? "bg-[#30D158]/[0.04] border-[#30D158]/10"
+                                        : "bg-white/[0.02] border-white/[0.04] hover:bg-white/[0.04] hover:border-white/[0.07]"
+                                        }`}
+                                >
+                                    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center shrink-0 transition-all duration-500 ${isCompleted ? "bg-[#30D158]/10 border-[#30D158]/20" : "bg-white/[0.04] border-white/[0.05]"
+                                        }`}>
+                                        {isCompleted ? (
+                                            <motion.svg
+                                                initial={{ scale: 0 }}
+                                                animate={{ scale: 1 }}
+                                                className="w-4 h-4 text-[#30D158]"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                strokeWidth={2.5}
+                                            >
+                                                <polyline points="20 6 9 17 4 12" />
+                                            </motion.svg>
+                                        ) : item.icon}
+                                    </div>
+                                    <div>
+                                        <h3 className={`text-[13px] font-bold transition-colors duration-300 ${isCompleted ? "text-[#30D158]/60 line-through" : "text-white/60"}`}>
+                                            {item.title}
+                                        </h3>
+                                        <p className="text-[11px] text-white/30 font-medium mt-0.5">{item.desc}</p>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
 
+                    {/* Footer tagline */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        transition={{ delay: 1, duration: 0.6 }}
-                        className="mt-10 flex items-center gap-2 text-[11px] text-white/50 font-medium tracking-wide"
+                        transition={{ delay: 1.1, duration: 0.6 }}
+                        className="flex items-center gap-2.5 text-[10px] text-white/25 font-bold tracking-[0.15em] uppercase pt-2"
                     >
-                        <div className="w-1 h-1 rounded-full bg-[#BF5AF2]" />
-                        Cupos Limitados • Audición Continua • Cifrado Absoluto
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#BF5AF2]/50" />
+                        Cupos Limitados
+                        <div className="w-1 h-1 rounded-full bg-white/15" />
+                        Audición Continua
+                        <div className="w-1 h-1 rounded-full bg-white/15" />
+                        Cifrado Absoluto
                     </motion.div>
-                </motion.div>
-
-                {/* Right Panel — Card */}
-                <div className="flex-1 flex items-center justify-center px-4 py-20 lg:py-0">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key="register"
-                            initial={{ opacity: 0, y: 15, scale: 0.98 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            className="w-full max-w-[440px]"
-                        >
-                            <FinmomAccessCard mode="register" />
-                        </motion.div>
-                    </AnimatePresence>
                 </div>
-            </div>
-
-            {/* Minimalist Watermark */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-6 left-0 right-0 text-center z-20 pointer-events-none"
-            >
-                <p className="text-white/15 text-[10px] uppercase font-sans tracking-[0.4em]">
-                    FINMOM Platform • 2026
-                </p>
-            </motion.div>
-        </main>
+            }
+        >
+            <FinmomAccessCard mode="register" />
+        </AuthLayout>
     );
 }

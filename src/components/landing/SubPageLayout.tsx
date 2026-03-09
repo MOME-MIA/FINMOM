@@ -46,7 +46,7 @@ export default function SubPageLayout({ children, title, subtitle, badge, heroGl
                             </span>
                         </div>
                     )}
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-[1.1]">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 bg-gradient-to-b from-white to-white/50 bg-clip-text text-transparent leading-tight pb-1">
                         {title}
                     </h1>
                     {subtitle && (

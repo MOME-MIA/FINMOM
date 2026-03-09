@@ -29,9 +29,9 @@ export function QuantumInput({
                 ref={inputRef}
                 className={cn(
                     "w-full bg-transparent text-white/90",
-                    "font-sans text-[22px] md:text-[26px] tracking-[0.1em] text-center outline-none",
+                    "font-sans text-[16px] sm:text-[18px] md:text-[22px] lg:text-[26px] tracking-[0.06em] sm:tracking-[0.1em] text-center outline-none",
                     "cursor-text z-20 placeholder:text-white/20 placeholder:tracking-normal placeholder:font-light transition-all",
-                    "py-4 px-2 h-16 md:h-20", // Epic proportions for a true premium feel
+                    "py-3 px-2 sm:py-4 h-12 sm:h-14 md:h-16 lg:h-20", // 16px base prevents iOS auto-zoom
                     // Fix Google Chrome default light-blue autofill background
                     "[&:-webkit-autofill]:bg-transparent [&:-webkit-autofill]:[-webkit-text-fill-color:rgba(255,255,255,0.9)] [&:-webkit-autofill]:[transition:background-color_50000s_ease-in-out_0s]",
                     className

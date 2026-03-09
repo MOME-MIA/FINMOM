@@ -36,10 +36,10 @@ export function FinmomLogo({ className = "w-12 h-12", showText = false, animate 
                     />
                 )}
 
-                {/* Spiral Logo - Requiere public/logo.png */}
+                {/* FINMOM Orbital Logo */}
                 <div className="relative w-full h-full z-10 flex items-center justify-center">
                     <img
-                        src="/logos/logo-blanco.svg"
+                        src="/logos/LOGO FINMOM APP.svg"
                         alt="FINMOM Oficial Logo"
                         className="w-full h-full object-contain pointer-events-none select-none"
                     />

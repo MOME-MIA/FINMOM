@@ -35,6 +35,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://momentum-finance.vercel.app'),
   title: {
     template: '%s | FINMOM OS',
     default: 'FINMOM | Inteligencia Financiera',
@@ -43,7 +44,12 @@ export const metadata: Metadata = {
   description: 'Financial Health Command Center & AI Intelligence por M.I.A. Optimización asimétrica de tu patrimonio.',
   keywords: ["FINMOM", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
   icons: {
-    icon: '/favicon.ico',
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
   appleWebApp: {
     capable: true,

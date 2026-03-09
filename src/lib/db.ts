@@ -14,6 +14,8 @@ import {
 
 import { insforge } from './insforge';
 import { checkCanAddAccount, checkCanAddTransaction } from '@/lib/limits';
+import { auth } from '@insforge/nextjs/server';
+import { createClient } from '@insforge/sdk';
 
 export const parseCurrency = (val: any): number => 0;
 export const mapTransaction = (row: any): Transaction => ({} as Transaction);
@@ -22,114 +24,183 @@ export const mapTransfer = (row: any): Transfer => ({} as Transfer);
 export const fetchCategories = async (type?: string): Promise<DimCategory[]> => [];
 export const fetchCategoryNames = async (): Promise<string[]> => [];
 
-export const fetchAccounts = async (): Promise<DimAccount[]> => {
-    const { data, error } = await insforge.database
-        .from('accounts')
-        .select('*')
-        .order('created_at', { ascending: false });
+const inferAccountType = (provider: string): 'cash' | 'bank' | 'credit' | 'crypto' | 'investment' => {
+    if (!provider) return 'bank';
+    const p = provider.toLowerCase();
+    if (p.includes('efectivo') || p.includes('cash')) return 'cash';
+    if (p.includes('binance') || p.includes('lemon') || p.includes('belo') || p.includes('buenbit') || p.includes('crypto')) return 'crypto';
+    if (p.includes('invertir') || p.includes('balanz') || p.includes('bull') || p.includes('cocos') || p.includes('iol')) return 'investment';
+    if (p.includes('naranja') || p.includes('tarjeta') || p.includes('visa') || p.includes('mastercard') || p.includes('amex') || p.includes('credit')) return 'credit';
+    return 'bank'; // Default to bank for Mercado Pago, Ualá, Brubank, Santander, etc.
+};
 
-    if (error) {
-        console.error("Error fetching accounts:", error);
-        return [];
+const getDbClient = async () => {
+    // Determine if we're on the server
+    if (typeof window === 'undefined') {
+        try {
+            const { userId, token } = await auth();
+            if (!userId || !token) throw new Error("Not authenticated server-side");
+
+            return {
+                userId,
+                client: createClient({
+                    baseUrl: process.env.NEXT_PUBLIC_INSFORGE_URL || "",
+                    anonKey: process.env.NEXT_PUBLIC_INSFORGE_ANON_KEY || "",
+                    edgeFunctionToken: token
+                })
+            };
+        } catch (e) {
+            throw new Error("Not authenticated server-side");
+        }
     }
 
-    return (data || []).map(row => ({
-        id: row.id,
-        name: row.name,
-        provider: row.type,
-        currencyCode: row.currency as any,
-        initialBalance: row.balance,
-        currentBalance: row.balance,
-        color: '#ffffff', // Default for now
-        isActive: true
-    }));
+    // Client-side fallback
+    const { data } = await insforge.auth.getCurrentSession();
+    if (!data.session?.user) throw new Error("Not authenticated client-side");
+
+    return {
+        userId: data.session.user.id,
+        client: insforge
+    };
+};
+
+export const fetchAccounts = async (): Promise<DimAccount[]> => {
+    try {
+        const { client, userId } = await getDbClient();
+        const { data, error } = await client.database
+            .from('accounts')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false });
+
+        if (error) {
+            console.error("Error fetching accounts:", error);
+            return [];
+        }
+
+        return (data || []).map(row => ({
+            id: row.id,
+            name: row.name,
+            provider: row.provider || row.type,
+            currencyCode: row.currency as any,
+            initialBalance: row.balance,
+            currentBalance: row.balance,
+            color: row.color || '#ffffff',
+            isActive: true
+        }));
+    } catch {
+        return [];
+    }
 };
 
 export const saveAccount = async (account: Omit<DimAccount, 'id' | 'isActive'>): Promise<DimAccount | null> => {
-    const { data } = await insforge.auth.getCurrentSession();
-    if (!data.session?.user) throw new Error("Not authenticated");
+    try {
+        const { client, userId } = await getDbClient();
 
-    const limits = await checkCanAddAccount(data.session.user.id);
-    if (!limits.allowed) {
-        console.error(`Account limit reached for your tier (${limits.limit})`);
-        return null;
-    }
+        const limits = await checkCanAddAccount(userId);
+        if (!limits.allowed) {
+            console.error(`Account limit reached for your tier (${limits.limit})`);
+            return null;
+        }
 
-    const { data: dbData, error } = await insforge.database
-        .from('accounts')
-        .insert({
-            user_id: data.session.user.id,
+        const inferredType = inferAccountType(account.provider);
+
+        const insertPayload = {
+            user_id: userId,
             name: account.name,
-            type: account.provider,
+            provider: account.provider,
+            type: inferredType,
             currency: account.currencyCode,
-            balance: account.currentBalance
-        })
-        .select()
-        .single();
+            balance: account.currentBalance,
+            color: account.color
+        };
 
-    if (error) {
-        console.error("Error saving account:", error);
+        const { data: dbData, error } = await client.database
+            .from('accounts')
+            .insert(insertPayload)
+            .select()
+            .single();
+
+        if (error) {
+            console.error("Error saving account:", error);
+            return null;
+        }
+
+        return {
+            id: dbData.id,
+            name: dbData.name,
+            provider: dbData.provider || dbData.type,
+            currencyCode: dbData.currency as any,
+            initialBalance: dbData.balance,
+            currentBalance: dbData.balance,
+            color: dbData.color || '#ffffff',
+            isActive: true
+        };
+    } catch (e) {
+        console.error("Auth error in saveAccount:", e);
         return null;
     }
-
-    return {
-        id: dbData.id,
-        name: dbData.name,
-        provider: dbData.type,
-        currencyCode: dbData.currency as any,
-        initialBalance: dbData.balance,
-        currentBalance: dbData.balance,
-        color: '#ffffff',
-        isActive: true
-    };
 };
 
 export const updateAccount = async (id: string, updates: Partial<DimAccount>): Promise<DimAccount | null> => {
-    const { data: sessionData } = await insforge.auth.getCurrentSession();
-    if (!sessionData.session?.user) throw new Error("Not authenticated");
+    try {
+        const { client, userId } = await getDbClient();
 
-    const updatePayload: any = {};
-    if (updates.name !== undefined) updatePayload.name = updates.name;
-    if (updates.provider !== undefined) updatePayload.type = updates.provider;
-    if (updates.currencyCode !== undefined) updatePayload.currency = updates.currencyCode;
-    if (updates.currentBalance !== undefined) updatePayload.balance = updates.currentBalance;
+        const updatePayload: any = {};
+        if (updates.name !== undefined) updatePayload.name = updates.name;
+        if (updates.provider !== undefined) {
+            updatePayload.provider = updates.provider;
+            updatePayload.type = inferAccountType(updates.provider);
+        }
+        if (updates.currencyCode !== undefined) updatePayload.currency = updates.currencyCode;
+        if (updates.currentBalance !== undefined) updatePayload.balance = updates.currentBalance;
+        if (updates.color !== undefined) updatePayload.color = updates.color;
 
-    const { data, error } = await insforge.database
-        .from('accounts')
-        .update(updatePayload)
-        .eq('id', id)
-        .eq('user_id', sessionData.session.user.id)
-        .select()
-        .single();
+        const { data, error } = await client.database
+            .from('accounts')
+            .update(updatePayload)
+            .eq('id', id)
+            .eq('user_id', userId)
+            .select()
+            .single();
 
-    if (error) {
-        console.error("Error updating account:", error);
+        if (error) {
+            console.error("Error updating account:", error);
+            return null;
+        }
+
+        return {
+            id: data.id,
+            name: data.name,
+            provider: data.provider || data.type,
+            currencyCode: data.currency as any,
+            initialBalance: data.balance,
+            currentBalance: data.balance,
+            color: data.color || '#ffffff',
+            isActive: true
+        };
+    } catch {
         return null;
     }
-
-    return {
-        id: data.id,
-        name: data.name,
-        provider: data.type,
-        currencyCode: data.currency as any,
-        initialBalance: data.balance,
-        currentBalance: data.balance,
-        color: '#ffffff',
-        isActive: true
-    };
 };
 
 export const deleteAccount = async (id: string): Promise<boolean> => {
-    const { error } = await insforge.database
-        .from('accounts')
-        .delete()
-        .eq('id', id);
+    try {
+        const { client, userId } = await getDbClient();
+        const { error } = await client.database
+            .from('accounts')
+            .delete()
+            .eq('id', id)
+            .eq('user_id', userId);
 
-    if (error) {
-        console.error("Error deleting account:", error);
+        if (error) {
+            console.error("Error deleting account:", error);
+            return false;
+        }
+        return true;
+    } catch {
         return false;
     }
-    return true;
 };
 export const fetchVaultBalances = async (): Promise<VaultBalance[]> => [];
 

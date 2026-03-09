@@ -15,15 +15,22 @@ export default async function ExpensesPage(props: { searchParams: Promise<{ mont
         getWeeklyControlAction(month),
         getMonthlyDetailedExpensesAction(month),
         getDashboardKPIsAction(month),
-        getAnalyticsDataAction(month)
+        getAnalyticsDataAction(month).catch(() => ({ spending: [], trends: [] }))
     ]);
 
-    if (!data) return null;
+    // Fallback data for when auth fails or data is unavailable
+    const safeData = data || {
+        month,
+        income: 0,
+        gastosFijos: { fechaRetiro: '', restante: 0, cambioARS: 0, valorUSDRef: 1, items: [] },
+        weeks: [],
+        availableMonths: [month],
+    } as any;
 
     return <ExpensesClient
-        initialData={data}
+        initialData={safeData}
         detailedExpenses={detailedExpenses}
         dashboardKPIs={dashboardKPIs}
-        trends={analyticsData.trends}
+        trends={analyticsData?.trends || []}
     />;
 }
