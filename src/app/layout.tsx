@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   keywords: ["FINMOM", "Personal Finance", "AI Wealth Management", "Crypto Intelligence", "M.I.A AI"],
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
       { url: '/icon-192x192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icon-512x512.png', sizes: '512x512', type: 'image/png' },
     ],
@@ -63,6 +63,18 @@ export const metadata: Metadata = {
     title: 'FINMOM Manager',
     description: 'Control total de tus finanzas personales y criptoactivos.',
     siteName: 'FINMOM',
+    images: [{
+      url: '/opengraph-image.png',
+      width: 1200,
+      height: 630,
+      alt: 'FINMOM OS',
+    }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'FINMOM Manager',
+    description: 'Control total de tus finanzas personales y criptoactivos.',
+    images: ['/twitter-image.png'],
   },
 };
 
@@ -82,6 +94,8 @@ import { NativeSystemProvider } from "@/components/NativeSystemProvider";
 import { getAuthFromCookies } from "@insforge/nextjs";
 import { Providers as InsforgeAuthProviders } from "./providers";
 import { SplashWrapper } from "@/components/ui/SplashWrapper";
+
+export const dynamic = "force-dynamic";
 
 export default async function RootLayout({
   children,

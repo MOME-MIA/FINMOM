@@ -13,7 +13,10 @@ import {
     updateFixedExpenseStatus,
     fetchCategoryNames,
     createTransfer,
+    createCategory,
+    deleteCategory,
 } from '@/lib/db';
+import { TransactionFormValues } from '@/lib/validations/transaction';
 
 import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
@@ -218,11 +221,11 @@ export async function logoutAction() {
 }
 
 
-export async function getBudgetsAction(): Promise<Budget[]> {
+export async function getBudgetsAction(month?: string): Promise<Budget[]> {
     if (!useRealData()) return [];
     try {
         const { fetchBudgets } = await import('@/lib/db');
-        return await fetchBudgets();
+        return await fetchBudgets(month);
     } catch (error) {
         console.error("Error fetching budgets:", error);
         return [];
@@ -516,7 +519,6 @@ export async function getAccountsAction(): Promise<DimAccount[]> {
         const { fetchAccounts } = await import('@/lib/db');
         return await fetchAccounts();
     } catch (error) {
-        console.error("Error fetching accounts:", error);
         return [];
     }
 }
@@ -707,3 +709,31 @@ export async function checkWaitlistStatusAction(email: string): Promise<{
     }
 }
 
+export async function createCategoryAction(data: {
+    name: string;
+    type: 'income' | 'expense' | 'transfer';
+    icon?: string;
+    color?: string;
+}) {
+    try {
+        const result = await createCategory(data);
+        revalidatePath('/dashboard');
+        revalidatePath('/dashboard/settings/categories');
+        return { success: true, data: result };
+    } catch (error: any) {
+        console.error("[createCategoryAction] Error:", error);
+        return { success: false, error: error.message || 'Error occurred while creating category' };
+    }
+}
+
+export async function deleteCategoryAction(id: string) {
+    try {
+        await deleteCategory(id);
+        revalidatePath('/dashboard');
+        revalidatePath('/dashboard/settings/categories');
+        return { success: true };
+    } catch (error: any) {
+        console.error("[deleteCategoryAction] Error:", error);
+        return { success: false, error: error.message || 'Error occurred while deleting category' };
+    }
+}

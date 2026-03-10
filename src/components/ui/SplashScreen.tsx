@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 /**
  * FINMOM Liquid Void Splash Screen
@@ -121,10 +122,11 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
                                             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                                             className="w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px] rounded-full flex items-center justify-center"
                                         >
-                                            <img
-                                                src="/logos/LOGO FINMOM APP.svg"
+                                            <Image
+                                                src="/logos/finmom-logo.svg"
                                                 alt="FINMOM"
-                                                className="w-full h-full object-contain select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+                                                fill
+                                                className="object-contain select-none pointer-events-none drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]"
                                             />
                                         </motion.div>
                                     </motion.div>

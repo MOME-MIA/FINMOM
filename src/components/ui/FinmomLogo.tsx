@@ -38,10 +38,11 @@ export function FinmomLogo({ className = "w-12 h-12", showText = false, animate 
 
                 {/* FINMOM Orbital Logo */}
                 <div className="relative w-full h-full z-10 flex items-center justify-center">
-                    <img
-                        src="/logos/LOGO FINMOM APP.svg"
+                    <Image
+                        src="/logos/finmom-logo.svg"
                         alt="FINMOM Oficial Logo"
-                        className="w-full h-full object-contain pointer-events-none select-none"
+                        fill
+                        className="object-contain pointer-events-none select-none"
                     />
                 </div>
             </div>

@@ -1,8 +1,15 @@
 import { Client } from 'pg';
+import dotenv from 'dotenv';
 
-const connectionString = 'postgresql://postgres:NN8t9trc2Tn9UH9G@db.qedwthvraajexelsgzvt.supabase.co:5432/postgres';
+// Load environment variables from .env.local
+dotenv.config({ path: '.env.local' });
 
-const schema = `
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+    console.error("Missing DATABASE_URL in environment variables.");
+    process.exit(1);
+} const schema = `
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS accounts (

@@ -222,7 +222,13 @@ export function DashboardClient({
                                     <div className="lg:col-span-5 flex flex-col gap-4">
                                         {alerts.length > 0 && <SmartAlerts alerts={alerts} />}
                                         <div className="h-64 mb-2">
-                                            <FinancialDNAWidget availableForSplit={k.totalIncome - k.fixedExpenses} />
+                                            <FinancialDNAWidget
+                                                income={k.totalIncome}
+                                                fixed={k.fixedExpenses}
+                                                variable={k.variableExpenses}
+                                                savings={summaryData.savings}
+                                                investments={summaryData.investments}
+                                            />
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <HealthScore

@@ -30,12 +30,12 @@ export function useTransactions() {
 }
 
 export function useBudget() {
-    // Budget is usually global or annual, but if it depends on month, check actions.ts
-    // getBudgetsAction() takes no arguments in actions.ts
+    const { selectedMonth } = useDate();
+
     return useQuery({
-        queryKey: ["budgets"],
+        queryKey: QUERY_KEYS.budget(selectedMonth),
         queryFn: async () => {
-            const data = await getBudgetsAction();
+            const data = await getBudgetsAction(selectedMonth);
             if (!data) throw new Error("Failed to fetch budget");
             return data;
         },
