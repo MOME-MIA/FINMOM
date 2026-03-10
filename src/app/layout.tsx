@@ -95,6 +95,8 @@ import { getAuthFromCookies } from "@insforge/nextjs";
 import { Providers as InsforgeAuthProviders } from "./providers";
 import { SplashWrapper } from "@/components/ui/SplashWrapper";
 
+export const dynamic = "force-dynamic";
+
 export default async function RootLayout({
   children,
 }: Readonly<{
