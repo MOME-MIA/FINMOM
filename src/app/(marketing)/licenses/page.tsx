@@ -46,11 +46,10 @@ const LICENSES = [
         desc: "Modelo de lenguaje para inteligencia artificial de M.I.A.",
     },
     {
-        name: "Supabase",
-        version: "2.x",
-        license: "Apache 2.0",
-        url: "https://github.com/supabase/supabase",
-        desc: "Backend-as-a-Service para autenticación, base de datos y almacenamiento.",
+        name: "InsForge",
+        license: "Apache License 2.0",
+        description: "Backend-as-a-Service para autenticación y base de datos.",
+        url: "https://bhkij2c4.us-east.insforge.app",
     },
     {
         name: "Recharts",

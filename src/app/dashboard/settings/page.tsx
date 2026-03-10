@@ -79,7 +79,7 @@ export default function SettingsPage() {
         try {
             await performLogout();
         } catch (error) {
-            console.error("Error al cerrar sesión (Supabase):", error);
+            console.error("Error al cerrar sesión:", error);
             // Ignoramos el error para forzar la limpieza de cookies local de todos modos
         }
         // logoutAction arroja un NEXT_REDIRECT internally, por lo que DEBE ir fuera de nuestro try-catch

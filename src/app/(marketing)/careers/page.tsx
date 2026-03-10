@@ -42,7 +42,7 @@ const POSITIONS = [
         location: "Remoto (LATAM)",
         type: "Full-time",
         desc: "Protegé datos financieros con arquitectura zero-trust, RLS, auditorías de seguridad y cumplimiento regulatorio.",
-        tags: ["AppSec", "Supabase RLS", "SOC2", "Cryptography"],
+        tags: ["AppSec", "InsForge Auth", "SOC2", "Cryptography"],
         color: "#30D158",
     },
 ];

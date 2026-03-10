@@ -50,6 +50,7 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedAccount, setSelectedAccount] = useState<DimAccount | null>(null);
     const [isCustomProvider, setIsCustomProvider] = useState(false);
+    const [isCustomCurrency, setIsCustomCurrency] = useState(false);
 
     // Form states
     const [formData, setFormData] = useState({
@@ -57,6 +58,7 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
         provider: "",
         customProvider: "",
         currencyCode: "USD",
+        customCurrency: "",
         currentBalance: "0"
     });
 
@@ -87,10 +89,11 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
 
         startTransition(async () => {
             const finalProvider = formData.provider === "Otro" ? formData.customProvider : formData.provider;
+            const finalCurrency = formData.currencyCode === "Otro" ? formData.customCurrency.toUpperCase() : formData.currencyCode;
             const dataToSave = {
                 name: formData.name,
                 provider: finalProvider || "Cuenta",
-                currencyCode: formData.currencyCode as any,
+                currencyCode: (finalCurrency || "USD") as any,
                 initialBalance: parseFloat(formData.currentBalance) || 0,
                 currentBalance: parseFloat(formData.currentBalance) || 0,
                 color: getProviderBrandColor(finalProvider || "Cuenta")
@@ -110,8 +113,9 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
                     setAccounts(prev => prev.map(a => a.id === updated.id ? updated : a));
                     setIsAddModalOpen(false);
                     setSelectedAccount(null);
-                    setFormData({ name: "", provider: "", customProvider: "", currencyCode: "USD", currentBalance: "0" });
+                    setFormData({ name: "", provider: "", customProvider: "", currencyCode: "USD", customCurrency: "", currentBalance: "0" });
                     setIsCustomProvider(false);
+                    setIsCustomCurrency(false);
                 }
             } else {
                 // Create mode
@@ -119,8 +123,9 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
                 if (saved) {
                     setAccounts(prev => [saved, ...prev]);
                     setIsAddModalOpen(false);
-                    setFormData({ name: "", provider: "", customProvider: "", currencyCode: "USD", currentBalance: "0" });
+                    setFormData({ name: "", provider: "", customProvider: "", currencyCode: "USD", customCurrency: "", currentBalance: "0" });
                     setIsCustomProvider(false);
+                    setIsCustomCurrency(false);
                 }
             }
         });
@@ -142,14 +147,17 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
     const openEditModal = (account: DimAccount) => {
         setSelectedAccount(account);
         const isPopular = POPULAR_PROVIDERS.includes(account.provider);
+        const isPopularCurrency = ["ARS", "USD", "EUR", "USDT", "BTC", "USDC", "ETH"].includes(account.currencyCode);
         setFormData({
             name: account.name,
             provider: isPopular ? account.provider : "Otro",
             customProvider: isPopular ? "" : account.provider,
-            currencyCode: account.currencyCode,
+            currencyCode: isPopularCurrency ? account.currencyCode : "Otro",
+            customCurrency: isPopularCurrency ? "" : account.currencyCode,
             currentBalance: account.currentBalance.toString()
         });
         setIsCustomProvider(!isPopular);
+        setIsCustomCurrency(!isPopularCurrency);
         setIsAddModalOpen(true);
     };
 
@@ -196,8 +204,9 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
                     <button
                         onClick={() => {
                             setSelectedAccount(null);
-                            setFormData({ name: "", provider: "", customProvider: "", currencyCode: "USD", currentBalance: "0" });
+                            setFormData({ name: "", provider: "", customProvider: "", currencyCode: "USD", customCurrency: "", currentBalance: "0" });
                             setIsCustomProvider(false);
+                            setIsCustomCurrency(false);
                             setIsAddModalOpen(true);
                         }}
                         className="flex items-center gap-2 bg-white/10 hover:bg-white/[0.15] text-white px-5 py-2.5 rounded-[16px] font-medium text-[14px] transition-all duration-300 ease-out outline-none backdrop-blur-md border border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.1)] hover:shadow-[0_4px_16px_rgba(255,255,255,0.05)]"
@@ -345,19 +354,44 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
                         )}
                         <div className="flex flex-col gap-2">
                             <label className="text-xs text-white/50 uppercase tracking-wider">Moneda</label>
-                            <Select defaultValue={formData.currencyCode} onValueChange={(val: string) => setFormData(s => ({ ...s, currencyCode: val }))}>
+                            <Select
+                                value={formData.currencyCode}
+                                onValueChange={(val: string) => {
+                                    setFormData(s => ({ ...s, currencyCode: val }));
+                                    setIsCustomCurrency(val === "Otro");
+                                }}
+                            >
                                 <SelectTrigger>
                                     <SelectValue placeholder="Selecciona Moneda" />
                                 </SelectTrigger>
-                                <SelectContent>
+                                <SelectContent className="max-h-[300px]">
                                     <SelectItem value="ARS">ARS - Pesos Argentinos</SelectItem>
                                     <SelectItem value="USD">USD - Dólares</SelectItem>
                                     <SelectItem value="EUR">EUR - Euros</SelectItem>
                                     <SelectItem value="USDT">USDT - Tether</SelectItem>
+                                    <SelectItem value="USDC">USDC - USD Coin</SelectItem>
                                     <SelectItem value="BTC">BTC - Bitcoin</SelectItem>
+                                    <SelectItem value="ETH">ETH - Ethereum</SelectItem>
+                                    <SelectItem value="Otro">Otra moneda / Token Custom...</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
+                        {isCustomCurrency && (
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                className="flex flex-col gap-2"
+                            >
+                                <label className="text-xs text-white/50 uppercase tracking-wider">Código de la Moneda/Token</label>
+                                <Input
+                                    placeholder="Ej: GBP, ADA, SOL"
+                                    value={formData.customCurrency}
+                                    maxLength={8}
+                                    className="uppercase"
+                                    onChange={(e) => setFormData(s => ({ ...s, customCurrency: e.target.value.toUpperCase() }))}
+                                />
+                            </motion.div>
+                        )}
                         <div className="flex flex-col gap-2">
                             <label className="text-xs text-white/50 uppercase tracking-wider">Balance Inicial</label>
                             <Input
@@ -370,7 +404,7 @@ export function AccountsClient({ initialAccounts }: AccountsClientProps) {
 
                         <button
                             onClick={handleSaveAccount}
-                            disabled={isPending || !formData.name || !formData.provider || (isCustomProvider && !formData.customProvider)}
+                            disabled={isPending || !formData.name || !formData.provider || (isCustomProvider && !formData.customProvider) || (isCustomCurrency && !formData.customCurrency)}
                             className="mt-4 w-full flex items-center justify-center gap-2 bg-white text-black px-5 py-3.5 rounded-[16px] font-medium text-[15px] transition-all duration-300 hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isPending ? <Loader2 className="w-5 h-5 animate-spin" /> : (selectedAccount ? "Actualizar Cuenta" : "Guardar Cuenta")}

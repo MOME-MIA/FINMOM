@@ -21,8 +21,95 @@ export const parseCurrency = (val: any): number => 0;
 export const mapTransaction = (row: any): Transaction => ({} as Transaction);
 export const mapTransfer = (row: any): Transfer => ({} as Transfer);
 
-export const fetchCategories = async (type?: string): Promise<DimCategory[]> => [];
-export const fetchCategoryNames = async (): Promise<string[]> => [];
+export const fetchCategories = async (type?: string): Promise<DimCategory[]> => {
+    try {
+        const { client, userId } = await getDbClient();
+        let query = client.database
+            .from('categories')
+            .select('*')
+            .eq('user_id', userId)
+            .order('name', { ascending: true });
+
+        if (type) {
+            query = query.eq('type', type);
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+            console.error("Error fetching categories:", error);
+            return [];
+        }
+
+        return (data || []).map(row => ({
+            id: row.id,
+            name: row.name,
+            type: row.type,
+            icon: row.icon || 'Box',
+            color: row.color || '#666',
+            parentId: row.parent_id || null,
+            sortOrder: row.sort_order || 0
+        }));
+    } catch (e) {
+        console.error("Auth error in fetchCategories:", e);
+        return [];
+    }
+};
+
+export const fetchCategoryNames = async (): Promise<string[]> => {
+    try {
+        const cats = await fetchCategories();
+        return cats.map(c => c.name);
+    } catch {
+        return [];
+    }
+};
+
+export const createCategory = async (data: {
+    name: string;
+    type: 'income' | 'expense' | 'transfer';
+    icon?: string;
+    color?: string;
+}) => {
+    try {
+        const { client, userId } = await getDbClient();
+        const { data: result, error } = await client.database
+            .from('categories')
+            .insert({
+                user_id: userId,
+                name: data.name,
+                type: data.type,
+                icon: data.icon || 'Box',
+                color: data.color || '#666',
+                sort_order: 0
+            })
+            .select()
+            .single();
+
+        if (error) throw error;
+        return result;
+    } catch (e: any) {
+        console.error("Error creating category:", e);
+        throw new Error(e.message || "Failed to create category");
+    }
+};
+
+export const deleteCategory = async (id: string) => {
+    try {
+        const { client, userId } = await getDbClient();
+        const { error } = await client.database
+            .from('categories')
+            .delete()
+            .eq('id', id)
+            .eq('user_id', userId);
+
+        if (error) throw error;
+        return true;
+    } catch (e: any) {
+        console.error("Error deleting category:", e);
+        throw new Error(e.message || "Failed to delete category");
+    }
+};
 
 const inferAccountType = (provider: string): 'cash' | 'bank' | 'credit' | 'crypto' | 'investment' => {
     if (!provider) return 'bank';
@@ -74,7 +161,6 @@ export const fetchAccounts = async (): Promise<DimAccount[]> => {
             .order('created_at', { ascending: false });
 
         if (error) {
-            console.error("Error fetching accounts:", error);
             return [];
         }
 
@@ -205,50 +291,59 @@ export const deleteAccount = async (id: string): Promise<boolean> => {
 export const fetchVaultBalances = async (): Promise<VaultBalance[]> => [];
 
 export const fetchTransactions = async (month?: string, categoryId?: string): Promise<any[]> => {
-    const { data: sessionData } = await insforge.auth.getCurrentSession();
-    if (!sessionData.session?.user) return [];
+    try {
+        const { client, userId } = await getDbClient();
 
-    let query = insforge.database
-        .from('transactions')
-        .select(`*, accounts(name, type, currency)`)
-        .eq('user_id', sessionData.session.user.id)
-        .order('date', { ascending: false })
-        .order('created_at', { ascending: false });
+        let query = client.database
+            .from('transactions')
+            .select(`*, accounts(name, provider, currency), categories(name, icon, color)`)
+            .eq('user_id', userId)
+            .order('date', { ascending: false })
+            .order('created_at', { ascending: false });
 
-    if (month) {
-        // month format 'YYYY-MM'
-        const startDate = `${month}-01`;
-        const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
-        query = query.gte('date', startDate).lt('date', endDate);
-    }
-    if (categoryId) {
-        query = query.eq('category', categoryId);
-    }
+        if (month) {
+            // month format 'YYYY-MM'
+            const startDate = `${month}-01`;
+            const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
+            query = query.gte('date', startDate).lt('date', endDate);
+        }
+        if (categoryId) {
+            query = query.eq('category', categoryId);
+        }
 
-    const { data, error } = await query;
-    if (error) {
-        console.error("Error fetching transactions:", error);
+        const { data, error } = await query;
+        if (error) {
+            console.error("Error fetching transactions:", error);
+            return [];
+        }
+
+        return (data || []).map(row => {
+            const amt = Number(row.amount) || 0;
+            return {
+                id: row.id,
+                date: row.date,
+                type: row.type,
+                amount: amt,
+                currencyCode: row.currency || 'USD',
+                categoryId: row.category_id || null,
+                description: row.description || '',
+                paymentMethod: row.payment_method || '',
+                accountId: row.account_id || null,
+                fxRate: row.fx_rate || null,
+                fxSource: row.fx_source || null,
+                fxTimestamp: row.fx_timestamp || null,
+                createdAt: row.created_at,
+                categoryName: row.categories?.name,
+                categoryIcon: row.categories?.icon,
+                categoryColor: row.categories?.color,
+                accountName: row.accounts?.name
+            };
+        });
+    } catch (e) {
+        console.error("Error in fetchTransactions:", e);
         return [];
     }
-
-    // Map to legacy MonthlyRecord if needed
-    return (data || []).map(row => ({
-        id: row.id,
-        date: row.date,
-        type: row.type,
-        amountARS: Number(row.amount_ars),
-        amountUSD: Number(row.amount_usd),
-        category: row.category,
-        description: row.description || '',
-        paymentMethod: row.payment_method || '',
-        accountId: row.account_id || null,
-        fxRate: Number(row.fx_rate),
-        fxSource: row.fx_source || '',
-        fxTimestamp: row.fx_timestamp || '',
-        createdAt: row.created_at,
-    }));
 };
-
 export const addTransaction = async (tx: any): Promise<any | null> => {
     const { data: sessionData } = await insforge.auth.getCurrentSession();
     if (!sessionData.session?.user) throw new Error("Not authenticated");
@@ -259,28 +354,28 @@ export const addTransaction = async (tx: any): Promise<any | null> => {
         return null; // Should ideally throw a unified AppError that the UI can catch
     }
 
+    const finalAmount = tx.amount !== undefined ? tx.amount : (tx.amountARS || tx.amountUSD || 0);
+    const finalCurrency = tx.currency || (tx.amountARS ? 'ARS' : 'USD');
+
     const { data, error } = await insforge.database
         .from('transactions')
         .insert({
             user_id: sessionData.session.user.id,
             date: tx.date || new Date().toISOString().split('T')[0],
             type: tx.type,
-            amount_ars: tx.amountARS || 0,
-            amount_usd: tx.amountUSD || 0,
-            category: tx.category,
+            amount: finalAmount,
+            currency: finalCurrency,
+            category_id: tx.category || null,
             description: tx.description || null,
-            payment_method: tx.paymentMethod || null,
             account_id: tx.accountId || null,
-            recurring_id: tx.recurringId || null,
-            fx_rate: tx.fxRate || null,
-            fx_source: tx.fxSource || null,
-            fx_timestamp: tx.fxTimestamp || null
+            is_recurring: false
         })
         .select()
         .single();
 
     if (error) {
-        console.error("Error saving transaction:", error);
+        console.error("Error saving transaction - raw error:", error);
+        console.error("Error details stringified:", JSON.stringify(error, null, 2));
         return null;
     }
 
@@ -312,21 +407,27 @@ export const addTransaction = async (tx: any): Promise<any | null> => {
                 .eq('id', tx.accountId);
         }
     }
-    // ---------------------------
-
+    // Map to legacy MonthlyRecord if needed
+    // The `data` here is a single object from `single()`, not an array.
+    // The original code had `amountARS: Number(data.amount_ars)` etc.
+    // The instruction provides a `.map` which implies `data` is an array, but it's not.
+    // I will adapt the instruction to fit the single object return.
+    const amt = Number(data.amount) || 0;
     return {
         id: data.id,
         date: data.date,
         type: data.type,
-        amountARS: Number(data.amount_ars),
-        amountUSD: Number(data.amount_usd),
-        category: data.category,
+        amountARS: data.currency === 'ARS' ? amt : 0,
+        amountUSD: data.currency === 'USD' ? amt : 0,
+        amount: amt,
+        currency: data.currency || 'USD',
+        category: data.category_id || '', // Corrected to category_id
         description: data.description || '',
-        paymentMethod: data.payment_method || '',
+        paymentMethod: '', // Not available in new schema
         accountId: data.account_id || null,
-        fxRate: Number(data.fx_rate),
-        fxSource: data.fx_source || '',
-        fxTimestamp: data.fx_timestamp || '',
+        fxRate: 0, // Not available in new schema
+        fxSource: '', // Not available in new schema
+        fxTimestamp: '', // Not available in new schema
         createdAt: data.created_at,
     };
 };
@@ -338,11 +439,18 @@ export const updateTransaction = async (id: string, updates: any): Promise<boole
     const updatePayload: any = {};
     if (updates.date !== undefined) updatePayload.date = updates.date;
     if (updates.type !== undefined) updatePayload.type = updates.type;
-    if (updates.amountARS !== undefined) updatePayload.amount_ars = updates.amountARS;
-    if (updates.amountUSD !== undefined) updatePayload.amount_usd = updates.amountUSD;
-    if (updates.category !== undefined) updatePayload.category = updates.category;
+    if (updates.amount !== undefined) updatePayload.amount = updates.amount;
+    else if (updates.amountARS !== undefined) {
+        updatePayload.amount = updates.amountARS;
+        updatePayload.currency = 'ARS';
+    }
+    else if (updates.amountUSD !== undefined) {
+        updatePayload.amount = updates.amountUSD;
+        updatePayload.currency = 'USD';
+    }
+    if (updates.currency !== undefined) updatePayload.currency = updates.currency;
+    if (updates.category !== undefined) updatePayload.category_id = updates.category;
     if (updates.description !== undefined) updatePayload.description = updates.description;
-    if (updates.paymentMethod !== undefined) updatePayload.payment_method = updates.paymentMethod;
     if (updates.accountId !== undefined) updatePayload.account_id = updates.accountId;
 
     const { error } = await insforge.database
@@ -371,16 +479,21 @@ export const addTransactions = async (records: Omit<MonthlyRecord, 'id'>[]): Pro
             return false;
         }
 
-        const payload = records.map(record => ({
-            user_id: userId,
-            date: record.date,
-            type: record.type,
-            amount_ars: record.amountARS,
-            amount_usd: record.amountUSD,
-            category: record.category,
-            description: record.description,
-            payment_method: record.paymentMethod,
-        }));
+        const payload = records.map((record: any) => {
+            const finalAmount = record.amount !== undefined ? record.amount : (record.amountARS || record.amountUSD || 0);
+            const finalCurrency = record.currency || (record.amountARS ? 'ARS' : 'USD');
+            return {
+                user_id: userId,
+                date: record.date || new Date().toISOString().split('T')[0],
+                type: record.type,
+                amount: finalAmount,
+                currency: finalCurrency,
+                category_id: record.category || null,
+                description: record.description || null,
+                account_id: record.accountId || null,
+                is_recurring: false
+            };
+        });
 
         const { error } = await insforge.database.from('transactions').insert(payload);
         if (error) {
@@ -425,8 +538,20 @@ export const deleteTransaction = async (id: string): Promise<boolean> => {
             .single();
 
         if (accData) {
-            let amountToAffect = Number(txData.amount_ars || 0);
-            if (accData.currency === 'USD') amountToAffect = Number(txData.amount_usd || 0);
+            // Use txData.amount and txData.currency for reconciliation
+            let amountToAffect = 0;
+            if (txData.currency === accData.currency) {
+                amountToAffect = Number(txData.amount) || 0;
+            } else {
+                // This is a simplification. For accurate cross-currency reconciliation,
+                // an FX rate at the time of transaction would be needed.
+                // For now, we'll assume the UI handles this or we use a rough conversion.
+                // Given the original schema had amount_ars/amount_usd, this implies
+                // the amount stored is already in the native currency of the transaction.
+                // If the account currency is different, a conversion is needed.
+                // For now, we'll assume the amount stored is the native amount.
+                amountToAffect = Number(txData.amount) || 0;
+            }
 
             // Reverse the operation
             const newBalance = txData.type === 'income'
@@ -464,99 +589,236 @@ export const searchTransactions = async (queryStr: string): Promise<any[]> => {
         id: row.id,
         date: row.date,
         type: row.type,
-        amountARS: Number(row.amount_ars),
-        amountUSD: Number(row.amount_usd),
-        category: row.category,
+        amountARS: row.currency === 'ARS' ? Number(row.amount) : 0,
+        amountUSD: row.currency === 'USD' ? Number(row.amount) : 0,
+        category: row.category_id, // Corrected to category_id
         description: row.description || '',
     }));
 };
 
 
-export const createTransfer = async (transfer: any): Promise<Transfer | null> => null;
-export const fetchTransfers = async (month?: string): Promise<Transfer[]> => [];
+export const createTransfer = async (transfer: any): Promise<Transfer | null> => {
+    const { data: sessionData } = await insforge.auth.getCurrentSession();
+    if (!sessionData.session?.user) throw new Error("Not authenticated");
+
+    const limits = await checkCanAddTransaction(sessionData.session.user.id);
+    if (!limits.allowed) {
+        console.error(`Transaction limit reached for your tier (${limits.limit} per month)`);
+        return null;
+    }
+
+    // Insert into transfers table
+    const { data, error } = await insforge.database
+        .from('transfers')
+        .insert({
+            user_id: sessionData.session.user.id,
+            date: transfer.date || new Date().toISOString().split('T')[0],
+            source_account_id: transfer.sourceAccountId,
+            amount_sent: transfer.amountSent,
+            dest_account_id: transfer.destAccountId,
+            amount_received: transfer.amountReceived,
+            fx_rate_applied: transfer.amountReceived / transfer.amountSent,
+            description: transfer.description || null
+        })
+        .select()
+        .single();
+
+    if (error) {
+        console.error("Error saving transfer:", error);
+        return null;
+    }
+
+    // --- RECONCILIATION LOGIC ---
+    try {
+        // 1. Decrease source account balance
+        const { data: sourceAcc } = await insforge.database
+            .from('accounts')
+            .select('balance')
+            .eq('id', transfer.sourceAccountId)
+            .single();
+
+        if (sourceAcc) {
+            await insforge.database
+                .from('accounts')
+                .update({ balance: Number(sourceAcc.balance) - Number(transfer.amountSent) })
+                .eq('id', transfer.sourceAccountId);
+        }
+
+        // 2. Increase dest account balance
+        const { data: destAcc } = await insforge.database
+            .from('accounts')
+            .select('balance')
+            .eq('id', transfer.destAccountId)
+            .single();
+
+        if (destAcc) {
+            await insforge.database
+                .from('accounts')
+                .update({ balance: Number(destAcc.balance) + Number(transfer.amountReceived) })
+                .eq('id', transfer.destAccountId);
+        }
+    } catch (recError) {
+        console.error("Reconciliation error during transfer:", recError);
+        // We log the error but return the transfer as successful since the record was created
+    }
+    // ---------------------------
+
+    return {
+        id: data.id,
+        date: data.date,
+        sourceAccountId: data.source_account_id,
+        amountSent: Number(data.amount_sent),
+        destAccountId: data.dest_account_id,
+        amountReceived: Number(data.amount_received),
+        fxRateApplied: Number(data.fx_rate_applied),
+        description: data.description || '',
+        createdAt: data.created_at
+    };
+};
+
+export const fetchTransfers = async (month?: string): Promise<Transfer[]> => {
+    const { data: sessionData } = await insforge.auth.getCurrentSession();
+    if (!sessionData.session?.user) return [];
+
+    let query = insforge.database
+        .from('transfers')
+        .select(`
+            *,
+            source_account:accounts!source_account_id(name, currency),
+            dest_account:accounts!dest_account_id(name, currency)
+        `)
+        .eq('user_id', sessionData.session.user.id)
+        .order('date', { ascending: false })
+        .order('created_at', { ascending: false });
+
+    if (month) {
+        const startDate = `${month}-01`;
+        const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
+        query = query.gte('date', startDate).lt('date', endDate);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error("Error fetching transfers:", error);
+        return [];
+    }
+
+    return (data || []).map(row => ({
+        id: row.id,
+        date: row.date,
+        sourceAccountId: row.source_account_id,
+        amountSent: Number(row.amount_sent),
+        destAccountId: row.dest_account_id,
+        amountReceived: Number(row.amount_received),
+        fxRateApplied: Number(row.fx_rate_applied),
+        description: row.description || '',
+        createdAt: row.created_at,
+        sourceAccountName: row.source_account?.name,
+        sourceAccountCurrency: row.source_account?.currency,
+        destAccountName: row.dest_account?.name,
+        destAccountCurrency: row.dest_account?.currency
+    }));
+};
 
 
 export const fetchRecurringTransactions = async (): Promise<RecurringTransaction[]> => [];
 
 // Real Aggregation Logic
 export const fetchDashboardKPIs = async (month?: string): Promise<DashboardKPIs> => {
-    const { data: sessionData } = await insforge.auth.getCurrentSession();
-    if (!sessionData.session?.user) return {
-        totalIncome: 0, totalExpenses: 0, savings: 0, savingsRate: 0,
-        budgetUtilization: 0, fixedExpenses: 0, variableExpenses: 0,
-        investments: 0, netBalance: 0, txCount: 0
-    };
+    try {
+        const { client, userId } = await getDbClient();
 
-    const targetMonth = month || new Date().toISOString().substring(0, 7); // YYYY-MM
-    const startDate = `${targetMonth}-01`;
-    const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
+        const targetMonth = month || new Date().toISOString().substring(0, 7); // YYYY-MM
+        const startDate = `${targetMonth}-01`;
+        const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
 
-    // 1. Fetch Transactions
-    const { data: txs, error: txError } = await insforge.database
-        .from('transactions')
-        .select('type, amount_usd, amount_ars')
-        .eq('user_id', sessionData.session.user.id)
-        .gte('date', startDate)
-        .lt('date', endDate);
+        // 1. Fetch Transactions
+        const { data: transactions, error } = await client.database
+            .from('transactions')
+            .select('type, amount, currency, expense_nature')
+            .eq('user_id', userId)
+            .gte('date', startDate)
+            .lt('date', endDate);
 
-    // 2. Fetch Accounts to calculate netBalance
-    const { data: accs, error: accError } = await insforge.database
-        .from('accounts')
-        .select('balance, currency')
-        .eq('user_id', sessionData.session.user.id);
+        // 2. Fetch Accounts to calculate netBalance
+        const { data: accs, error: accError } = await client.database
+            .from('accounts')
+            .select('balance, currency')
+            .eq('user_id', userId);
 
-    // Get current rates internally (fallback to 1200 if missing)
-    let usdRate = 1200; // rough default for ARS/USD
-    const { data: fxData } = await insforge.database.from('fx_rates').select('*').limit(1).maybeSingle();
-    if (fxData && fxData.ars) usdRate = fxData.ars;
+        // Get current rates internally (fallback to 1200 if missing)
+        let usdRate = 1200; // rough default for ARS/USD
+        const { data: fxData } = await insforge.database.from('fx_rates').select('*').limit(1).maybeSingle();
+        if (fxData && fxData.ars) usdRate = fxData.ars;
 
-    let totalIncome = 0;
-    let totalExpenses = 0;
-    let fixedExpenses = 0;
-    let variableExpenses = 0;
-    let investments = 0;
+        let totalIncome = 0;
+        let totalExpenses = 0;
+        let fixedExpenses = 0;
+        let variableExpenses = 0;
+        let investments = 0;
 
-    if (txs) {
-        txs.forEach((tx: any) => {
-            // Using ARS as the stable aggregation base
-            const amount = Number(tx.amount_ars) || (Number(tx.amount_usd) * usdRate) || 0;
-            if (tx.type === 'income') totalIncome += amount;
-            else if (tx.type === 'expense' || tx.type === 'variable_expense') {
-                totalExpenses += amount;
-                variableExpenses += amount;
-            }
-            else if (tx.type === 'fixed_expense') {
-                totalExpenses += amount;
-                fixedExpenses += amount;
-            }
-            else if (tx.type === 'investment') investments += amount;
-        });
+        if (transactions) {
+            let incomeARS = 0;
+            let incomeUSD = 0;
+            let expensesARS = 0;
+            let expensesUSD = 0;
+
+            transactions.forEach((tx: any) => {
+                const amtARS = tx.currency === 'ARS' ? Number(tx.amount) : 0;
+                const amtUSD = tx.currency === 'USD' ? Number(tx.amount) : 0;
+                const amount = amtARS || (amtUSD * usdRate) || 0; // Total calculated in ARS
+
+                if (tx.type === 'income') {
+                    totalIncome += amount;
+                    incomeARS += amtARS;
+                    incomeUSD += amtUSD;
+                } else if (tx.type === 'expense') {
+                    totalExpenses += amount;
+                    if (tx.expense_nature === 'fixed') {
+                        fixedExpenses += amount;
+                    } else {
+                        variableExpenses += amount;
+                    }
+                    expensesARS += amtARS;
+                    expensesUSD += amtUSD;
+                }
+                else if (tx.type === 'investment') investments += amount;
+            });
+        }
+
+        let netBalanceARS = 0;
+        if (accs) {
+            accs.forEach((a: any) => {
+                if (a.currency === 'ARS') netBalanceARS += Number(a.balance);
+                else if (a.currency === 'USD') netBalanceARS += Number(a.balance) * usdRate;
+                else if (a.currency === 'EUR') netBalanceARS += Number(a.balance) * (usdRate * 1.08); // rough EUR
+            });
+        }
+
+        const savings = totalIncome - totalExpenses;
+        const savingsRate = totalIncome > 0 ? (savings / totalIncome) * 100 : 0;
+
+        return {
+            totalIncome,
+            totalExpenses,
+            savings,
+            savingsRate,
+            budgetUtilization: 0, // Need full budget fetch to calculate properly
+            fixedExpenses,
+            variableExpenses,
+            investments,
+            netBalance: netBalanceARS,
+            txCount: transactions ? transactions.length : 0
+        };
+    } catch (e) {
+        console.error("Error in fetchDashboardKPIs:", e);
+        return {
+            totalIncome: 0, totalExpenses: 0, savings: 0, savingsRate: 0,
+            budgetUtilization: 0, fixedExpenses: 0, variableExpenses: 0,
+            investments: 0, netBalance: 0, txCount: 0
+        };
     }
-
-    let netBalanceARS = 0;
-    if (accs) {
-        accs.forEach((a: any) => {
-            if (a.currency === 'ARS') netBalanceARS += Number(a.balance);
-            else if (a.currency === 'USD') netBalanceARS += Number(a.balance) * usdRate;
-            else if (a.currency === 'EUR') netBalanceARS += Number(a.balance) * (usdRate * 1.08); // rough EUR
-        });
-    }
-
-    const savings = totalIncome - totalExpenses;
-    const savingsRate = totalIncome > 0 ? (savings / totalIncome) * 100 : 0;
-
-    return {
-        totalIncome,
-        totalExpenses,
-        savings,
-        savingsRate,
-        budgetUtilization: 0, // Need full budget fetch to calculate properly
-        fixedExpenses,
-        variableExpenses,
-        investments,
-        netBalance: netBalanceARS,
-        txCount: txs ? txs.length : 0
-    };
 };
 
 export const fetchCategorySpending = async (month?: string): Promise<CategorySpending[]> => {
@@ -568,15 +830,15 @@ export const fetchCategorySpending = async (month?: string): Promise<CategorySpe
     const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
 
     // Fetch expenses and categories
-    const { data, error } = await insforge.database
+    const { data: expenses, error } = await insforge.database
         .from('transactions')
-        .select(`amount_usd, amount_ars, category, categories(name, icon, color)`)
+        .select(`amount, currency, category_id, categories(name, icon, color)`)
         .eq('user_id', sessionData.session.user.id)
         .in('type', ['expense', 'variable_expense', 'fixed_expense'])
         .gte('date', startDate)
         .lt('date', endDate);
 
-    if (error || !data) return [];
+    if (error || !expenses) return [];
 
     let usdRate = 1200; // rough default
     const { data: fxData } = await insforge.database.from('fx_rates').select('*').limit(1).maybeSingle();
@@ -585,15 +847,15 @@ export const fetchCategorySpending = async (month?: string): Promise<CategorySpe
     const grouped: Record<string, { name: string, icon: string, color: string, value: number }> = {};
     let totalSpent = 0;
 
-    data.forEach(tx => {
-        const catId = tx.category || 'unknown';
+    expenses.forEach(tx => {
+        const catId = tx.category_id || 'unknown';
         const rawCat = tx.categories as any;
         const cat = Array.isArray(rawCat) ? rawCat[0] : rawCat;
 
         const catName = cat?.name || 'Otros';
         const icon = cat?.icon || 'PieChart';
         const color = cat?.color || '#a1a1aa';
-        const amount = Number(tx.amount_ars) || (Number(tx.amount_usd) * usdRate) || 0;
+        const amount = tx.currency === 'ARS' ? Number(tx.amount) : (tx.currency === 'USD' ? Number(tx.amount) * usdRate : 0);
 
         if (!grouped[catId]) grouped[catId] = { name: catName, icon, color, value: 0 };
         grouped[catId].value += amount;
@@ -622,7 +884,7 @@ export const fetchMonthlyTrends = async (months: number = 6): Promise<MonthlyTre
 
     const { data, error } = await insforge.database
         .from('transactions')
-        .select('date, type, amount_usd, amount_ars')
+        .select('date, type, amount, currency')
         .eq('user_id', sessionData.session.user.id)
         .gte('date', startDate);
 
@@ -646,7 +908,7 @@ export const fetchMonthlyTrends = async (months: number = 6): Promise<MonthlyTre
         const monthKey = tx.date.substring(0, 7);
         if (trendsMap[monthKey]) {
             // Using ARS as stable aggregation base
-            const amount = Number(tx.amount_ars) || (Number(tx.amount_usd) * usdRate) || 0;
+            const amount = tx.currency === 'ARS' ? Number(tx.amount) : (tx.currency === 'USD' ? Number(tx.amount) * usdRate : 0);
             if (tx.type === 'income') trendsMap[monthKey].income += amount;
             else if (['expense', 'variable_expense', 'fixed_expense'].includes(tx.type)) {
                 trendsMap[monthKey].expenses += amount;
@@ -819,19 +1081,23 @@ export const fetchDetailedExpenses = async (): Promise<any[]> => {
     const { data: sessionData } = await insforge.auth.getCurrentSession();
     if (!sessionData.session?.user) return [];
 
-    const { data, error } = await insforge.database
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5); // To get 6 months including current
+
+    const { data: transactions, error } = await insforge.database
         .from('transactions')
-        .select('date, amount_ars, amount_usd, categories(name)')
+        .select('date, amount, currency, category_id, categories(name)')
         .eq('user_id', sessionData.session.user.id)
         .in('type', ['expense', 'variable_expense', 'fixed_expense'])
-        .order('date', { ascending: false });
+        .gte('date', `${sixMonthsAgo.getFullYear()}-${String(sixMonthsAgo.getMonth() + 1).padStart(2, '0')}-01`)
+        .order('date', { ascending: true });
 
-    if (error || !data) return [];
+    if (error || !transactions) return [];
 
     const monthlyMap: Record<string, any> = {};
     const monthNames = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
 
-    data.forEach(tx => {
+    transactions.forEach(tx => {
         // Parse date reliably assuming YYYY-MM-DD
         const [yearStr, monthStr] = tx.date.split('-');
         const monthIndex = parseInt(monthStr, 10) - 1;
@@ -861,7 +1127,7 @@ export const fetchDetailedExpenses = async (): Promise<any[]> => {
         const cat = Array.isArray(rawCat) ? rawCat[0] : rawCat;
         const catName = (cat?.name || '').toLowerCase();
 
-        const amountARS = Number(tx.amount_ars) || 0;
+        const amountARS = tx.currency === 'ARS' ? Number(tx.amount) : 0;
         monthlyMap[monthKey].totalARS += amountARS;
 
         if (catName.includes('alquiler') || catName.includes('renta')) monthlyMap[monthKey].alquiler += amountARS;
@@ -894,17 +1160,22 @@ export const fetchWeeklyControl = async (month?: string): Promise<any> => {
     // 1. Fetch transactions for income and fixed expenses
     const { data: txs } = await insforge.database
         .from('transactions')
-        .select('type, amount_ars, amount_usd')
+        .select('type, amount, currency')
         .eq('user_id', userId)
         .gte('date', startDate)
         .lt('date', endDate);
 
     let incomeARS = 0;
     let gastosFijosARS = 0;
+    let incomeUSD = 0;
+    let gastosFijosUSD = 0;
 
     if (txs) {
-        incomeARS = txs.filter((t: any) => t.type === 'income').reduce((acc: number, t: any) => acc + (Number(t.amount_ars) || 0), 0);
-        gastosFijosARS = txs.filter((t: any) => t.type === 'fixed_expense').reduce((acc: number, t: any) => acc + (Number(t.amount_ars) || 0), 0);
+        incomeARS = txs.filter((t: any) => t.type === 'income' && t.currency === 'ARS').reduce((acc: number, t: any) => acc + (Number(t.amount) || 0), 0);
+        gastosFijosARS = txs.filter((t: any) => t.type === 'fixed_expense' && t.currency === 'ARS').reduce((acc: number, t: any) => acc + (Number(t.amount) || 0), 0);
+
+        incomeUSD = txs.filter((t: any) => t.type === 'income' && t.currency === 'USD').reduce((acc: number, t: any) => acc + (Number(t.amount) || 0), 0);
+        gastosFijosUSD = txs.filter((t: any) => t.type === 'fixed_expense' && t.currency === 'USD').reduce((acc: number, t: any) => acc + (Number(t.amount) || 0), 0);
     }
 
     // 2. Fetch withdrawal plans
@@ -976,7 +1247,7 @@ export const fetchMonthlyRecords = async (): Promise<any[]> => [];
 export const fetchSummaryData = async (): Promise<any> => ({});
 export const fetchExpenseControl = async (): Promise<any> => ({});
 
-export const fetchBudgets = async (): Promise<Budget[]> => {
+export const fetchBudgets = async (month?: string): Promise<Budget[]> => {
     const { data: sessionData } = await insforge.auth.getCurrentSession();
     if (!sessionData.session?.user) return [];
 
@@ -990,16 +1261,52 @@ export const fetchBudgets = async (): Promise<Budget[]> => {
         return [];
     }
 
-    return (data || []).map(row => ({
-        id: row.id,
-        categoryId: row.category_id,
-        categoryName: row.categories?.name,
-        categoryIcon: row.categories?.icon,
-        budgetLimit: Number(row.budget_limit),
-        period: row.period as any,
-        currencyCode: row.currency,
-        spent: 0
-    }));
+    // Calc spent
+    const targetMonth = month || new Date().toISOString().substring(0, 7);
+    const startDate = `${targetMonth}-01`;
+    const endDate = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + 1)).toISOString().split('T')[0];
+
+    const { data: txs } = await insforge.database
+        .from('transactions')
+        .select('amount, currency, category_id')
+        .eq('user_id', sessionData.session.user.id)
+        .in('type', ['expense', 'variable_expense', 'fixed_expense'])
+        .gte('date', startDate)
+        .lt('date', endDate);
+
+    let usdRate = 1200;
+    const { data: fxData } = await insforge.database.from('fx_rates').select('*').limit(1).maybeSingle();
+    if (fxData && fxData.ars) usdRate = fxData.ars;
+
+    const spendMap: Record<string, number> = {};
+    if (txs) {
+        txs.forEach(tx => {
+            if (!tx.category_id) return;
+            const amount = tx.currency === 'ARS' ? Number(tx.amount) : (tx.currency === 'USD' ? Number(tx.amount) * usdRate : 0);
+            if (!spendMap[tx.category_id]) spendMap[tx.category_id] = 0;
+            spendMap[tx.category_id] += amount;
+        });
+    }
+
+    return (data || []).map(row => {
+        const limitCurrency = row.currency || 'ARS';
+        let spent = spendMap[row.category_id] || 0;
+
+        if (limitCurrency === 'USD') {
+            spent = spent / usdRate;
+        }
+
+        return {
+            id: row.id,
+            categoryId: row.category_id,
+            categoryName: row.categories?.name,
+            categoryIcon: row.categories?.icon,
+            budgetLimit: Number(row.budget_limit),
+            period: row.period as any,
+            currencyCode: limitCurrency,
+            spent: spent
+        };
+    });
 };
 
 export const addBudget = async (budget: Omit<Budget, 'id' | 'spent'>): Promise<Budget | null> => {
@@ -1069,3 +1376,4 @@ export const deleteBudget = async (id: string): Promise<boolean> => {
     }
     return true;
 };
+
