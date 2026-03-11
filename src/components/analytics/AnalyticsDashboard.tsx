@@ -133,7 +133,7 @@ export function AnalyticsDashboard() {
 
             {isLoading ? (
                 <div className="flex justify-center py-20">
-                    <Loader2 className="h-10 w-10 animate-spin text-violet-500" />
+                    <Loader2 className="h-10 w-10 animate-spin text-teal-500" />
                 </div>
             ) : isError ? (
                 <div className="text-center py-20 text-red-400">
@@ -195,7 +195,7 @@ export function AnalyticsDashboard() {
                         <div className="group relative z-10 flex flex-col justify-between overflow-hidden bg-white/[0.02] backdrop-blur-[40px] border border-white/10 rounded-[32px] p-7 transition-all duration-500 hover:bg-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.2)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]">
                             <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-30"></div>
                             <div className="absolute top-0 right-0 p-6 opacity-20 group-hover:opacity-40 transition-opacity">
-                                <TrendingDown className="h-20 w-20 text-violet-500 blur-sm" />
+                                <TrendingDown className="h-20 w-20 text-teal-500 blur-sm" />
                             </div>
                             <div className="absolute top-0 right-0 p-6 opacity-30 group-hover:opacity-50 transition-opacity z-10">
                                 <TrendingDown className="h-20 w-20 text-white" />

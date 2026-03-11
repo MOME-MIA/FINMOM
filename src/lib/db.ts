@@ -739,7 +739,8 @@ export const fetchDashboardKPIs = async (month?: string): Promise<DashboardKPIs>
             .select('type, amount, currency, expense_nature')
             .eq('user_id', userId)
             .gte('date', startDate)
-            .lt('date', endDate);
+            .lt('date', endDate)
+            .in('type', ['income', 'expense', 'fixed_expense', 'variable_expense']);
 
         // 2. Fetch Accounts to calculate netBalance
         const { data: accs, error: accError } = await client.database
@@ -886,7 +887,8 @@ export const fetchMonthlyTrends = async (months: number = 6): Promise<MonthlyTre
         .from('transactions')
         .select('date, type, amount, currency')
         .eq('user_id', sessionData.session.user.id)
-        .gte('date', startDate);
+        .gte('date', startDate)
+        .in('type', ['income', 'expense', 'fixed_expense', 'variable_expense']);
 
     if (error || !data) return [];
 
@@ -1163,7 +1165,8 @@ export const fetchWeeklyControl = async (month?: string): Promise<any> => {
         .select('type, amount, currency')
         .eq('user_id', userId)
         .gte('date', startDate)
-        .lt('date', endDate);
+        .lt('date', endDate)
+        .in('type', ['income', 'expense', 'fixed_expense', 'variable_expense']);
 
     let incomeARS = 0;
     let gastosFijosARS = 0;

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Sparkles, Brain, Shield, Crown, Users, Lock, User } from "lucide-react";
 
 const WAITLIST_STEPS = [
-    { icon: <Sparkles className="w-4 h-4 text-[#BF5AF2]" />, title: "Contacto", desc: "Tu email principal." },
+    { icon: <Sparkles className="w-4 h-4 text-[#14b8a6]" />, title: "Contacto", desc: "Tu email principal." },
     { icon: <Lock className="w-4 h-4 text-[#FF9F0A]" />, title: "Seguridad", desc: "Crea tu contraseña cifrada." },
     { icon: <User className="w-4 h-4 text-[#30D158]" />, title: "Identidad", desc: "Tu nombre completo." },
     { icon: <Brain className="w-4 h-4 text-[#0A84FF]" />, title: "Evaluación M.I.A.", desc: "Contexto para tu perfil." },
@@ -45,7 +45,7 @@ export default function RegisterPage() {
     return (
         <AuthLayout
             theme={{
-                primaryGlow: "#BF5AF2",
+                primaryGlow: "#14b8a6",
                 secondaryGlow: "#30D158",
                 accentGlow: "#5856D6",
                 selectionColor: "rgba(191, 90, 242, 0.3)",
@@ -55,7 +55,7 @@ export default function RegisterPage() {
             mobileSubtitle="Solicitud de Acceso"
             orbState="idle"
             trustBadges={[
-                { icon: <Crown className="w-3.5 h-3.5 text-[#BF5AF2]" />, text: "Beta cerrada" },
+                { icon: <Crown className="w-3.5 h-3.5 text-[#14b8a6]" />, text: "Beta cerrada" },
                 { icon: <Shield className="w-3.5 h-3.5 text-[#30D158]" />, text: "Cifrado E2E" },
                 { icon: <Users className="w-3.5 h-3.5 text-[#FF9F0A]" />, text: "Cupos limitados" },
             ]}
@@ -66,10 +66,10 @@ export default function RegisterPage() {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#BF5AF2]/5 border border-[#BF5AF2]/10"
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#14b8a6]/5 border border-[#14b8a6]/10"
                     >
-                        <Crown className="w-3.5 h-3.5 text-[#BF5AF2]" />
-                        <span className="text-[11px] font-bold text-[#BF5AF2]/70 uppercase tracking-[0.2em]">Acceso Beta Cerrado</span>
+                        <Crown className="w-3.5 h-3.5 text-[#14b8a6]" />
+                        <span className="text-[11px] font-bold text-[#14b8a6]/70 uppercase tracking-[0.2em]">Acceso Beta Cerrado</span>
                     </motion.div>
 
                     {/* Hero text */}
@@ -143,7 +143,7 @@ export default function RegisterPage() {
                         transition={{ delay: 1.1, duration: 0.6 }}
                         className="flex items-center gap-2.5 text-[10px] text-white/25 font-bold tracking-[0.15em] uppercase pt-2"
                     >
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#BF5AF2]/50" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#14b8a6]/50" />
                         Cupos Limitados
                         <div className="w-1 h-1 rounded-full bg-white/15" />
                         Audición Continua

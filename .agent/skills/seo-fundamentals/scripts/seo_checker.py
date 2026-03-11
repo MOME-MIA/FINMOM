@@ -34,14 +34,15 @@ except:
 SKIP_DIRS = {
     'node_modules', '.next', 'dist', 'build', '.git', '.github',
     '__pycache__', '.vscode', '.idea', 'coverage', 'test', 'tests',
-    '__tests__', 'spec', 'docs', 'documentation', 'examples'
+    '__tests__', 'spec', 'docs', 'documentation', 'examples',
+    '.agent', '.gemini', 'playwright-report'
 }
 
 # Files to skip (not pages)
 SKIP_PATTERNS = [
     'config', 'setup', 'util', 'helper', 'hook', 'context', 'store',
     'service', 'api', 'lib', 'constant', 'type', 'interface', 'mock',
-    '.test.', '.spec.', '_test.', '_spec.'
+    '.test.', '.spec.', '_test.', '_spec.', 'client'
 ]
 
 
@@ -140,7 +141,7 @@ def check_page(file_path: Path) -> dict:
     # has_canonical = 'rel="canonical"' in content.lower()
     
     return {
-        "file": str(file_path.name),
+        "file": str(file_path),
         "issues": issues
     }
 

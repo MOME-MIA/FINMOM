@@ -118,15 +118,15 @@ export default function MiaPage() {
 
             {/* XAI Section */}
             <FadeIn className="mb-20">
-                <div className="p-10 rounded-[32px] bg-gradient-to-br from-[#BF5AF2]/[0.04] to-transparent border border-[#BF5AF2]/10 text-center">
-                    <Eye className="w-10 h-10 text-[#BF5AF2] mx-auto mb-4" />
+                <div className="p-10 rounded-[32px] bg-gradient-to-br from-[#14b8a6]/[0.04] to-transparent border border-[#14b8a6]/10 text-center">
+                    <Eye className="w-10 h-10 text-[#14b8a6] mx-auto mb-4" />
                     <h3 className="text-2xl font-bold mb-3 text-white/90">IA Explicable (XAI)</h3>
                     <p className="text-[15px] text-white/50 leading-relaxed font-medium max-w-2xl mx-auto mb-6">
                         M.I.A. no es una caja negra. Cada recomendación viene con su razonamiento explícito. El AI Audit Trail registra cada decisión, cada dato procesado y cada insight generado — para que siempre sepas por qué.
                     </p>
                     <div className="flex flex-wrap items-center justify-center gap-3">
                         {["Transparencia total", "Trail de auditoría", "Sin sesgos ocultos", "Control del usuario"].map((tag, i) => (
-                            <span key={i} className="px-3 py-1.5 rounded-full bg-[#BF5AF2]/10 border border-[#BF5AF2]/15 text-[11px] font-bold text-[#BF5AF2] uppercase tracking-widest">
+                            <span key={i} className="px-3 py-1.5 rounded-full bg-[#14b8a6]/10 border border-[#14b8a6]/15 text-[11px] font-bold text-[#14b8a6] uppercase tracking-widest">
                                 {tag}
                             </span>
                         ))}

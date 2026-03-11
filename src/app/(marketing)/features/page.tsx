@@ -45,10 +45,10 @@ const CAPABILITIES = [
         size: "small",
     },
     {
-        icon: <TrendingUp className="w-6 h-6 text-[#BF5AF2]" />,
+        icon: <TrendingUp className="w-6 h-6 text-[#14b8a6]" />,
         title: "Proyecciones M.I.A.",
         desc: "Algoritmos predictivos que modelan tu futuro financiero. Escenarios de ahorro, inversión y gasto optimizados automáticamente.",
-        color: "#BF5AF2",
+        color: "#14b8a6",
         size: "large",
     },
     {

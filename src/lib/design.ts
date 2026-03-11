@@ -11,8 +11,8 @@ export const COLORS = {
     red: '#FF453A',
     blue: '#0A84FF',
     orange: '#FF9F0A',
-    purple: '#BF5AF2',
-    teal: '#64D2FF',
+    teal: '#14b8a6',
+    cyan: '#64D2FF',
     gray: '#8E8E93',
 
     // Surfaces
@@ -34,7 +34,7 @@ export const COLORS = {
     income: '#30D158',
     expense: '#FF453A',
     savings: '#0A84FF',
-    investment: '#BF5AF2',
+    investment: '#14b8a6',
 } as const;
 
 // ────────────────────────────────────────────

@@ -55,7 +55,7 @@ function ToggleOption({ label, icon: Icon, color, defaultChecked, isFirst }: any
         blue: "bg-gradient-to-br from-[#0A84FF] to-[#005bb5]",
         red: "bg-gradient-to-br from-[#FF453A] to-[#b3261c]",
         green: "bg-gradient-to-br from-[#32D74B] to-[#1e8c2f]",
-        purple: "bg-gradient-to-br from-[#BF5AF2] to-[#802aab]",
+        teal: "bg-gradient-to-br from-[#14b8a6] to-[#802aab]",
         orange: "bg-gradient-to-br from-[#FF9F0A] to-[#b87002]",
         indigo: "bg-[#5E5CE6]",
         gray: "bg-gradient-to-br from-[#8E8E93] to-[#5c5c60]",

@@ -198,7 +198,7 @@ export function AuditClient() {
                     icon={<Clock className="h-4 w-4" />}
                     label="Última Transacción"
                     value={health.lastTransaction !== 'N/A' ? new Date(health.lastTransaction).toLocaleDateString('es-AR') : 'N/A'}
-                    color="text-[#BF5AF2]"
+                    color="text-[#14b8a6]"
                 />
                 <HealthCard
                     icon={<Activity className="h-4 w-4" />}

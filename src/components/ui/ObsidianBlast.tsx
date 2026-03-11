@@ -346,7 +346,7 @@ const MAX_CLICKS = 10;
 export const ObsidianBlast = forwardRef<ObsidianBlastRef, ObsidianBlastProps>(({
     variant = 'square',
     pixelSize = 4, // Tuned for Obsidian
-    color = '#7C3AED', // Violet 600
+    color = '#14b8a6', // Teal 600
     className,
     style,
     antialias = true,

@@ -41,7 +41,7 @@ function PricingSuccessContent() {
             <div className="fixed inset-0 z-0 flex justify-center overflow-hidden pointer-events-none">
                 <div className="absolute top-0 w-[800px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-500/10 via-emerald-900/5 to-transparent blur-[80px] rounded-full opacity-50"></div>
                 <div className="absolute top-[20%] left-[20%] w-[400px] h-[400px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent blur-[80px] rounded-full opacity-30"></div>
-                <div className="absolute top-[30%] right-[20%] w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/10 via-transparent to-transparent blur-[80px] rounded-full opacity-20"></div>
+                <div className="absolute top-[30%] right-[20%] w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-500/10 via-transparent to-transparent blur-[80px] rounded-full opacity-20"></div>
                 <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
             </div>
 

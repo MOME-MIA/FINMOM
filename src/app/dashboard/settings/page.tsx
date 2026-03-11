@@ -35,7 +35,7 @@ function GradientIcon({ icon: Icon, color }: { icon: React.ElementType; color: s
         blue: "bg-gradient-to-br from-[#0A84FF] to-[#005bb5]",
         red: "bg-gradient-to-br from-[#FF453A] to-[#b3261c]",
         green: "bg-gradient-to-br from-[#32D74B] to-[#1e8c2f]",
-        purple: "bg-gradient-to-br from-[#BF5AF2] to-[#802aab]",
+        teal: "bg-gradient-to-br from-[#14b8a6] to-[#802aab]",
         orange: "bg-gradient-to-br from-[#FF9F0A] to-[#b87002]",
         gray: "bg-gradient-to-br from-[#8E8E93] to-[#5c5c60]",
     };
@@ -154,7 +154,7 @@ export default function SettingsPage() {
                     <MenuButton
                         icon={PieChart}
                         label="Financial DNA"
-                        color="purple"
+                        color="teal"
                         onClick={() => router.push("/dashboard/settings/dna")}
                     />
                 </motion.div>
@@ -178,11 +178,11 @@ export default function SettingsPage() {
 
                 {/* Admin Panel — visible for admin emails */}
                 {profile?.email && profile.email.toLowerCase().includes("agenciamom.contacto") && (
-                    <div className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#BF5AF2]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3 animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both">
+                    <div className="bg-white/[0.02] rounded-2xl overflow-hidden border border-[#14b8a6]/20 shadow-[0_0_15px_rgba(191,90,242,0.1)] mt-3 animate-in fade-in slide-in-from-bottom-2 duration-500 fill-mode-both">
                         <MenuButton
                             icon={Shield}
                             label="Terminal M.O.M. (Admin)"
-                            color="purple"
+                            color="teal"
                             onClick={() => router.push("/admin")}
                         />
                     </div>

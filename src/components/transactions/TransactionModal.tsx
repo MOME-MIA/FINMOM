@@ -216,7 +216,7 @@ export function TransactionModal({ isOpen, onClose, onSave, transaction, categor
                             <Button type="button" variant="ghost" onClick={onClose} disabled={loading} className="text-void-400 hover:text-void-50">
                                 Cancelar
                             </Button>
-                            <Button type="submit" disabled={loading} className="bg-violet-600 hover:bg-violet-500 text-white shadow-lg shadow-violet-500/20">
+                            <Button type="submit" disabled={loading} className="bg-teal-600 hover:bg-teal-500 text-white shadow-lg shadow-teal-500/20">
                                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                                 Guardar
                             </Button>

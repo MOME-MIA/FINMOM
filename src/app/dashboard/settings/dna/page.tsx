@@ -155,6 +155,7 @@ function LiquidSlider({ label, sublabel, value, onChange, colorClass, textColor 
                     min="0"
                     max="100"
                     value={value}
+                    aria-label={label}
                     onChange={(e) => onChange(Number(e.target.value))}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-10"
                 />
@@ -189,6 +190,7 @@ function DualBalanceSlider({ needsValue, wantsValue, onChange }: { needsValue: n
                     min="0"
                     max="100"
                     value={needsValue}
+                    aria-label="Ocio"
                     onChange={(e) => onChange(Number(e.target.value))}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-ew-resize z-20"
                 />

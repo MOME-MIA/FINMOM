@@ -98,7 +98,7 @@ export function LiquidVoidBackground({ variant = "login" }: LiquidVoidBackground
                 className="absolute bottom-[-15%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-cyan-900/30 blur-[160px] mix-blend-screen"
             />
 
-            {/* Orb 3: Dark Slate/Violet (Depth & Sophistication) */}
+            {/* Orb 3: Dark Slate/Teal (Depth & Sophistication) */}
             <motion.div
                 animate={{
                     scale: [1, 1.15, 1],

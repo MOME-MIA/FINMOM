@@ -61,7 +61,7 @@ export function MiaNotificationOverlay() {
                         transition={{ type: "spring", bounce: 0.4 }}
                         className="pointer-events-auto relative flex items-center gap-4 bg-[#0a0a0a]/90 backdrop-blur-xl border border-white/10 p-5 rounded-[28px] shadow-[0_30px_60px_-15px_rgba(0,0,0,1)] max-w-sm w-full mb-4"
                     >
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#BF5AF2]/10 to-transparent rounded-[28px] pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#14b8a6]/10 to-transparent rounded-[28px] pointer-events-none" />
                         <div className="flex-shrink-0">
                             <MiaOrb size={48} state="thinking" />
                         </div>

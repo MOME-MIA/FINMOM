@@ -74,8 +74,8 @@ const PRICING_PLANS = [
         notIncluded: [],
         ctaText: "Contactar Ventas",
         ctaHref: "mailto:hello@momentumfinance.app",
-        color: "text-purple-400",
-        border: "border-purple-500/20 hover:border-purple-500/40",
+        color: "text-teal-400",
+        border: "border-teal-500/20 hover:border-teal-500/40",
         button: "bg-white text-black hover:bg-gray-100",
     },
 ];
@@ -167,7 +167,7 @@ export default function PricingClient() {
                         className="text-5xl md:text-6xl font-bold tracking-tight mb-6"
                     >
                         Planes diseñados para tu{" "}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-teal-500">
                             crecimiento
                         </span>
                     </motion.h1>
@@ -235,7 +235,7 @@ export default function PricingClient() {
                         >
                             {plan.badge && (
                                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-lg">
+                                    <div className="bg-gradient-to-r from-blue-500 to-teal-500 text-white text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full shadow-lg">
                                         {plan.badge}
                                     </div>
                                 </div>
@@ -354,7 +354,7 @@ export default function PricingClient() {
                     viewport={{ once: true }}
                     className="mt-32 relative rounded-3xl overflow-hidden"
                 >
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-20" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-teal-600 opacity-20" />
                     <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay" />
                     <div className="relative p-12 md:p-20 text-center border border-white/10 rounded-3xl bg-white/5">
                         <h2 className="text-4xl font-bold mb-6">Tu ADN Financiero te espera.</h2>

@@ -41,7 +41,6 @@ export function Navbar() {
         { href: "/dashboard/budgets", label: "Presupuestos", icon: Target },
         { href: "/dashboard/history", label: "Historial", icon: History },
         { href: "/dashboard/audit", label: "Auditoría", icon: Database },
-        { href: "/dashboard/services", label: "Servicios", icon: Briefcase },
     ];
 
     return (

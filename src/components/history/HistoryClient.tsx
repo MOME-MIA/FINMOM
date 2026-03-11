@@ -23,7 +23,7 @@ import { motion } from "framer-motion";
 export function HistoryClient({ initialRecords }: { initialRecords: Transaction[] }) {
     const { display, convert } = useCurrency();
     const [monthFilter, setMonthFilter] = useState('all'); // 'all' or 'YYYY-MM'
-    const [filterType, setFilterType] = useState<'all' | 'income' | 'expense'>('all');
+    const [filterType, setFilterType] = useState<'all' | 'income' | 'expense' | 'transfer'>('all');
     const [accountFilter, setAccountFilter] = useState('all'); // 'all' or accountName
     const [isExporting, setIsExporting] = useState(false);
 
@@ -40,7 +40,7 @@ export function HistoryClient({ initialRecords }: { initialRecords: Transaction[
     const filteredRecords = useMemo(() => {
         return initialRecords.filter(r => {
             const matchMonth = monthFilter === 'all' || r.date.startsWith(monthFilter);
-            const matchType = filterType === 'all' || r.type === filterType;
+            const matchType = filterType === 'all' ? (r.type as string) !== 'transfer' : r.type === filterType;
             const matchAccount = accountFilter === 'all' || r.accountName === accountFilter;
             return matchMonth && matchType && matchAccount;
         });
@@ -169,18 +169,21 @@ export function HistoryClient({ initialRecords }: { initialRecords: Transaction[
                             <Filter className="h-3.5 w-3.5 text-white/50" />
                             <select
                                 value={filterType}
+                                aria-label="Tipo"
                                 onChange={(e) => setFilterType(e.target.value as any)}
                                 className="bg-transparent text-[13px] font-medium outline-none text-white [&>option]:bg-[#1C1C1E] appearance-none cursor-pointer"
                             >
                                 <option value="all">Filtro: Todo</option>
                                 <option value="income">Sólo Ingresos</option>
                                 <option value="expense">Sólo Gastos</option>
+                                <option value="transfer">Sólo Transferencias</option>
                             </select>
                         </div>
                         <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] rounded-full px-3 py-1.5 transition-all">
                             <Filter className="h-3.5 w-3.5 text-white/50" />
                             <select
                                 value={accountFilter}
+                                aria-label="Cuenta"
                                 onChange={(e) => setAccountFilter(e.target.value)}
                                 className="bg-transparent text-[13px] font-medium outline-none text-white [&>option]:bg-[#1C1C1E] appearance-none cursor-pointer max-w-[120px] truncate"
                             >
@@ -194,6 +197,7 @@ export function HistoryClient({ initialRecords }: { initialRecords: Transaction[
                             <CalendarDays className="h-3.5 w-3.5 text-white/50" />
                             <select
                                 value={monthFilter}
+                                aria-label="Mes"
                                 onChange={(e) => setMonthFilter(e.target.value)}
                                 className="bg-transparent text-[13px] font-medium outline-none text-white [&>option]:bg-[#1C1C1E] appearance-none cursor-pointer"
                             >

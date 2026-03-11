@@ -34,7 +34,7 @@ const POSITIONS = [
         type: "Full-time",
         desc: "Evolucioná M.I.A. con modelos de NLP financiero, sistemas de recomendación y analítica predictiva. Trabajo directo con Gemini y modelos propietarios.",
         tags: ["Python", "LLMs", "RAG", "FinTech AI"],
-        color: "#BF5AF2",
+        color: "#14b8a6",
     },
     {
         title: "Security Engineer",
