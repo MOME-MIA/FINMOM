@@ -22,50 +22,91 @@ import { motion } from "framer-motion";
 
 export function HistoryClient({ initialRecords }: { initialRecords: Transaction[] }) {
     const { display, convert } = useCurrency();
-    const [year, setYear] = useState(new Date().getFullYear().toString());
+    const [monthFilter, setMonthFilter] = useState('all'); // 'all' or 'YYYY-MM'
     const [filterType, setFilterType] = useState<'all' | 'income' | 'expense'>('all');
+    const [accountFilter, setAccountFilter] = useState('all'); // 'all' or accountName
     const [isExporting, setIsExporting] = useState(false);
 
-    // 1. Filter by Year and Type
+    // Extract unique accounts
+    const uniqueAccounts = useMemo(() => {
+        const accounts = new Set<string>();
+        initialRecords.forEach(r => {
+            if (r.accountName) accounts.add(r.accountName);
+        });
+        return Array.from(accounts).sort();
+    }, [initialRecords]);
+
+    // 1. Filter by Month, Type, and Account
     const filteredRecords = useMemo(() => {
         return initialRecords.filter(r => {
-            const matchYear = year === 'all' || r.date.startsWith(year);
+            const matchMonth = monthFilter === 'all' || r.date.startsWith(monthFilter);
             const matchType = filterType === 'all' || r.type === filterType;
-            return matchYear && matchType;
+            const matchAccount = accountFilter === 'all' || r.accountName === accountFilter;
+            return matchMonth && matchType && matchAccount;
         });
-    }, [initialRecords, year, filterType]);
+    }, [initialRecords, monthFilter, filterType, accountFilter]);
 
-    // 2. Aggregate Data for Chart (Monthly Income vs Expense in display currency)
+    // 2. Aggregate Data for Chart (Daily or Monthly depending on filter)
     const chartData = useMemo(() => {
-        const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-        const data = months.map(m => {
-            const prefix = year === 'all' ? new Date().getFullYear().toString() : year;
-            const monthStr = `${prefix}-${m}`;
+        if (monthFilter !== 'all') {
+            // Daily breakdown for a specific month
+            const [year, month] = monthFilter.split('-');
+            const daysInMonth = new Date(parseInt(year), parseInt(month), 0).getDate();
+            const data = [];
+            
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dayStr = `${monthFilter}-${d.toString().padStart(2, '0')}`;
+                // Filter by day AND account to ensure chart matches table
+                const dayTxs = filteredRecords.filter(tx => tx.date === dayStr);
+                
+                let income = 0;
+                let expense = 0;
 
-            const monthTxs = initialRecords.filter(tx => tx.date.startsWith(monthStr));
-            let income = 0;
-            let expense = 0;
+                dayTxs.forEach(tx => {
+                    const amountDisp = convert(tx.amount, tx.currencyCode as any, display);
+                    if (tx.type === 'income') income += amountDisp;
+                    else expense += amountDisp;
+                });
 
-            monthTxs.forEach(tx => {
-                const amountDisp = convert(tx.amount, tx.currencyCode as any, display);
-                if (tx.type === 'income') income += amountDisp;
-                else expense += amountDisp;
+                data.push({
+                    name: `${d} ${formatMonthLabel(month)}`,
+                    ingresos: income,
+                    gastos: expense,
+                });
+            }
+            
+            // Trim future days if current month
+            const now = new Date();
+            if (parseInt(year) === now.getFullYear() && parseInt(month) === now.getMonth() + 1) {
+                return data.slice(0, now.getDate());
+            }
+            return data;
+            
+        } else {
+            // Monthly breakdown for all time (grouped by YYYY-MM)
+            const yearMonths = Array.from(new Set(filteredRecords.map(r => r.date.slice(0, 7)))).sort();
+            
+            return yearMonths.map(ym => {
+                const [year, month] = ym.split('-');
+                const monthTxs = filteredRecords.filter(tx => tx.date.startsWith(ym));
+                
+                let income = 0;
+                let expense = 0;
+
+                monthTxs.forEach(tx => {
+                    const amountDisp = convert(tx.amount, tx.currencyCode as any, display);
+                    if (tx.type === 'income') income += amountDisp;
+                    else expense += amountDisp;
+                });
+
+                return {
+                    name: `${formatMonthLabel(month)} ${year.slice(2)}`,
+                    ingresos: income,
+                    gastos: expense,
+                };
             });
-
-            return {
-                name: formatMonthLabel(m),
-                ingresos: income,
-                gastos: expense,
-            };
-        });
-
-        // Filter out future months if current year
-        if (year === new Date().getFullYear().toString()) {
-            const currentMonth = new Date().getMonth() + 1;
-            return data.slice(0, currentMonth);
         }
-        return data;
-    }, [initialRecords, year, display, convert]);
+    }, [filteredRecords, monthFilter, display, convert]);
 
     function formatMonthLabel(m: string) {
         const names = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -95,7 +136,7 @@ export function HistoryClient({ initialRecords }: { initialRecords: Transaction[
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `finmom_historial_${year}.csv`);
+        link.setAttribute("download", `finmom_historial_${monthFilter}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -137,16 +178,30 @@ export function HistoryClient({ initialRecords }: { initialRecords: Transaction[
                             </select>
                         </div>
                         <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] rounded-full px-3 py-1.5 transition-all">
+                            <Filter className="h-3.5 w-3.5 text-white/50" />
+                            <select
+                                value={accountFilter}
+                                onChange={(e) => setAccountFilter(e.target.value)}
+                                className="bg-transparent text-[13px] font-medium outline-none text-white [&>option]:bg-[#1C1C1E] appearance-none cursor-pointer max-w-[120px] truncate"
+                            >
+                                <option value="all">Cuenta: Todas</option>
+                                {uniqueAccounts.map(acc => (
+                                    <option key={acc} value={acc}>{acc}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="flex items-center gap-1.5 bg-white/[0.03] border border-white/[0.08] hover:bg-white/[0.06] rounded-full px-3 py-1.5 transition-all">
                             <CalendarDays className="h-3.5 w-3.5 text-white/50" />
                             <select
-                                value={year}
-                                onChange={(e) => setYear(e.target.value)}
+                                value={monthFilter}
+                                onChange={(e) => setMonthFilter(e.target.value)}
                                 className="bg-transparent text-[13px] font-medium outline-none text-white [&>option]:bg-[#1C1C1E] appearance-none cursor-pointer"
                             >
-                                <option value="all">Año: Todos</option>
-                                <option value="2024">2024</option>
-                                <option value="2025">2025</option>
-                                <option value="2026">2026</option>
+                                <option value="all">Período: Histórico</option>
+                                {Array.from(new Set(initialRecords.map(r => r.date.slice(0, 7)))).sort().reverse().map(ym => {
+                                    const [y, m] = ym.split('-');
+                                    return <option key={ym} value={ym}>{formatMonthLabel(m)} {y}</option>
+                                })}
                             </select>
                         </div>
                         <Button
@@ -166,7 +221,7 @@ export function HistoryClient({ initialRecords }: { initialRecords: Transaction[
                         initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                         className="bg-white/[0.02] border border-white/[0.05] rounded-3xl p-5 md:p-6 shadow-2xl flex flex-col"
                     >
-                        <h3 className="text-[13px] font-bold text-white/40 uppercase tracking-widest mb-6">Flujo de Caja Anual ({year === 'all' ? 'Histórico' : year})</h3>
+                        <h3 className="text-[13px] font-bold text-white/40 uppercase tracking-widest mb-6">Flujo de Caja ({monthFilter === 'all' ? 'Mensualizado Histórico' : 'Diario'})</h3>
                         <div className="h-[200px] w-full">
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
