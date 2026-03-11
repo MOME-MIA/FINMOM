@@ -12,7 +12,7 @@ interface SummaryChartsProps {
 const APPLE_COLORS = {
     fixed: '#FF453A',       // systemRed (Fixed expenses)
     savings: '#0A84FF',     // systemBlue (Savings)
-    investments: '#BF5AF2', // systemPurple (Investments)
+    investments: '#14b8a6', // systemTeal (Investments)
     free: '#30D158',        // systemGreen (Free/Discretionary)
 };
 

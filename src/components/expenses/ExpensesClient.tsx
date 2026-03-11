@@ -432,6 +432,7 @@ export function ExpensesClient({ initialData, detailedExpenses, dashboardKPIs: i
                                                                 <Input
                                                                     type="number"
                                                                     value={editWeekValue}
+                                                                    aria-label="Presupuesto semanal"
                                                                     onChange={(e) => setEditWeekValue(Number(e.target.value))}
                                                                     className="h-10 bg-black/40 border-white/10 text-[13px] rounded-xl outline-none focus:ring-1 focus:ring-white/20 px-3 transition-colors"
                                                                     autoFocus

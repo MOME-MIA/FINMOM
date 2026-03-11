@@ -57,13 +57,13 @@ const STATUS_CONFIG = {
     },
     not_found: {
         icon: HelpCircle,
-        color: "#BF5AF2",
+        color: "#14b8a6",
         title: "Sin Registros",
         subtitle: "No encontramos una solicitud asociada a este email.",
         detail: "Si aún no solicitaste acceso, podés hacerlo desde la página de registro.",
         orbState: "idle" as const,
         badgeText: "NO ENCONTRADO",
-        badgeColor: "bg-[#BF5AF2]/10 border-[#BF5AF2]/20 text-[#BF5AF2]",
+        badgeColor: "bg-[#14b8a6]/10 border-[#14b8a6]/20 text-[#14b8a6]",
     },
 };
 
@@ -153,7 +153,7 @@ export default function AccessStatusPage() {
             orbState={config?.orbState || "idle"}
             trustBadges={[
                 { icon: <Shield className="w-3.5 h-3.5 text-[#30D158]" />, text: "Cifrado E2E" },
-                { icon: <Sparkles className="w-3.5 h-3.5 text-[#BF5AF2]" />, text: "Beta cerrada" },
+                { icon: <Sparkles className="w-3.5 h-3.5 text-[#14b8a6]" />, text: "Beta cerrada" },
             ]}
             leftPanel={
                 <div className="space-y-10">
@@ -374,7 +374,7 @@ export default function AccessStatusPage() {
                                                     {statusKey === "not_found" && (
                                                         <button
                                                             onClick={() => router.push("/register")}
-                                                            className="w-full h-14 rounded-2xl bg-[#BF5AF2] text-white font-bold text-[13px] tracking-[0.15em] uppercase flex items-center justify-center gap-2 hover:bg-[#BF5AF2]/90 transition-all active:scale-[0.98]"
+                                                            className="w-full h-14 rounded-2xl bg-[#14b8a6] text-white font-bold text-[13px] tracking-[0.15em] uppercase flex items-center justify-center gap-2 hover:bg-[#14b8a6]/90 transition-all active:scale-[0.98]"
                                                         >
                                                             SOLICITAR ACCESO
                                                             <ArrowRight className="w-4 h-4" />

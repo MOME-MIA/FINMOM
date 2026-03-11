@@ -117,7 +117,7 @@ const UniverseCanvas = ({ state, size }: { state: string; size: number }) => {
                 let hue = 220; // Default cool blue-white
                 let sat = 10;
                 if (state === 'thinking') {
-                    hue = 200 + Math.sin(time * 2 + star.angle) * 60; // Cyan to Magenta shift
+                    hue = 200 + Math.sin(time * 2 + star.angle) * 60; // Cyan to teal shift
                     sat = 70;
                 } else if (state === 'success') {
                     hue = 140 + Math.sin(time + star.x * 0.1) * 20; // Green spectrum

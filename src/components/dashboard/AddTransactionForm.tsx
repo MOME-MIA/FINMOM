@@ -144,7 +144,7 @@ export function AddTransactionForm() {
     const categoryOptions = categories.map(cat => ({
         id: cat.id,
         name: cat.name,
-        color: cat.color || '#8b5cf6'
+        color: cat.color || '#14b8a6'
     }));
 
     const parsedAmount = parseFloat(baseAmount) || 0;

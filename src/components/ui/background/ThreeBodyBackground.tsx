@@ -34,9 +34,9 @@ export function ThreeBodyBackground() {
 
             {/* Chaotic Suns (The Three Bodies) */}
 
-            {/* Body 1: Violet Sun (Massive, Slow) */}
+            {/* Body 1: Teal Sun (Massive, Slow) */}
             <motion.div
-                className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-violet-900/20 blur-[100px]"
+                className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-teal-900/20 blur-[100px]"
                 animate={{
                     x: [0, 100, -50, 0],
                     y: [0, -50, 100, 0],

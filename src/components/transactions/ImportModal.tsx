@@ -108,7 +108,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
             <DialogContent className="sm:max-w-[600px] bg-void-950 border-void-800 text-void-50">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-bold text-gradient-obsidian flex items-center gap-2">
-                        <FileSpreadsheet className="h-5 w-5 text-violet-500" />
+                        <FileSpreadsheet className="h-5 w-5 text-teal-500" />
                         Importar Transacciones
                     </DialogTitle>
                 </DialogHeader>
@@ -119,6 +119,7 @@ export function ImportModal({ isOpen, onClose, onSuccess }: ImportModalProps) {
                             <Input
                                 type="file"
                                 accept=".csv"
+                                aria-label="Archivo CSV"
                                 onChange={handleFileChange}
                                 className="absolute inset-0 opacity-0 cursor-pointer"
                             />

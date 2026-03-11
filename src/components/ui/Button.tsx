@@ -19,7 +19,7 @@ const buttonVariants = cva(
                 secondary:
                     "bg-lime-400 text-void-950 hover:bg-lime-500 shadow-lg font-bold",
                 ghost: "hover:bg-void-800 text-void-200 hover:text-white",
-                link: "text-violet-400 underline-offset-4 hover:underline",
+                link: "text-teal-400 underline-offset-4 hover:underline",
                 neon: "btn-neon",
             },
             size: {

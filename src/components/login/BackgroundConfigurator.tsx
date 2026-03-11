@@ -27,7 +27,7 @@ export const MOMENTUM_PRESETS: BackgroundPreset[] = [
     {
         id: "obsidian",
         name: "Obsidian Core",
-        colors: { primary: "#8B5CF6", accent: "#8B5CF6" }, // Violet
+        colors: { primary: "#14b8a6", accent: "#14b8a6" }, // Teal
         config: { variant: "square", pixelSize: 3, patternScale: 3, patternDensity: 0.8, speed: 0.6, noiseAmount: 0.04 }
     },
     {

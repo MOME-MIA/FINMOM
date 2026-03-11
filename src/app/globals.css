@@ -27,14 +27,14 @@
   --color-void-950: #050505;
   /* Void Asphalt (Main BG) */
 
-  /* MOMENTUM DESIGN CORE (Electric Sabbath) */
-  --color-violet-300: #A388F5;
-  --color-violet-400: #8B5CF6;
-  --color-violet-500: #7C3AED;
+  /* MOMENTUM DESIGN CORE (Electric Sabbath) -> Now Teal Core */
+  --color-teal-300: #5eead4;
+  --color-teal-400: #2dd4bf;
+  --color-teal-500: #14b8a6;
   /* Primary Brand */
-  --color-violet-600: #6D28D9;
-  --color-violet-700: #5B21B6;
-  --color-violet-900: #2E1065;
+  --color-teal-600: #0d9488;
+  --color-teal-700: #0f766e;
+  --color-teal-900: #134e4a;
 
   /* MOMENTUM BI CORE (Toxic Lime) */
   --color-lime-100: #ECFCCB;
@@ -61,7 +61,7 @@
   --color-popover: var(--color-void-900);
   --color-popover-foreground: var(--color-void-50);
 
-  --color-primary: var(--color-violet-500);
+  --color-primary: var(--color-teal-500);
   --color-primary-foreground: #ffffff;
 
   --color-secondary: var(--color-lime-400);
@@ -78,7 +78,7 @@
 
   --color-border: var(--color-void-800);
   --color-input: var(--color-void-800);
-  --color-ring: var(--color-violet-500);
+  --color-ring: var(--color-teal-500);
 
   /* TYPOGRAPHY SCALE (Golden Ratio Φ ≈ 1.618) */
   --text-phi-xs: 0.618rem;
@@ -107,7 +107,7 @@
   --radius-sm: 8px;
 
   /* SHADOWS (Minimalist) */
-  --shadow-glow: 0 0 10px rgba(139, 92, 246, 0.2);
+  --shadow-glow: 0 0 10px rgba(20, 184, 166, 0.2);
   --shadow-apple-dark: 0 2px 4px rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
   --shadow-obsidian: 0 10px 30px rgba(0, 0, 0, 0.5);
   --shadow-neon: 0 0 10px rgba(163, 230, 53, 0.2);

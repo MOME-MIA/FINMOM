@@ -71,7 +71,7 @@ function LoginContent() {
     if (!mounted) return null;
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-[#000000] selection:bg-violet-500/30">
+        <div className="min-h-screen w-full flex items-center justify-center relative overflow-hidden bg-[#000000] selection:bg-teal-500/30">
 
             {/* --- LIVING MESH GRADIENT BACKGROUND --- */}
             {/* A complex, slow-moving cinematic lighting setup mimicking flagship device wallpapers */}
@@ -132,7 +132,7 @@ function LoginContent() {
 
                             {/* Scanning Ray */}
                             <motion.div
-                                className="absolute inset-0 bg-gradient-to-b from-transparent via-violet-500/20 to-transparent"
+                                className="absolute inset-0 bg-gradient-to-b from-transparent via-teal-500/20 to-transparent"
                                 animate={{
                                     top: ["-100%", "200%"]
                                 }}

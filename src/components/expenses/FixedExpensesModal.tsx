@@ -152,7 +152,7 @@ export function FixedExpensesModal({ data, onClose }: FixedExpensesModalProps) {
                             onClick={toggleEditMode}
                             className={cn(
                                 "p-2 rounded-full hover:bg-void-800 transition-colors",
-                                isEditing ? "text-violet-400 bg-violet-500/10" : "text-void-400 hover:text-void-50"
+                                isEditing ? "text-teal-400 bg-teal-500/10" : "text-void-400 hover:text-void-50"
                             )}
                         >
                             <Edit2 className="h-4 w-4" />
@@ -213,13 +213,14 @@ export function FixedExpensesModal({ data, onClose }: FixedExpensesModalProps) {
                                                     <Input
                                                         type="number"
                                                         value={editValues[item.key] || 0}
+                                                        aria-label="Monto"
                                                         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEditValues({ ...editValues, [item.key]: Number(e.target.value) })}
                                                         className="h-8 w-24 text-right bg-void-950 border-void-700"
                                                     />
                                                     <button
                                                         onClick={() => handleSaveEdit(item.key)}
                                                         disabled={updating === item.key}
-                                                        className="p-1.5 rounded-md bg-violet-500/10 text-violet-400 hover:bg-violet-500/20"
+                                                        className="p-1.5 rounded-md bg-teal-500/10 text-teal-400 hover:bg-teal-500/20"
                                                     >
                                                         {updating === item.key ? (
                                                             <Loader2 className="h-3 w-3 animate-spin" />

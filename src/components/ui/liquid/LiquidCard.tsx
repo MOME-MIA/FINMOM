@@ -23,7 +23,7 @@ export function LiquidCard({
         default: "glass-obsidian",
         deep: "glass-obsidian shadow-[0_20px_50px_-12px_rgba(0,0,0,0.5)]",
         frosted: "glass-panel bg-void-900/30 border-void-800/50",
-        neon: "glass-panel border-violet-500/30 shadow-glow bg-void-950/80"
+        neon: "glass-panel border-teal-500/30 shadow-glow bg-void-950/80"
     };
 
     return (
@@ -31,7 +31,7 @@ export function LiquidCard({
             className={cn(
                 "relative overflow-hidden transition-all duration-700 ease-in-out", // Heavy CSS transition
                 variants[variant],
-                hoverEffect && "hover:border-violet-500/30 hover:bg-void-900/80 hover:shadow-[0_0_0_1px_rgba(139,92,246,0.1),_2px_0_0_rgba(255,0,0,0.2),_-2px_0_0_rgba(0,255,255,0.2)]", // Obsidian Hover + Chromatic Aberration
+                hoverEffect && "hover:border-teal-500/30 hover:bg-void-900/80 hover:shadow-[0_0_0_1px_rgba(139,92,246,0.1),_2px_0_0_rgba(255,0,0,0.2),_-2px_0_0_rgba(0,255,255,0.2)]", // Obsidian Hover + Chromatic Aberration
                 className
             )}
             initial={{ opacity: 0, y: 20 }}

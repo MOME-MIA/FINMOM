@@ -106,8 +106,8 @@ export function IncomeLab({ onClose }: { onClose: () => void }) {
                                 label="Inversiones"
                                 value={strategy.investment}
                                 onChange={(v) => setStrategy(s => ({ ...s, investment: v }))}
-                                color="bg-purple-500"
-                                textColor="text-purple-400"
+                                color="bg-teal-500"
+                                textColor="text-teal-400"
                             />
                             <SliderRow
                                 label="Necesidades"
@@ -152,8 +152,8 @@ export function IncomeLab({ onClose }: { onClose: () => void }) {
                             sublabel="% del Restante"
                             percent={strategy.investment}
                             amount={split.investment}
-                            color="bg-purple-500"
-                            textColor="text-purple-400"
+                            color="bg-teal-500"
+                            textColor="text-teal-400"
                         />
                         <div className="h-px bg-white/5 my-2" />
                         <ResultRow

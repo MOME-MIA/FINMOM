@@ -65,7 +65,7 @@ const CHANGELOG = [
 
 const TYPE_COLORS: Record<string, string> = {
     feature: "#0A84FF",
-    design: "#BF5AF2",
+    design: "#14b8a6",
     fix: "#FF9F0A",
     security: "#30D158",
     perf: "#64D2FF",

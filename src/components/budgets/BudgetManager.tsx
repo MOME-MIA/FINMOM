@@ -195,7 +195,7 @@ export function BudgetManager({ budgets, categories }: BudgetManagerProps) {
                             <div className="flex h-6 rounded-full overflow-hidden border border-white/[0.05] gap-0.5 bg-white/[0.02]">
                                 {budgets.sort((a, b) => b.budgetLimit - a.budgetLimit).map((b, i) => {
                                     const pct = (b.budgetLimit / totalBudget) * 100;
-                                    const colors = ['#0A84FF', '#5E5CE6', '#BF5AF2', '#FF375F', '#FF9F0A', '#32ADE6', '#30D158'];
+                                    const colors = ['#0A84FF', '#5E5CE6', '#14b8a6', '#FF375F', '#FF9F0A', '#32ADE6', '#30D158'];
                                     const color = colors[i % colors.length];
                                     return (
                                         <div
@@ -216,7 +216,7 @@ export function BudgetManager({ budgets, categories }: BudgetManagerProps) {
                             <div className="flex max-w-full overflow-x-auto gap-4 mt-6 pb-2 scrollbar-hide">
                                 {budgets.slice(0, 4).map((b, i) => {
                                     const pct = (b.budgetLimit / totalBudget) * 100;
-                                    const colors = ['#0A84FF', '#5E5CE6', '#BF5AF2', '#FF375F', '#FF9F0A', '#32ADE6', '#30D158'];
+                                    const colors = ['#0A84FF', '#5E5CE6', '#14b8a6', '#FF375F', '#FF9F0A', '#32ADE6', '#30D158'];
                                     const color = colors[i % colors.length];
                                     return (
                                         <div key={b.id} className="flex items-center gap-2 shrink-0">

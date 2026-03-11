@@ -24,7 +24,7 @@ export function CosmicSimulation() {
         let nebulas: Nebula[] = [];
 
         // Deep Spectrum Colors
-        const colors = ["#8B5CF6", "#A3E635", "#F59E0B"]; // Violet, Lime, Amber
+        const colors = ["#14b8a6", "#A3E635", "#F59E0B"]; // Teal, Lime, Amber
 
         class Nebula {
             x: number;

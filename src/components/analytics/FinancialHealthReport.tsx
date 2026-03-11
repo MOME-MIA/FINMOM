@@ -138,7 +138,7 @@ export function FinancialHealthReport({ spending, trends }: FinancialHealthRepor
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Score Card */}
                 <LiquidCard variant="deep" className="relative overflow-hidden lg:col-span-1 border-white/10">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-teal-500/10" />
                     <div className="p-6">
                         <div className="flex items-center gap-2 text-sm uppercase tracking-widest text-muted-foreground mb-6">
                             <Zap className="h-4 w-4 text-yellow-400" />
@@ -218,7 +218,7 @@ export function FinancialHealthReport({ spending, trends }: FinancialHealthRepor
                 {/* Spending DNA (Radar) */}
                 <LiquidCard variant="deep" className="p-6">
                     <div className="mb-6 flex items-center gap-2">
-                        <Target className="h-5 w-5 text-purple-400" />
+                        <Target className="h-5 w-5 text-teal-400" />
                         <h3 className="text-lg font-medium text-white">ADN de Gasto</h3>
                     </div>
                     <div className="h-[300px] w-full">
@@ -230,9 +230,9 @@ export function FinancialHealthReport({ spending, trends }: FinancialHealthRepor
                                 <Radar
                                     name="Gasto"
                                     dataKey="A"
-                                    stroke="#8b5cf6"
+                                    stroke="#14b8a6"
                                     strokeWidth={2}
-                                    fill="#8b5cf6"
+                                    fill="#14b8a6"
                                     fillOpacity={0.3}
                                 />
                                 <Tooltip
