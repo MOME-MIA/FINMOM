@@ -221,7 +221,7 @@ export function DashboardClient({
                                     {/* RIGHT COLUMN: The "Tactical" Cluster */}
                                     <div className="lg:col-span-5 flex flex-col gap-4">
                                         {alerts.length > 0 && <SmartAlerts alerts={alerts} />}
-                                        <div className="h-64 mb-2">
+                                        <div className="mb-2">
                                             <FinancialDNAWidget
                                                 income={k.totalIncome}
                                                 fixed={k.fixedExpenses}

@@ -58,10 +58,8 @@ export function FinancialDNAWidget({ income, fixed, variable, savings, investmen
     ];
 
     return (
-        <LiquidCard variant="deep" className="p-5 flex flex-col justify-between relative overflow-hidden h-full">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
-
-            <div className="flex items-center justify-between mb-4">
+        <div className="h-full flex flex-col justify-between bg-white/[0.01] border border-white/[0.03] rounded-3xl p-5 backdrop-blur-md relative overflow-hidden">
+            <div className="flex items-center justify-between border-b border-white/[0.02] pb-4 mb-4 mt-[-4px]">
                 <div className="flex items-center gap-2">
                     <div className="h-8 w-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
                         <Fingerprint className="h-4 w-4 text-white/70" strokeWidth={1.5} />
@@ -80,50 +78,59 @@ export function FinancialDNAWidget({ income, fixed, variable, savings, investmen
                 </div>
             </div>
 
-            <div className="flex-1 space-y-4 mt-2">
-                {dnaPillars.map((pillar, idx) => {
-                    const progressVal = Math.min(100, pillar.percent);
-                    return (
-                        <div key={pillar.id} className="relative group">
-                            <div className="flex justify-between items-end mb-1.5">
-                                <div className="flex items-center gap-1.5">
-                                    <pillar.icon className={cn("h-3.5 w-3.5", pillar.text)} strokeWidth={1.5} />
-                                    <span className="text-xs font-medium text-white/80">{pillar.label}</span>
+            {income === 0 ? (
+                <div className="flex-1 flex flex-col items-center justify-center mt-2 mb-2 relative z-10 w-full">
+                    <Activity className="h-8 w-8 text-teal-400/80 mb-3" />
+                    <p className="text-[13px] text-white/90 font-semibold mb-1 tracking-tight">Desbloquea tu ADN</p>
+                    <p className="text-[11px] text-zinc-400 max-w-[95%] text-center leading-relaxed mb-4">
+                        Registra tus ingresos o realiza transacciones para que la IA escanee tu patrón de consumo.
+                    </p>
+                    <a href="/dashboard/add" className="px-4 py-2 rounded-full bg-teal-500/10 text-teal-400 text-[11px] font-medium border border-teal-500/20 hover:bg-teal-500/20 transition-all flex items-center gap-1.5 cursor-pointer">
+                        <Sparkles className="h-3 w-3" />
+                        Registrar Transacción
+                    </a>
+                </div>
+            ) : (
+                <div className="flex-1 space-y-4 mt-2 px-1">
+                    {dnaPillars.map((pillar, idx) => {
+                        const progressVal = Math.min(100, pillar.percent);
+                        return (
+                            <div key={pillar.id} className="relative group">
+                                <div className="flex justify-between items-end mb-1.5">
+                                    <div className="flex items-center gap-1.5">
+                                        <pillar.icon className={cn("h-3.5 w-3.5", pillar.text)} strokeWidth={1.5} />
+                                        <span className="text-xs font-medium text-white/80">{pillar.label}</span>
+                                    </div>
+                                    <span className={cn(
+                                        "text-xs font-semibold tabular-nums",
+                                        pillar.percent > pillar.target && pillar.id !== 'savings' ? "text-[#FF453A]" : "text-white"
+                                    )}>
+                                        {formatMoney(convert(pillar.amount, 'ARS', display))}
+                                        <span className="text-[10px] text-white/50 ml-1 font-normal">({pillar.percent}%)</span>
+                                    </span>
                                 </div>
-                                <span className={cn(
-                                    "text-xs font-semibold tabular-nums",
-                                    pillar.percent > pillar.target && pillar.id !== 'savings' ? "text-[#FF453A]" : "text-white"
-                                )}>
-                                    {formatMoney(convert(pillar.amount, 'ARS', display))}
-                                    <span className="text-[10px] text-white/50 ml-1 font-normal">({pillar.percent}%)</span>
-                                </span>
-                            </div>
-                            <div className="relative">
-                                {/* Base track */}
-                                <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-                                    <motion.div
-                                        className={cn("h-full rounded-full opacity-80", pillar.color)}
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${progressVal}%` }}
-                                        transition={{ duration: 0.8, delay: 0.1 * idx, ease: [0.16, 1, 0.3, 1] }}
+                                <div className="relative">
+                                    {/* Base track */}
+                                    <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                                        <motion.div
+                                            className={cn("h-full rounded-full opacity-80", pillar.color)}
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${progressVal}%` }}
+                                            transition={{ duration: 0.8, delay: 0.1 * idx, ease: [0.16, 1, 0.3, 1] }}
+                                        />
+                                    </div>
+                                    {/* Target guide mark */}
+                                    <div
+                                        className="absolute top-1/2 -translate-y-1/2 w-0.5 h-3 bg-white/40 rounded-full z-10"
+                                        style={{ left: `${pillar.target}%` }}
+                                        title={`Objetivo: ${pillar.target}%`}
                                     />
                                 </div>
-                                {/* Target guide mark */}
-                                <div
-                                    className="absolute top-1/2 -translate-y-1/2 w-0.5 h-3 bg-white/40 rounded-full z-10"
-                                    style={{ left: `${pillar.target}%` }}
-                                    title={`Objetivo: ${pillar.target}%`}
-                                />
                             </div>
-                        </div>
-                    );
-                })}
-            </div>
-            {income === 0 && (
-                <div className="absolute inset-0 bg-[#0A0A0A]/80 backdrop-blur-sm flex items-center justify-center z-20">
-                    <p className="text-xs text-white/50 font-medium">Registra ingresos para calcular tu ADN</p>
+                        );
+                    })}
                 </div>
             )}
-        </LiquidCard>
+        </div>
     );
 }

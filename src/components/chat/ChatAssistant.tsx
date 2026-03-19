@@ -340,13 +340,25 @@ export const ChatAssistant: React.FC = () => {
                                 <X size={18} />
                             </button>
 
-                            <motion.div
-                                className="relative flex items-center justify-center shrink-0 w-14 h-14"
-                                animate={{ x: mousePos.x, y: mousePos.y }}
-                                transition={{ type: "spring", stiffness: 40, damping: 15 }}
-                            >
-                                <MiaOrb size={52} state={aiState as any} />
-                            </motion.div>
+                            <div className="relative flex items-center justify-center shrink-0 w-14 h-14 z-10">
+                                <AnimatePresence>
+                                    {isOpen && (
+                                        <motion.div
+                                            key="mia-orb-chat-active"
+                                            layoutId="mia-orb-shared"
+                                            className="absolute flex items-center justify-center"
+                                            transition={{ layout: { type: "spring", stiffness: 250, damping: 20, mass: 0.8 } }}
+                                        >
+                                            <motion.div
+                                                animate={{ x: mousePos.x, y: mousePos.y }}
+                                                transition={{ type: "spring", stiffness: 40, damping: 15 }}
+                                            >
+                                                <MiaOrb size={52} state={aiState as any} />
+                                            </motion.div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                             <span className="mt-4 text-[10px] font-medium tracking-[0.2em] uppercase text-white/50">M.I.A.</span>
                         </div>
 

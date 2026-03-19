@@ -103,30 +103,64 @@ export const MiaMicroWidget: React.FC<MiaMicroWidgetProps> = ({ className, showO
     const isSidebar = size <= 24;
 
     return (
-        <div className="relative flex items-center justify-center">
-            <motion.div
-                role="button"
-                tabIndex={0}
-                onClick={() => {
-                    setBubble(null);
-                    toggleMia();
-                }}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                        setBubble(null);
-                        toggleMia();
-                    }
-                }}
-                animate={{ y: [0, -4, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className={cn(
-                    "relative flex items-center justify-center rounded-full shrink-0 transition-transform active:scale-95 group cursor-pointer hover:scale-[1.05]",
-                    className
+        <div className="relative flex items-center justify-center z-50">
+            <AnimatePresence>
+                {!isOpen && (
+                    <motion.div
+                        key="mia-orb-widget"
+                        layoutId="mia-orb-shared"
+                        style={{ pointerEvents: 'auto' }}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => {
+                            setBubble(null);
+                            toggleMia();
+                        }}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                                setBubble(null);
+                                toggleMia();
+                            }
+                        }}
+                        transition={{ layout: { type: "spring", stiffness: 250, damping: 20, mass: 0.8 } }}
+                        className={cn(
+                            "relative flex items-center justify-center rounded-full shrink-0 transition-transform active:scale-95 group cursor-pointer hover:scale-[1.05]",
+                            className
+                        )}
+                    >
+                        {/* Arrival Ripple Effect */}
+                        <motion.div
+                            className="absolute inset-[2px] rounded-full border border-blue-400/60 pointer-events-none"
+                            initial={{ scale: 0.8, opacity: 1, borderWidth: "2px" }}
+                            animate={{ scale: 1.8, opacity: 0, borderWidth: "0px" }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                        />
+                        
+                        {/* Persistent elegant glow */}
+                        <motion.div
+                            className="absolute inset-[-4px] rounded-full bg-blue-500/20 blur-md pointer-events-none"
+                            animate={{ opacity: [0.3, 0.6, 0.3], scale: [0.95, 1.1, 0.95] }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                        />
+
+                        {/* Outer Glow that expands slightly on hover */}
+                        <motion.div 
+                            className="absolute inset-[-8px] rounded-full bg-blue-400/0 opacity-0 group-hover:opacity-100 group-hover:bg-blue-400/20 blur-xl transition-all duration-300 pointer-events-none"
+                            exit={{ opacity: 0 }} 
+                        />
+
+                        {/* The Orb itself, strictly continuous for 'layoutId' seamlessness */}
+                        <motion.div
+                            animate={{ y: [0, -3, 0] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
+                            className="relative z-10"
+                        >
+                            <MiaOrb size={size} state="idle" />
+                        </motion.div>
+                    </motion.div>
                 )}
-            >
-                <MiaOrb size={size} state={isOpen ? "thinking" : "idle"} />
-                {isOpen && <div className="absolute inset-0 bg-white/5 pointer-events-none rounded-full" />}
-            </motion.div>
+            </AnimatePresence>
 
             <AnimatePresence>
                 {bubble && !isOpen && (
